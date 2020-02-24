@@ -88,7 +88,7 @@ hr {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 32px;
 	font-weight: 700;
-	color: #1f386e;
+	color: #ffffff;
 	text-transform: uppercase;
 	letter-spacing: -1px;
 }
@@ -104,11 +104,11 @@ hr {
 	margin-right: 0px;
 }
 #menu.navbar-default .navbar-nav > li > a:hover {
-	color: gold;
+	color: red;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	color: gold !important;
+	color: red !important;
 	background-color: transparent;
 	
 }
@@ -148,7 +148,7 @@ hr {
 	border-radius:1%;
 	display:block;
 	background: linear-gradient(to right,#1f386e,#425a8d);
-	color: gold;
+	color: red;
 	padding: 2em;
 	
 }
