@@ -1,46 +1,100 @@
-
-function main() {
-
-(function () {
-   'use strict';
-   
-  	$('a.page-scroll').click(function() {
-        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-          var target = $(this.hash);
-          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-          if (target.length) {
-            $('html,body').animate({
-              scrollTop: target.offset().top - 50
-            }, 900);
-            return false;
-          }
-        }
-      });
+$(function() {
+  "use strict";
 
 
-    $('body').scrollspy({ 
-        target: '.navbar-default',
-        offset: 80
-    });
 
-	// Hide nav on click
-  $(".navbar-nav li a").click(function (event) {
-    // check if window is small enough so dropdown is created
-    var toggle = $(".navbar-toggle").is(":visible");
-    if (toggle) {
-      $(".navbar-collapse").collapse('hide');
-    }
+  // //------- Sticky Header -------//
+  // $(".sticky-header").sticky();
+
+  //------- video popup -------//
+  $(".hero-banner__video, .video-play-button").magnificPopup({
+    disableOn: 700,
+    type: "iframe",
+    mainClass: "mfp-fade",
+    removalDelay: 160,
+    preloader: false,
+    fixedContentPos: false
   });
-	
-	
-    // Nivo Lightbox 
-    $('.portfolio-item a').nivoLightbox({
-            effect: 'slideDown',  
-            keyboardNav: true,                            
-        });
-		
-}());
+
+  // //------- mailchimp --------//  
+	// function mailChimp() {
+	// 	$('#mc_embed_signup').find('form').ajaxChimp();
+  // }
+  // mailChimp();
+
+  var nav_offset_top = $('header').height() + 50; 
+    /*-------------------------------------------------------------------------------
+	  Navbar 
+	-------------------------------------------------------------------------------*/
+
+	//* Navbar Fixed  
+    function navbarFixed(){
+        if ( $('.header_area').length ){ 
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();   
+                if (scroll >= nav_offset_top ) {
+                    $(".header_area").addClass("navbar_fixed");
+                } else {
+                    $(".header_area").removeClass("navbar_fixed");
+                }
+            });
+        };
+    };
+    navbarFixed();
 
 
-}
-main();
+  if ($('.blog-slider').length) {
+    $('.blog-slider').owlCarousel({
+        loop: true,
+        margin: 30,
+        items: 1,
+        nav: true,
+        autoplay: 2500,
+        smartSpeed: 1500,
+        dots: false,
+        responsiveClass: true,
+        navText : ["<div class='blog-slider__leftArrow'><img src='img/home/left-arrow.png'></div>","<div class='blog-slider__rightArrow'><img src='img/home/right-arrow.png'></div>"],
+        responsive:{
+          0:{
+              items:1
+          },
+          600:{
+              items:2
+          },
+          1000:{
+              items:3
+          }
+      }
+    })
+  }
+
+  /*-------------------------------------------------------------------------------
+	  testimonial slider
+	-------------------------------------------------------------------------------*/
+    if ($('.testimonial').length) {
+        $('.testimonial').owlCarousel({
+            loop: true,
+            margin: 30,
+            items: 5,
+            nav: false,
+            dots: true,
+            responsiveClass: true,
+            slideSpeed: 300,
+            paginationSpeed: 500,
+            responsive: {
+                0: {
+                    items: 1
+                }
+            }
+        })
+    }
+
+  //------- mailchimp --------//  
+	function mailChimp() {
+		$('#mc_embed_signup').find('form').ajaxChimp();
+	}
+  mailChimp();
+  
+});
+
+
