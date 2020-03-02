@@ -196,12 +196,11 @@ body {
   font-size: 13px;
   line-height: 1.8;
   color: #222;
-  background: #f8f8f8;
   font-weight: 400;
   font-family: Poppins; }
 
-.container {
-  width: 900px;
+.containerlogin {
+  width: 90%;
   margin: 0 auto;
   box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
@@ -212,7 +211,14 @@ body {
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   -o-border-radius: 20px;
-  -ms-border-radius: 20px; }
+  -ms-border-radius: 20px;
+  background: #f8f8f8; }
+
+  input.containerlogin{
+    background: #f8f8f8;
+  }
+
+  
 
 .display-flex {
   justify-content: space-between;
@@ -507,7 +513,8 @@ label.valid {
 
 .signin-form {
   margin-right: 90px;
-  margin-left: 80px; }
+  margin-left: 80px;
+ }
 
 .signin-image {
   margin-left: 110px;
@@ -515,11 +522,11 @@ label.valid {
   margin-top: 10px; }
 
 @media screen and (max-width: 1200px) {
-  .container {
+  .containerlogin {
     width: calc( 100% - 30px);
     max-width: 100%; } }
 @media screen and (min-width: 1024px) {
-  .container {
+  .containerlogin {
     max-width: 1200px; } }
 @media screen and (max-width: 768px) {
   .signup-content, .signin-content {
