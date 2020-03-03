@@ -24,7 +24,7 @@ function inscritption(){
 
 }
 
-function acceuil(){
+function accueil(){
 
     $('#content').load('inc/acceuil.html');
 
