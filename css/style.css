@@ -678,12 +678,12 @@ h3,.h3{
 }
 @media (min-width: 1000px){
 	.hero-banner{
-		height:600px
+		height:400px
 }
 }
 @media (min-width: 1200px){
 	.hero-banner{
-		height:800px
+		height:400px
 }
 }
 .hero-banner::after{
