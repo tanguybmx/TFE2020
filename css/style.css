@@ -404,10 +404,11 @@ h3,.h3{
 		padding:0px;
 		cursor:pointer;
 		margin-top:27px;
-		margin-bottom:23px
+		margin-bottom:23px;
+		color:#32a89e;
 }
 	.header_area .navbar{
-		background:#c2581e
+		background: #ffffff;
 }
 	.navbar-toggler[aria-expanded="false"] span:nth-child(2){
 		opacity:1
@@ -429,7 +430,7 @@ h3,.h3{
 		display:block;
 		width:25px;
 		height:3px;
-		background:#fff;
+		background:#32a89e;
 		margin:auto;
 		margin-bottom:4px;
 		transition:all 400ms linear;
