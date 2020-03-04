@@ -2,7 +2,7 @@ function connexion(){
 
     $('#content').load('inc/connexion.html');
 
-    $('#navAcceuil').removeClass('nav-item active').addClass('nav-item');
+    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navAbout').removeClass('nav-item active').addClass('nav-item');
     $('#navServices').removeClass('nav-item active').addClass('nav-item');
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
@@ -15,7 +15,7 @@ function inscritption(){
 
     $('#content').load('inc/inscription.html');
 
-    $('#navAcceuil').removeClass('nav-item active').addClass('nav-item');
+    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navAbout').removeClass('nav-item active').addClass('nav-item');
     $('#navServices').removeClass('nav-item active').addClass('nav-item');
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
@@ -34,7 +34,7 @@ function accueil(){
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
     
 
-    $('#navAcceuil').addClass('nav-item active');
+    $('#navAccueil').addClass('nav-item active');
 
 }
 
@@ -42,7 +42,7 @@ function about(){
 
     $('#content').load('inc/about.html');
 
-    $('#navAcceuil').removeClass('nav-item active').addClass('nav-item');
+    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navServices').removeClass('nav-item active').addClass('nav-item');
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
@@ -56,7 +56,7 @@ function services(){
 
     $('#content').load('inc/services.html');
 
-    $('#navAcceuil').removeClass('nav-item active').addClass('nav-item');
+    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navAbout').removeClass('nav-item active').addClass('nav-item');
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
@@ -70,7 +70,7 @@ function contact(){
 
     $('#content').load('inc/contact.html');
 
-    $('#navAcceuil').removeClass('nav-item active').addClass('nav-item');
+    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navAbout').removeClass('nav-item active').addClass('nav-item');
     $('#navServices').removeClass('nav-item active').addClass('nav-item');
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
