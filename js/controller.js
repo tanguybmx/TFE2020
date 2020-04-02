@@ -1,6 +1,7 @@
 
 var a = 1;
 function checkInscriptionClient() {
+    a = 1;
     event.preventDefault();
     if ($('#username').val() == '') {
         $('#username').attr('placeholder', 'Identifiant requis');
@@ -66,6 +67,7 @@ function checkInscriptionClient() {
 }
 
 function checkInscriptionProfessionnel() {
+    a = 1;
     event.preventDefault();
     if ($('#username').val() == '') {
         $('#username').attr('placeholder', 'Identifiant requis');
@@ -128,4 +130,37 @@ function checkInscriptionProfessionnel() {
         });
     }
 
+}
+
+function checkConnexion() {
+    a = 1;
+    event.preventDefault();
+    if ($('#username').val() == '') {
+        $('#username').attr('placeholder', 'Identifiant requis');
+        a = 0;
+    }
+
+    if ($('#mdp').val() == '') {
+        $('#mdp').attr('placeholder', 'Mot de passe requis');
+        a = 0;
+    }
+    if (a === 1) {
+        let objectForm = { 'login': $('#username').val(), 'password': $('#mdp').val()};
+        console.log(objectForm);
+        $.ajax({
+            url: "phpController/connexion.php",
+            type: "POST",
+            data: objectForm,
+            datatype: "json",
+            success: function (response) {
+                console.log(response);
+                if (response === '"erreurConnexion"') {
+                    console.log("erreurConnexion");
+                }
+                else {
+                    console.log('connexion OK');
+                }
+            }
+        });
+    }
 }

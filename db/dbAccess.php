@@ -21,6 +21,8 @@ class dbAccess
         switch ($nomProcedure) {
             case'checkInscriptionProfessionnel':
             case'checkInscriptionClient':
+            case'connexionClient':
+            case 'connexionPro':
                 array_push($params, '?', '?');
 
                 try {
