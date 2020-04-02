@@ -1,81 +1,86 @@
-function connexion(){
-
-    $('#content').load('inc/connexion.html');
-
+function removeClassActive(active){
     $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navAbout').removeClass('nav-item active').addClass('nav-item');
     $('#navServices').removeClass('nav-item active').addClass('nav-item');
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
+    $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
+
+    $('#'+active).addClass('nav-item active');
+}
+
+function connexion(){
+
+    $('#content').load('inc/connexion.php');
+
+    removeClassActive('navConnexion');
     
-    $('#navConnexion').addClass('nav-item active');
+    
 
 }
 
-function inscritption(){
+function preinscritption(){
 
-    $('#content').load('inc/inscription.html');
+    $('#content').load('inc/preinscription.php');
 
-    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
-    $('#navAbout').removeClass('nav-item active').addClass('nav-item');
-    $('#navServices').removeClass('nav-item active').addClass('nav-item');
-    $('#navContact').removeClass('nav-item active').addClass('nav-item');
+    removeClassActive('navConnexion');
     
-    $('#navConnexion').addClass('nav-item active');
+
+}
+
+function inscritptionClient(){
+
+    $('#content').load('inc/inscriptionClient.php');
+
+    removeClassActive('navConnexion');
+    
+
+}
+
+function inscritptionPro(){
+
+    $('#content').load('inc/inscriptionPro.php');
+
+    removeClassActive('navConnexion');
+    
 
 }
 
 function accueil(){
 
-    $('#content').load('inc/acceuil.html');
+    $('#content').load('inc/accueil.php');
 
-    $('#navAbout').removeClass('nav-item active').addClass('nav-item');
-    $('#navServices').removeClass('nav-item active').addClass('nav-item');
-    $('#navContact').removeClass('nav-item active').addClass('nav-item');
-    $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
+    removeClassActive('navAccueil');
     
 
-    $('#navAccueil').addClass('nav-item active');
 
 }
 
 function about(){
 
-    $('#content').load('inc/about.html');
+    $('#content').load('inc/about.php');
 
-    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
-    $('#navServices').removeClass('nav-item active').addClass('nav-item');
-    $('#navContact').removeClass('nav-item active').addClass('nav-item');
-    $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
+    removeClassActive('navAbout');
     
 
-    $('#navAbout').addClass('nav-item active');
 
 }
 
 function services(){
 
-    $('#content').load('inc/services.html');
+    $('#content').load('inc/services.php');
 
-    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
-    $('#navAbout').removeClass('nav-item active').addClass('nav-item');
-    $('#navContact').removeClass('nav-item active').addClass('nav-item');
-    $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
+    removeClassActive('navServices');
     
 
-    $('#navServices').addClass('nav-item active');
 
 }
 
 function contact(){
 
-    $('#content').load('inc/contact.html');
+    $('#content').load('inc/contact.php');
 
-    $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
-    $('#navAbout').removeClass('nav-item active').addClass('nav-item');
-    $('#navServices').removeClass('nav-item active').addClass('nav-item');
-    $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
+    removeClassActive('navContact');
     
 
-    $('#navContact').addClass('nav-item active');
 
 }

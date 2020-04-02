@@ -1,5 +1,9 @@
+
+<?php
+session_start();
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +21,7 @@
  
   
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mycss.css">
 </head>
 <body>
   <!--================ Header Top Area Start =================-->
@@ -70,7 +75,7 @@
   <section class="hero-banner">
     <div class="hero-banner__content text-center">
       <h3>Nous disposons des professionnels qu'il vous faut !</h3>
-      <a class="button" href="#">Chercher un professionnel</a>
+      <a class="button" href="#" onclick="services()">Chercher un professionnel</a>
     </div>
   </section>
   <!--================ Hero Banner end =================-->
@@ -144,5 +149,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="js/main.js"></script>
   <script src="js/loginMain.js"></script>
   <script src="js/layout.js"></script>
+  <script src="js/controller.js"></script>
+  <script>
+  <?php
+
+if(!isset($_SESSION['pageActuelle'])){
+  echo("$('#content').load('inc/accueil.php');"); 
+}
+else{
+  echo("$('#content').load('inc/$_SESSION[pageActuelle]');"); 
+}
+?>
+  removeClassActive('navAccueil');
+  </script>
 </body>
 </html>

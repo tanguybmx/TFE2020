@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['pageActuelle']="intervention.php";
+?>
 <head>
     <!-- Favicons
         ================================================== -->

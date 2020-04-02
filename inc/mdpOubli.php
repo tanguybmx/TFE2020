@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['pageActuelle']="mdpOubli.php";
+?>
 <head>
     <!-- Favicons
         ================================================== -->

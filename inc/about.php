@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['pageActuelle']="about.php";
+?>
 <div id='content'>
     <section class="d-lg-flex align-items-center section-margin--large">
         <div class="container">
@@ -13,3 +17,7 @@
         </div>
     </section>
 </div>
+
+<script>
+    removeClassActive('navAbout');
+</script>

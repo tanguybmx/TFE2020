@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['pageActuelle']="payement.php";
+?>
 <head>
     <!-- Favicons
         ================================================== -->

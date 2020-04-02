@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['pageActuelle']="accueil.php";
+?>
 <div id='content'>
   <!--================ Hero Banner start =================-->      
   <section class="hero-banner">
@@ -49,3 +53,7 @@
   <!--================ About section end =================-->
 
 </div>
+
+<script>
+  removeClassActive('navAccueil');
+</script>

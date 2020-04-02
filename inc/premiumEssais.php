@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['pageActuelle']="premiumEssais.php";
+?>
 <head>
     <!-- Favicons
         ================================================== -->
