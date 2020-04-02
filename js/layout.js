@@ -4,6 +4,7 @@ function removeClassActive(active){
     $('#navServices').removeClass('nav-item active').addClass('nav-item');
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
+    $('#navProfil').removeClass('nav-item active').addClass('nav-item');
 
     $('#'+active).addClass('nav-item active');
 }
@@ -80,6 +81,16 @@ function contact(){
     $('#content').load('inc/contact.php');
 
     removeClassActive('navContact');
+    
+
+
+}
+
+function profil(){
+
+    $('#content').load('inc/profil.php');
+
+    removeClassActive('navProfil');
     
 
 

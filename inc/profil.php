@@ -2,24 +2,22 @@
 session_start();
 $_SESSION['pageActuelle']="profil.php";
 ?>
-<head>
-    <!-- Favicons
-        ================================================== -->
-        <link rel="shortcut icon" href="img/icone.ico" type="image/x-icon">
-        <link rel="apple-touch-icon" href="img/icone.ico">
-        <link rel="apple-touch-icon" sizes="72x72" href="img/icone.ico">
-        <link rel="apple-touch-icon" sizes="114x114" href="img/icone.ico">
-        <link rel="icon" href="img/icone.ico" />
-        
-        <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css"  href="css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
-        
-        <!-- Stylesheet
-            ================================================== -->
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/nivo-lightbox/nivo-lightbox.css">
-        <link rel="stylesheet" type="text/css" href="css/nivo-lightbox/default.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-    </head>
+<div id='content'>
+    <section class="d-lg-flex align-items-center section-margin--large">
+        <div class="container">
+            <div class="about__content">
+                <p>
+                    <h1>Profil</h1>
+                    Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, 
+                    quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à 
+                    la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, 
+                    plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    removeClassActive('navProfil');
+</script>
