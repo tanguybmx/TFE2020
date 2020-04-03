@@ -7,7 +7,7 @@ $_SESSION['pageActuelle']="accueil.php";
   <section class="hero-banner">
     <div class="hero-banner__content text-center">
       <h3>Nous disposons des professionnels qu'il vous faut !</h3>
-      <a class="button" href="#">Chercher un professionnel</a>
+      <a class="button" href="#" onclick="services()">Chercher un professionnel</a>
     </div>
   </section>
   <!--================ Hero Banner end =================-->

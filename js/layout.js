@@ -92,6 +92,5 @@ function profil(){
 
     removeClassActive('navProfil');
     
-
-
 }
+

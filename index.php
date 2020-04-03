@@ -62,7 +62,7 @@ session_start();
               <li class="nav-item" id="navServices"><a class="nav-link" href="#" onclick="services()">Services</a>
               <li class="nav-item" id="navProfil"><a class="nav-link" href="#" onclick="profil()">Profil</a></li>
               <li class="nav-item" id="navContact"><a class="nav-link" href="#" onclick="contact()">Contact</a></li>
-              <li class="nav-item" id="navConnexion"><a class="nav-link" href="#" onclick="connexion()">Se Connecter</a></li>
+              <li class="nav-item" id="navConnexion"><a class="nav-link" href="" onclick="connexion()">Se Connecter</a></li>
             </ul>
           </div> 
         </div>
@@ -159,6 +159,9 @@ if(!isset($_SESSION['pageActuelle'])){
 }
 else{
   echo("$('#content').load('inc/$_SESSION[pageActuelle]');"); 
+}
+if(isset($_SESSION['nom'])){
+  echo("estCo();");
 }
 ?>
   removeClassActive('navAccueil');

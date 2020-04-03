@@ -59,6 +59,7 @@ function checkInscriptionClient() {
                 }
                 else {
                     console.log('inscr OK');
+                    connexion();
                 }
             }
         });
@@ -125,6 +126,7 @@ function checkInscriptionProfessionnel() {
                 }
                 else {
                     console.log('inscr OK');
+                    connexion();
                 }
             }
         });
@@ -159,8 +161,15 @@ function checkConnexion() {
                 }
                 else {
                     console.log('connexion OK');
+                    window.location="http://localhost/TFE2020/";
                 }
             }
         });
     }
+}
+
+function estCo() {
+    $('#navConnexion').html('<a class="nav-link" href="phpController/deconnexion.php" id="lienConnexion">Se déconnecter</a>');
+    $("#navConnexion").prop("onclick", null).off("click");
+
 }

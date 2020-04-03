@@ -20,7 +20,8 @@ else if(empty($connexion2)){
     $_SESSION['adresse'] = $connexion[0]{'adresse'};
     $_SESSION['mail'] = $connexion[0]{'mail'};
     $_SESSION['typeCompte']='client';
-    echo json_encode($_SESSION['mail']);
+    echo json_encode($_SESSION['nom']);
+    $_SESSION['pageActuelle']="accueil.php";
 }
 
 else if(empty($connexion)){
@@ -32,6 +33,7 @@ else if(empty($connexion)){
     $_SESSION['adresse'] = $connexion2[0]{'adresse'};
     $_SESSION['statut'] = $connexion2[0]{'statut'};
     $_SESSION['typeCompte'] = 'professionnel';
-    
-    echo json_encode($_SESSION['mail']);
+    echo json_encode($_SESSION['nom']);
+    $_SESSION['pageActuelle']="accueil.php";
 }
+
