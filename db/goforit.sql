@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 02 avr. 2020 à 16:49
+-- Généré le :  ven. 03 avr. 2020 à 11:25
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -74,9 +74,9 @@ INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail) VALUES(username, pwd, n
 END$$
 
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(10), IN `secteur` INT(10), IN `admin` INT(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(10), IN `secteur` INT(10), IN `admin` INT(10), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000))  BEGIN
 
-INSERT INTO cli(nom, adresse, nTva, idSecteur, idAdmin) VALUES(name, adress, tva, secteur, admin);
+INSERT INTO cli(nom, adresse, description, services, nTva, idSecteur, idAdmin) VALUES(name, adress, descri, serv, tva, secteur, admin);
 
 END$$
 
@@ -160,9 +160,11 @@ CREATE TABLE IF NOT EXISTS `ent` (
   `idEnt` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(30) NOT NULL,
   `adresse` varchar(60) NOT NULL,
+  `description` varchar(3000) NOT NULL COMMENT 'description de l''entreprise',
+  `services` varchar(3000) NOT NULL COMMENT 'liste de services séparé de virgule',
   `nTva` int(11) NOT NULL,
   `idSecteur` int(11) NOT NULL,
-  `idAdmin` int(11) NOT NULL COMMENT 'idUser crÃ©ateur du compte de l''entreprise',
+  `idAdmin` int(11) NOT NULL COMMENT 'idUser createur de l''entreprise',
   PRIMARY KEY (`idEnt`),
   KEY `idSecteur` (`idSecteur`),
   KEY `idAdmin` (`idAdmin`)
