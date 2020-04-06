@@ -1,4 +1,5 @@
 
+var idUser;
 var a = 1;
 function checkInscriptionClient() {
     a = 1;
@@ -168,8 +169,83 @@ function checkConnexion() {
     }
 }
 
-function estCo() {
-    $('#navConnexion').html('<a class="nav-link" href="phpController/deconnexion.php" id="lienConnexion">Se déconnecter</a>');
-    $("#navConnexion").prop("onclick", null).off("click");
+var nServices=1;
 
+function ajoutChampService(){
+    nServices++;
+    var btn = '<button id="btnAjoutService" onclick="ajoutChampService();">Ajouter un service</button>';
+    $('#btnAjoutService').remove();
+    $('#formItemServices').append('<br><br><input type="text" name="servicesEnt'+ nServices +'" id="servicesEnt'+ nServices +'"/>');
+    $('#formItemServices').append(btn);
+} 
+
+function creationEnt(){
+    a = 1;
+    event.preventDefault();
+    if ($('#nomEnt').val() == '') {
+        $('#nomEnt').attr('placeholder', 'Identifiant requis');
+        a = 0;
+    }
+
+    if ($('#adresseEnt').val() == '') {
+        $('#adresseEnt').attr('placeholder', 'Adresse requise');
+        a = 0;
+    }
+
+    if ($('#descEnt').val() == '') {
+        $('#descEnt').attr('placeholder', 'Description requise');
+        a = 0;
+    }
+
+    if ($('#servicesEnt1').val() == '') {
+        alert('Minimum un service requis');
+        a = 0;
+    }
+
+    if ($('#nTvaEnt').val() == '') {
+        $('#nTvaEnt').attr('placeholder', 'Numéro de TVA requis');
+        a = 0;
+    }
+
+    if ($('#secteurEnt').val() == 'default') {
+        alert("Il faut sélectionner un secteur différent de default");
+        a = 0;
+    }
+
+    if (a === 1) {
+        var servicesEnt = '';
+        var objectForm;
+        if(nServices == 1){
+            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': $('#secteurEnt').val(), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': $('#servicesEnt1').val()};
+        }
+        else{
+            servicesEnt += $('#servicesEnt1').val();
+            for (let i = 2; i<= nServices; i++){
+                servicesEnt += ','+$('#servicesEnt'+i).val();
+                console.log(i);
+
+            }
+            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': $('#secteurEnt').val(), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': servicesEnt};
+            
+        }
+        console.log(objectForm);
+        $.ajax({
+            url: "phpController/creationEnt.php",
+            type: "POST",
+            data: objectForm,
+            datatype: "json",
+            success: function (response) {
+                console.log(response);
+                if (response === '"Entreprise existante sur la plateforme"') {
+                    console.log("Entreprise existante sur la plateforme");
+                    $('#titreCreaEnt').load('<h2>Le numéro de TVA spécifié existe déjà sur la plateforme</h2>');
+                }
+                else {
+                    console.log('connexion OK');
+                    entreprise();
+
+                }
+            }
+        });
+    }
 }

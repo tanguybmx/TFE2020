@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['pageActuelle']="accueil.php";
 ?>
-<div id='content'>
+
   <!--================ Hero Banner start =================-->      
   <section class="hero-banner">
     <div class="hero-banner__content text-center">
@@ -52,7 +52,6 @@ $_SESSION['pageActuelle']="accueil.php";
   </section>
   <!--================ About section end =================-->
 
-</div>
 
 <script>
   removeClassActive('navAccueil');

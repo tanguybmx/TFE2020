@@ -5,6 +5,7 @@ function removeClassActive(active){
     $('#navContact').removeClass('nav-item active').addClass('nav-item');
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
     $('#navProfil').removeClass('nav-item active').addClass('nav-item');
+    $('#navEntreprise').removeClass('nav-item active').addClass('nav-item');
 
     $('#'+active).addClass('nav-item active');
 }
@@ -93,4 +94,19 @@ function profil(){
     removeClassActive('navProfil');
     
 }
+
+function entreprise(){
+    $('#content').load('inc/entreprise.php');
+
+    removeClassActive('navEntreprise');
+}
+
+function estCo() {
+    $('#navConnexion').html('<a class="nav-link" href="phpController/deconnexion.php" id="lienConnexion">Se déconnecter</a>');
+    $("#navConnexion").prop("onclick", null).off("click");
+
+}
+
+
+//creation entreprise
 

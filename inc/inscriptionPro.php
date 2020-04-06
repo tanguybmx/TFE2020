@@ -2,8 +2,9 @@
 session_start();
 $_SESSION['pageActuelle']="inscriptionPro.php";
 ?>
+
+
 <link rel="stylesheet" href="css/loginStyle.css">
-<div id="content">
     <section class="signup">
         <div class="containerlogin">
             <div class="signup-content">
@@ -48,7 +49,6 @@ $_SESSION['pageActuelle']="inscriptionPro.php";
             </div>
         </div>
     </section>
-</div>
 <script>
     removeClassActive('navConnexion');
 </script>

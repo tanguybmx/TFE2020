@@ -1,3 +1,4 @@
+/*Inscription Connexion*/
 #choixTypeUser{
     background-color: azure;
     margin-left: 20em;
@@ -11,3 +12,24 @@
 #professionnel{
     margin: auto;
 }
+
+/*Entreprise*/
+
+    /*Création*/
+    #btnAjoutService{
+        margin:1em;
+    }
+
+    #imCreaEnt{
+        height: 30em;
+    }
+
+    /*Affichage et modification*/
+
+    #contentUl{
+        margin:2em;
+    }
+
+    .pEnt{
+        color: black;
+    }

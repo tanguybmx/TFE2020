@@ -2,8 +2,9 @@
 session_start();
 $_SESSION['pageActuelle']="connexion.php";
 ?>
+
+
 <link rel="stylesheet" href="css/loginStyle.css">
-<div id="content">
     <section class="sign-in">
         <div class="containerlogin">
             <div class="signin-content">
@@ -27,7 +28,6 @@ $_SESSION['pageActuelle']="connexion.php";
             </div>
         </div>
     </section>
-</div>
 <script>
     removeClassActive('navConnexion');
 </script>
