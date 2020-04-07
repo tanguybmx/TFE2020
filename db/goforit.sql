@@ -2,10 +2,10 @@
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3308
--- Généré le :  ven. 03 avr. 2020 à 11:25
--- Version du serveur :  5.7.28
--- Version de PHP :  7.3.12
+-- Host: 127.0.0.1:3308
+-- Generation Time: Apr 07, 2020 at 03:00 PM
+-- Server version: 5.7.28
+-- PHP Version: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,18 +19,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `goforit`
+-- Database: `goforit`
 --
 
 DELIMITER $$
 --
--- Procédures
+-- Procedures
 --
-DROP PROCEDURE IF EXISTS `checkCreationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkCreationEntreprise` (IN `tva` INT(11), IN `address` VARCHAR(60))  BEGIN
+DROP PROCEDURE IF EXISTS `addIdEnt`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addIdEnt` (IN `email` VARCHAR(300), IN `nTva` INT(11))  BEGIN
 
-SELECT nTva FROM ent
-WHERE nTva = tva OR adresse = address;
+UPDATE pro set idEntreprise = nTva
+WHERE mail = email;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `checkEnt`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkEnt` (IN `tva` INT(11))  BEGIN
+
+SELECT nom FROM ent
+WHERE nTva = tva;
 
 END$$
 
@@ -74,9 +82,9 @@ INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail) VALUES(username, pwd, n
 END$$
 
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(10), IN `secteur` INT(10), IN `admin` INT(10), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(11), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000))  BEGIN
 
-INSERT INTO cli(nom, adresse, description, services, nTva, idSecteur, idAdmin) VALUES(name, adress, descri, serv, tva, secteur, admin);
+INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin) VALUES(name, adress, descri, serv, tva, idSector, admin);
 
 END$$
 
@@ -87,12 +95,35 @@ INSERT INTO pro(pseudo, mdp, nom, prenom, mail, adresse) VALUES(username, passwo
 
 END$$
 
+DROP PROCEDURE IF EXISTS `creationSecteur`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationSecteur` (IN `name` VARCHAR(300))  BEGIN 
+
+INSERT INTO sect (nom) VALUES(name);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getEnt`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEnt` ()  BEGIN
+
+SELECT idEnt, nom, adresse, description, services, nTva, secteur, idAdmin
+FROM ent;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getSecteur`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSecteur` ()  BEGIN
+
+SELECT idSecteur, nom
+FROM sect;
+
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `avis`
+-- Table structure for table `avis`
 --
 
 DROP TABLE IF EXISTS `avis`;
@@ -108,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `cli`
+-- Table structure for table `cli`
 --
 
 DROP TABLE IF EXISTS `cli`;
@@ -120,11 +151,12 @@ CREATE TABLE IF NOT EXISTS `cli` (
   `prenom` varchar(300) NOT NULL,
   `adresse` varchar(300) NOT NULL,
   `mail` varchar(300) NOT NULL,
-  PRIMARY KEY (`idCli`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`idCli`),
+  UNIQUE KEY `mail` (`mail`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `cli`
+-- Dumping data for table `cli`
 --
 
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`) VALUES
@@ -134,7 +166,7 @@ INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`)
 -- --------------------------------------------------------
 
 --
--- Structure de la table `dem`
+-- Table structure for table `dem`
 --
 
 DROP TABLE IF EXISTS `dem`;
@@ -152,28 +184,36 @@ CREATE TABLE IF NOT EXISTS `dem` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ent`
+-- Table structure for table `ent`
 --
 
 DROP TABLE IF EXISTS `ent`;
 CREATE TABLE IF NOT EXISTS `ent` (
   `idEnt` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(30) NOT NULL,
+  `nom` varchar(300) NOT NULL,
   `adresse` varchar(60) NOT NULL,
   `description` varchar(3000) NOT NULL COMMENT 'description de l''entreprise',
   `services` varchar(3000) NOT NULL COMMENT 'liste de services séparé de virgule',
   `nTva` int(11) NOT NULL,
-  `idSecteur` int(11) NOT NULL,
-  `idAdmin` int(11) NOT NULL COMMENT 'idUser createur de l''entreprise',
+  `idSect` int(11) NOT NULL,
+  `idAdmin` varchar(300) NOT NULL COMMENT 'mail useer createur de l''entreprise',
   PRIMARY KEY (`idEnt`),
-  KEY `idSecteur` (`idSecteur`),
-  KEY `idAdmin` (`idAdmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `tva` (`nTva`),
+  KEY `idAdmin` (`idAdmin`),
+  KEY `idSect` (`idSect`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ent`
+--
+
+INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`) VALUES
+(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pro`
+-- Table structure for table `pro`
 --
 
 DROP TABLE IF EXISTS `pro`;
@@ -188,21 +228,24 @@ CREATE TABLE IF NOT EXISTS `pro` (
   `statut` int(1) NOT NULL DEFAULT '0' COMMENT '0 => admin; 1=> employÃ©',
   `adresse` varchar(300) NOT NULL,
   PRIMARY KEY (`idPro`),
+  UNIQUE KEY `mail` (`mail`),
   KEY `idEntreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `pro`
+-- Dumping data for table `pro`
 --
 
 INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntreprise`, `statut`, `adresse`) VALUES
-(2, 'Zyppo', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Eric', 'service@itrescue.be', NULL, 0, 'rue champ des oiseaux 4b, 1470 Genappe'),
-(3, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', NULL, 0, 'Rue aux loups 1A, 1380 Plancenoit');
+(4, 'zyppo', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Eric', 'service@itrescue.be', 1, 0, 'Rue Chant des Oiseaux 4b'),
+(5, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', NULL, 0, 'rue aux loups'),
+(6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
+(7, 'testSansEntreprise', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testSansEntreprise', 'testSansEntreprise', 'testSansEntreprise@testSansEntreprise', NULL, 0, 'rue testSansEntreprise');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `prop`
+-- Table structure for table `prop`
 --
 
 DROP TABLE IF EXISTS `prop`;
@@ -218,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `prop` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `rdv`
+-- Table structure for table `rdv`
 --
 
 DROP TABLE IF EXISTS `rdv`;
@@ -233,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `sect`
+-- Table structure for table `sect`
 --
 
 DROP TABLE IF EXISTS `sect`;
@@ -241,12 +284,22 @@ CREATE TABLE IF NOT EXISTS `sect` (
   `idSecteur` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(20) NOT NULL,
   PRIMARY KEY (`idSecteur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sect`
+--
+
+INSERT INTO `sect` (`idSecteur`, `nom`) VALUES
+(1, 'Infographie'),
+(2, 'Infrastructure'),
+(3, 'Telephonie'),
+(4, 'Web');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `serv`
+-- Table structure for table `serv`
 --
 
 DROP TABLE IF EXISTS `serv`;
@@ -259,44 +312,43 @@ CREATE TABLE IF NOT EXISTS `serv` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `avis`
+-- Constraints for table `avis`
 --
 ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idRdv`) REFERENCES `rdv` (`idRdv`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `dem`
+-- Constraints for table `dem`
 --
 ALTER TABLE `dem`
   ADD CONSTRAINT `dem_ibfk_1` FOREIGN KEY (`idServ`) REFERENCES `serv` (`idServ`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `dem_ibfk_3` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `ent`
+-- Constraints for table `ent`
 --
 ALTER TABLE `ent`
-  ADD CONSTRAINT `ent_ibfk_1` FOREIGN KEY (`idSecteur`) REFERENCES `sect` (`idSecteur`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ent_ibfk_2` FOREIGN KEY (`idAdmin`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ent_ibfk_3` FOREIGN KEY (`idEnt`) REFERENCES `pro` (`idEntreprise`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `idAdmin` FOREIGN KEY (`idAdmin`) REFERENCES `pro` (`mail`) ON DELETE CASCADE,
+  ADD CONSTRAINT `idSect` FOREIGN KEY (`idSect`) REFERENCES `sect` (`idSecteur`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `prop`
+-- Constraints for table `prop`
 --
 ALTER TABLE `prop`
   ADD CONSTRAINT `prop_ibfk_1` FOREIGN KEY (`idDem`) REFERENCES `dem` (`idDem`) ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `rdv`
+-- Constraints for table `rdv`
 --
 ALTER TABLE `rdv`
   ADD CONSTRAINT `rdv_ibfk_1` FOREIGN KEY (`idProp`) REFERENCES `prop` (`idProp`) ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `serv`
+-- Constraints for table `serv`
 --
 ALTER TABLE `serv`
   ADD CONSTRAINT `serv_ibfk_1` FOREIGN KEY (`idEnt`) REFERENCES `ent` (`idEnt`) ON UPDATE CASCADE;
