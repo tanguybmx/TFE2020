@@ -17,6 +17,24 @@ class dbAccess
     public function callProcedure($nomProcedure, $procParams = array())
     {
         $params = array();
+
+                //procédure avec 0 param
+                switch ($nomProcedure) {
+                    case'getSecteur':
+                    case'getEnt':
+                        array_push($params);
+        
+                        try {
+                            $this->connexionDB();
+                            $procedureCall = 'call ' . $nomProcedure . '(' . join(',', $params) . ')';
+                            $requete = $this->pdo->prepare($procedureCall);
+                            $requete->execute($procParams);
+                            return $requete->fetchAll();
+                        } catch (Exception $e) {
+                            die("Erreur :" . $e->getMessage());
+                        }
+                        break;
+                }
                 //procédure avec 1 param
                 switch ($nomProcedure) {
                     case'checkEnt':

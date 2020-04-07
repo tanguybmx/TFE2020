@@ -18,5 +18,6 @@ if(!empty($checkEnt)){
     echo json_encode("Entreprise existante sur la plateforme");
 } else{
     $creationEnt = $db->callProcedure('creationEntreprise',[$nomEnt,$adresseEnt, $nTvaEnt, $secteurEnt, $idAdmin, $descEnt, $servicesEnt]);
+    echo (json_encode($creationEnt));
     $addIdEnt = $db->callProcedure('addIdEnt',[$idAdmin, $nTvaEnt]);
 }

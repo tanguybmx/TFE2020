@@ -47,7 +47,6 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
                     <br>
                     <select id="secteurEnt" name="secteurEnt">
                         <option value="default">default</option>
-                        <option value="default2">default2</option>
                     </select>
                 </div>
                 <button id='btnCreeEnt'onclick="creationEnt();">Créer</button>          
@@ -58,4 +57,5 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
 
 <script>
     removeClassActive('navEntreprise');
+    getSecteur();
 </script>

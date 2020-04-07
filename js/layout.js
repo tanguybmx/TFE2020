@@ -13,7 +13,6 @@ function removeClassActive(active){
 function connexion(){
 
     $('#content').load('inc/connexion.php');
-
     removeClassActive('navConnexion');
     
     

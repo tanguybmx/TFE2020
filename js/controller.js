@@ -216,7 +216,7 @@ function creationEnt(){
         var servicesEnt = '';
         var objectForm;
         if(nServices == 1){
-            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': $('#secteurEnt').val(), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': $('#servicesEnt1').val()};
+            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': parseInt($('#secteurEnt').val()), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': $('#servicesEnt1').val()};
         }
         else{
             servicesEnt += $('#servicesEnt1').val();
@@ -225,7 +225,7 @@ function creationEnt(){
                 console.log(i);
 
             }
-            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': $('#secteurEnt').val(), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': servicesEnt};
+            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': parseInt($('#secteurEnt').val()), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': servicesEnt};
             
         }
         console.log(objectForm);
@@ -235,7 +235,6 @@ function creationEnt(){
             data: objectForm,
             datatype: "json",
             success: function (response) {
-                console.log(response);
                 if (response === '"Entreprise existante sur la plateforme"') {
                     console.log("Entreprise existante sur la plateforme");
                     $('#titreCreaEnt').load('<h2>Le numéro de TVA spécifié existe déjà sur la plateforme</h2>');
@@ -248,4 +247,25 @@ function creationEnt(){
             }
         });
     }
+}
+
+//secteur
+var secteurs ;
+function getSecteur(){
+    $.ajax({
+        async: "false",
+        url: "phpController/getSecteur.php",
+        type: "POST",
+        success: function (response) {
+
+            secteurs = JSON.parse(response);
+            var long = secteurs.length;
+            for (var i = 0; i<long; i++){
+                $('#secteurEnt').append('<option value='+ secteurs[i]['idSecteur'] +'>'+ secteurs[i]['nom'] +'</option>');
+            }
+            
+
+                       
+            }
+        });
 }

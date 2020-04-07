@@ -22,6 +22,7 @@ session_start();
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/mycss.css">
+  <link rel="stylesheet" href="css/loginStyle.css">
 </head>
 <body>
   <!--================ Header Top Area Start =================-->
