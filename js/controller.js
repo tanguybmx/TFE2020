@@ -269,3 +269,16 @@ function getSecteur(){
             }
         });
 }
+
+var nbPros;
+function getNbPros(){
+        $.ajax({
+            async: "false",
+            url: "phpController/getNbPros.php",
+            type: "POST",
+            success: function (response) {                                  
+                }
+            });
+    
+
+}

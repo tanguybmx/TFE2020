@@ -22,6 +22,7 @@ class dbAccess
                 switch ($nomProcedure) {
                     case'getSecteur':
                     case'getEnt':
+                    case 'countPro':
                         array_push($params);
         
                         try {

@@ -90,7 +90,7 @@ session_start();
       <div class="row">
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="card static__single">
-            <h3>35</h3>
+            <h3><?= $_SESSION['totalEnt'] ;?></h3>
             <h4>Professionnels inscrits</h4>
           </div>
         </div>
@@ -167,6 +167,9 @@ if(isset($_SESSION['nom'])){
 }
 ?>
   removeClassActive('navAccueil');
+  $( document ).ready(function() {
+    getNbPros();
+});
   </script>
 </body>
 </html>
