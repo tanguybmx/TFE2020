@@ -11,6 +11,13 @@ $idAdmin = $_SESSION['mail'];
 $descEnt = $_POST['descEnt'];
 $servicesEnt = $_POST['servicesEnt'];
 $_SESSION['idEnt'] = $nTvaEnt;
+$_SESSION['nomEnt'] = $nomEnt;
+$_SESSION['adresseEnt'] = $adresseEnt;
+$_SESSION['nTvaEnt'] = $nTvaEnt;
+$_SESSION['adminEnt'] = $idAdmin;
+$_SESSION['sectEnt'] = $secteurEnt;
+$_SESSION['descEnt'] = $descEnt;
+$_SESSION['servicesEnt'] = $servicesEnt;
 
 $checkEnt = $db->callProcedure('checkEnt',[$nTvaEnt]);
 

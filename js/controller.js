@@ -270,15 +270,25 @@ function getSecteur(){
         });
 }
 
-var nbPros;
 function getNbPros(){
         $.ajax({
-            async: "false",
             url: "phpController/getNbPros.php",
             type: "POST",
             success: function (response) {                                
                 }
             });
     
+
+}
+
+function getEnt(){
+    $.ajax({
+        url: "phpController/getEnt.php",
+        type: "POST",
+        success: function (response) {   
+            console.log(response);                             
+            }
+        });
+
 
 }

@@ -17,34 +17,28 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
             <form method="POST" id="formInscrEnt">
                 <div class="form-group">
                     <label for="nomEnt">Nom de l'entreprise:</label>
-                    <br>
                     <input type="text" name="nomEnt" id="nomEnt"/>
                 </div>
                 <div class="form-group">
                     <label for="adresseEnt">Adresse de l'entreprise:</label>
-                    <br>
                     <input type="text" name="adresseEnt" id="adresseEnt"/>
                 </div>
                 <div class="form-group">
                     <label for="descEnt">Description de l'entreprise:</label>
-                    <br>
                     <input type="text" name="descEnt" id="descEnt"/>
                 </div>
                 <div class="form-group" id="formItemServices">
-                    <label for="servicesEnt">Services de l'entreprise:</label>
-                    <br>
+                    <label for="servicesEnt1">Services de l'entreprise:</label>
                     <input type="servicesEnt1" name="servicesEnt1" id="servicesEnt1"/>
                     <button id='btnAjoutService'onclick="ajoutChampService();">Ajouter un service</button>
                 </div>
                 <div class="form-group">
                     <label for="nTvaEnt">Le numéro de TVA de l'entreprise:</label>
-                    <br>
                     <input type="text" name="nTvaEnt" id="nTvaEnt"/>
                 </div>
 
                 <div class="form-group">
                     <label for="secteurEnt">Le secteur de votre entreprise:</label>
-                    <br>
                     <select id="secteurEnt" name="secteurEnt">
                         <option value="default">default</option>
                     </select>

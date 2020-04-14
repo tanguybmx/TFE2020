@@ -24,6 +24,10 @@
         height: 30em;
     }
 
+    #form-group input{
+        margin: 0.5em;
+    }
+
     /*Affichage et modification*/
 
     #contentUl{
