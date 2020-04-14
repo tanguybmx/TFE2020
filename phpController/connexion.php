@@ -33,5 +33,15 @@ else if(empty($connexion)){
     $_SESSION['statut'] = $connexion2[0]{'statut'};
     $_SESSION['typeCompte'] = 'professionnel';
     $_SESSION['pageActuelle']="accueil.php";
+    if(!empty($_SESSION['idEnt'])){
+        $connexion3 = $db->callProcedure('getHisEnt',[$_SESSION['idEnt']]);
+        $_SESSION['nomEnt'] = $connexion3[0]{'nom'};
+        $_SESSION['adresseEnt'] = $connexion3[0]{'adresse'};
+        $_SESSION['nTvaEnt'] = $connexion3[0]{'nTva'};
+        $_SESSION['adminEnt'] = $connexion3[0]{'idAdmin'};
+        $_SESSION['sectEnt'] = $connexion3[0]{'nomSect'};
+        $_SESSION['descEnt'] = $connexion3[0]{'description'};
+        $_SESSION['servicesEnt'] = $connexion3[0]{'services'};
+    }
 }
 

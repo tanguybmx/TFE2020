@@ -38,6 +38,7 @@ class dbAccess
                 //procédure avec 1 param
                 switch ($nomProcedure) {
                     case'checkEnt':
+                    case'getHisEnt':
                         array_push($params, '?');
         
                         try {

@@ -3,42 +3,72 @@ session_start();
 $_SESSION['pageActuelle']="entreprise.php";
 ?>
 
-<section class='d-lg-flex align-items-center section-margin--large'>
-        <div class='container'>
-                    <h1>Entreprise</h1>
-                    <div id='contentUl' style='overflow-x:auto;'>
-                    <ul id='ulEntreprise'>
-                        <li class='titreEnt'>Nom</li>
-                        <p id='nomEnt' class='pEnt'>
-                            test
-                        </p>
-                        <li class='titreEnt'>Adresse</li>
-                        <p id='adresseEnt' class='pEnt'>
-                            test
-                        </p>
-                        <li class='titreEnt'>Description</li>
-                        <p id='descriptionEnt' class='pEnt'>
-                            test
-                        </p>
-                        <li class='titreEnt'>Services</li>
-                        <p id='servicesEnt' class='pEnt'>
-                            test
-                        </p>
-                        <li class='titreEnt'>Numéro de TVA</li>
-                        <p id='nTvaEnt' class='pEnt'>
-                            test
-                        </p>
-                        <li class='titreEnt'>Secteur</li>
-                        <p id='secteurEnt' class='pEnt'>
-                            test
-                        </p>
-                        <li class='titreEnt'>Propriétaire</li>
-                        <p id='propriEnt' class='pEnt'>
-                            test
-                        </p>
-                    </ul>
-                    </div>
-        </div>
+<section class="d-lg-flex align-items-center section-margin--large">
+        <div class="container">
+                        <div class="main">
+                            <section class="signup">
+                                <div class="container">
+                                    <div class="signup-content">
+                                        <div class="signup-form">
+                                            <h2 class="form-title">Entreprise</h2>
+                                            <form method="post" class="register-form" id="register-form" action="#">
+                                                <div class="form-group">
+                                                    <label for="nomEnt">Nom</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="nomEnt" id="nomEnt" readonly value="<?php echo $_SESSION['nomEnt']?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="adresse">Adresse</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="adresse" id="adresse" readonly value="<?php echo $_SESSION['adresseEnt']?>">
+                                                </div>
+                                                <div class="form-group">
+                                                            <label for="idEnt">Numéro de TVA</label>
+                                                            <br>
+                                                            <br>
+                                                            <br>
+                                                            <input type="text" name="idEnt" id="idEnt" readonly value="<?php echo $_SESSION['nTvaEnt']?>">
+                                                        </div>
+                                                <div class="form-group">
+                                                    <label for="adminEnt">Administrateur</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="adminEnt" id="adminEnt" readonly value="<?php echo $_SESSION['adminEnt']?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="secteurEnt">Secteur</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="secteurEnt" id="secteurEnt" readonly value="<?php echo $_SESSION['sectEnt']?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="descEnt">Description</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="descEnt" id="descEnt" readonly value="<?php echo $_SESSION['descEnt']?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="servicesEnt">Services</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="servicesEnt" name="servicesEnt" id="servicesEnt" readonly value="<?php echo $_SESSION['servicesEnt']?>">
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+            </div>
     </section>
     <script>
     removeClassActive('navEntreprise');
