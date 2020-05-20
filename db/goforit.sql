@@ -2,10 +2,10 @@
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3308
--- Generation Time: Apr 07, 2020 at 03:00 PM
--- Server version: 5.7.28
--- PHP Version: 7.3.12
+-- Hôte : 127.0.0.1:3308
+-- Généré le :  mer. 20 mai 2020 à 13:21
+-- Version du serveur :  5.7.28
+-- Version de PHP :  7.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,12 +19,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `goforit`
+-- Base de données :  `goforit`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Procédures
 --
 DROP PROCEDURE IF EXISTS `addIdEnt`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addIdEnt` (IN `email` VARCHAR(300), IN `nTva` INT(11))  BEGIN
@@ -105,8 +105,16 @@ END$$
 DROP PROCEDURE IF EXISTS `getEnt`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEnt` ()  BEGIN
 
-SELECT idEnt, nom, adresse, description, services, nTva, secteur, idAdmin
+SELECT idEnt, nom, adresse, description, services, nTva, idSect, idAdmin
 FROM ent;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getHisEnt`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `id` INT(11))  BEGIN
+
+SELECT ent.nom, ent.adresse, ent.nTva, ent.idAdmin, sect.nom as nomSect, ent.description, ent.services FROM ent
+INNER JOIN sect ON ent.idSect = sect.idSecteur;
 
 END$$
 
@@ -123,7 +131,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `avis`
+-- Structure de la table `avis`
 --
 
 DROP TABLE IF EXISTS `avis`;
@@ -139,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cli`
+-- Structure de la table `cli`
 --
 
 DROP TABLE IF EXISTS `cli`;
@@ -156,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cli`
+-- Déchargement des données de la table `cli`
 --
 
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`) VALUES
@@ -166,7 +174,7 @@ INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dem`
+-- Structure de la table `dem`
 --
 
 DROP TABLE IF EXISTS `dem`;
@@ -184,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `dem` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ent`
+-- Structure de la table `ent`
 --
 
 DROP TABLE IF EXISTS `ent`;
@@ -204,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ent`
+-- Déchargement des données de la table `ent`
 --
 
 INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`) VALUES
@@ -213,7 +221,7 @@ INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pro`
+-- Structure de la table `pro`
 --
 
 DROP TABLE IF EXISTS `pro`;
@@ -233,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `pro` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `pro`
+-- Déchargement des données de la table `pro`
 --
 
 INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntreprise`, `statut`, `adresse`) VALUES
@@ -245,7 +253,7 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prop`
+-- Structure de la table `prop`
 --
 
 DROP TABLE IF EXISTS `prop`;
@@ -261,7 +269,7 @@ CREATE TABLE IF NOT EXISTS `prop` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rdv`
+-- Structure de la table `rdv`
 --
 
 DROP TABLE IF EXISTS `rdv`;
@@ -276,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sect`
+-- Structure de la table `sect`
 --
 
 DROP TABLE IF EXISTS `sect`;
@@ -287,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `sect` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `sect`
+-- Déchargement des données de la table `sect`
 --
 
 INSERT INTO `sect` (`idSecteur`, `nom`) VALUES
@@ -299,7 +307,7 @@ INSERT INTO `sect` (`idSecteur`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `serv`
+-- Structure de la table `serv`
 --
 
 DROP TABLE IF EXISTS `serv`;
@@ -312,43 +320,43 @@ CREATE TABLE IF NOT EXISTS `serv` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `avis`
+-- Contraintes pour la table `avis`
 --
 ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idRdv`) REFERENCES `rdv` (`idRdv`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Constraints for table `dem`
+-- Contraintes pour la table `dem`
 --
 ALTER TABLE `dem`
   ADD CONSTRAINT `dem_ibfk_1` FOREIGN KEY (`idServ`) REFERENCES `serv` (`idServ`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `dem_ibfk_3` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `ent`
+-- Contraintes pour la table `ent`
 --
 ALTER TABLE `ent`
   ADD CONSTRAINT `idAdmin` FOREIGN KEY (`idAdmin`) REFERENCES `pro` (`mail`) ON DELETE CASCADE,
   ADD CONSTRAINT `idSect` FOREIGN KEY (`idSect`) REFERENCES `sect` (`idSecteur`) ON DELETE CASCADE;
 
 --
--- Constraints for table `prop`
+-- Contraintes pour la table `prop`
 --
 ALTER TABLE `prop`
   ADD CONSTRAINT `prop_ibfk_1` FOREIGN KEY (`idDem`) REFERENCES `dem` (`idDem`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `rdv`
+-- Contraintes pour la table `rdv`
 --
 ALTER TABLE `rdv`
   ADD CONSTRAINT `rdv_ibfk_1` FOREIGN KEY (`idProp`) REFERENCES `prop` (`idProp`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `serv`
+-- Contraintes pour la table `serv`
 --
 ALTER TABLE `serv`
   ADD CONSTRAINT `serv_ibfk_1` FOREIGN KEY (`idEnt`) REFERENCES `ent` (`idEnt`) ON UPDATE CASCADE;
