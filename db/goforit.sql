@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mer. 20 mai 2020 à 13:50
+-- Généré le :  mer. 20 mai 2020 à 18:14
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -112,8 +112,10 @@ END$$
 DROP PROCEDURE IF EXISTS `getEnt`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEnt` ()  BEGIN
 
-SELECT idEnt, nom, adresse, description, services, nTva, idSect, idAdmin
-FROM ent;
+SELECT ent.idEnt, ent.nom, ent.adresse, ent.description, ent.services, ent.nTva, sect.nom as nomSect, ent.idAdmin
+FROM ent
+
+INNER JOIN sect ON ent.idSect = sect.idSecteur;
 
 END$$
 
@@ -216,14 +218,15 @@ CREATE TABLE IF NOT EXISTS `ent` (
   UNIQUE KEY `tva` (`nTva`),
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
 --
 
 INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`) VALUES
-(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be');
+(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be'),
+(22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', 2, 2, 'dimitri@logicaltic.com');
 
 -- --------------------------------------------------------
 
@@ -253,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `pro` (
 
 INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntreprise`, `statut`, `adresse`) VALUES
 (4, 'zyppo', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Eric', 'service@itrescue.be', 1, 0, 'Rue Chant des Oiseaux 4b'),
-(5, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', NULL, 0, 'rue aux loups'),
+(5, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', 2, 0, 'rue aux loups'),
 (6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
 (7, 'testSansEntreprise', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testSansEntreprise', 'testSansEntreprise', 'testSansEntreprise@testSansEntreprise', NULL, 0, 'rue testSansEntreprise');
 
