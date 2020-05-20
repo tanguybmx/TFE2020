@@ -37,3 +37,14 @@
     .pEnt{
         color: black;
     }
+
+    /*annonce.*/
+
+.annonce{
+background: linear-gradient(#32a89e,#93ccc7);
+color: white;
+}
+
+.logoEnt{
+    width: 60%;
+}

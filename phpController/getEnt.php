@@ -4,6 +4,5 @@ include "../db/dbAccess.php";
 
 $db = new dbAccess();
 
-$getEnt = $db->callProcedure('getEnt');
+$getEnt = json_encode($db->callProcedure('getEnt'));
 
-echo json_encode($getEnt);

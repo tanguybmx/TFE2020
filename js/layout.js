@@ -72,8 +72,6 @@ function services(){
 
     removeClassActive('navServices');
     
-
-
 }
 
 function contact(){
@@ -107,5 +105,35 @@ function estCo() {
 }
 
 
-//creation entreprise
+//listeAnnonce
+
+function affichageListeAnnonces(tabAnnonce){
+    nbAnnonces = tabAnnonce.length;
+    affichageAnnonces = "";
+
+    for (var i = 0; i<nbAnnonces; i++){
+
+    affichageAnnonces +="<div class='card'>";
+    affichageAnnonces +="<div class='row'>";
+    affichageAnnonces +="<div class='col-md-3 annonce'>";
+    affichageAnnonces +="<div class='card-body cc-education-header'>";
+    affichageAnnonces +="<div class='h5'>"+ tabAnnonce[i]['nom'] +"</div>";
+    affichageAnnonces +="<p>"+ tabAnnonce[i]['nomSect'] +"</p>";
+    affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/YourLogo.png'></p>";
+    affichageAnnonces +="</div></div>";
+    affichageAnnonces +="<div class='col-md-9'>";
+    affichageAnnonces +="<div class='card-body'></div>";
+    affichageAnnonces +="<div class='h5'>Annonce</div><br>";
+    affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
+    affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
+    affichageAnnonces +=" <p><a href='#'>Contacter</a><br></p>";
+    affichageAnnonces +="</div></div></div></div>";
+    }
+
+    
+
+    
+
+    $('#listeAnnonces').html(affichageAnnonces);
+}
 

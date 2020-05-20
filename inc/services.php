@@ -1,6 +1,6 @@
 <?php
-session_start();
 $_SESSION['pageActuelle']="services.php";
+include '../phpController/getEnt.php';
 ?>
 
 <div class="container py-5" id="listeAteliers">
@@ -12,17 +12,7 @@ $_SESSION['pageActuelle']="services.php";
   </div>
 </div>
 <!-- End -->
-
-<div class="row">
-  <div class="col-lg-8 mx-auto">
-
-    <!-- List group-->
-    <ul class="list-group shadow" id="itemMesAteliers">
-
-    </ul>
-
-    <!-- End -->
-  </div>
+<div id='listeAnnonces'>
 </div>
 <div class="row text-center mb-7">
   <div class="col-lg-1 mx-auto">
@@ -40,5 +30,8 @@ $_SESSION['pageActuelle']="services.php";
 
 </script>
 <script>
+  var annonces = <?= $getEnt ?>;
 removeClassActive('navServices');
+affichageListeAnnonces(annonces);
+console.log(annonces);
 </script>

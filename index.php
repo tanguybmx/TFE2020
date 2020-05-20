@@ -1,6 +1,8 @@
 
 <?php
 session_start();
+include 'phpController/getNbPros.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +24,6 @@ session_start();
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/mycss.css">
-  <link rel="stylesheet" href="css/loginStyle.css">
 </head>
 <body>
   <!--================ Header Top Area Start =================-->
@@ -90,7 +91,7 @@ session_start();
       <div class="row">
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="card static__single">
-            <h3><?= $_SESSION['totalEnt'] ;?></h3>
+            <h3 id="nbPro"><?=$_SESSION['totalEnt']?></h3>
             <h4>Professionnels inscrits</h4>
           </div>
         </div>
@@ -151,8 +152,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="js/mail-script.js"></script>
   <script src="js/main.js"></script>
   <script src="js/loginMain.js"></script>
-  <script src="js/layout.js"></script>
   <script src="js/controller.js"></script>
+  <script src="js/layout.js"></script>
   <script>
   <?php
 
@@ -165,11 +166,11 @@ else{
 if(isset($_SESSION['nom'])){
   echo("estCo();");
 }
+
+
 ?>
+
   removeClassActive('navAccueil');
-  $( document ).ready(function() {
-    getNbPros();
-});
   </script>
 </body>
 </html>

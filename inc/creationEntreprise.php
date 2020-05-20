@@ -3,6 +3,7 @@ session_start();
 $_SESSION['pageActuelle']="creationEntreprise.php";
 ?>
 
+<link rel="stylesheet" href="css/loginStyle.css">
 <div class="container">
                 <div id="titreCreaEnt">
                     <h2>Merci de créer votre entreprise </h2>

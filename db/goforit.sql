@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mer. 20 mai 2020 à 13:21
+-- Généré le :  mer. 20 mai 2020 à 13:50
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -71,6 +71,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionPro` (IN `login` VARCHAR(3
 
 SELECT pseudo, nom, prenom, mail, idEntreprise, adresse, statut FROM pro
 WHERE (pseudo = login OR mail = login) AND (mdp = pass);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `countPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `countPro` ()  BEGIN 
+
+SELECT count(pro.idPro) as nbPros FROM pro;
 
 END$$
 

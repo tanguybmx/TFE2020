@@ -281,12 +281,14 @@ function getNbPros(){
 
 }
 
+
 function getEnt(){
     $.ajax({
+        async: false,
         url: "phpController/getEnt.php",
         type: "POST",
-        success: function (response) {   
-            console.log(response);                             
+        success: function (response) {    
+            console.log('liste annonces récupéré');                      
             }
         });
 

@@ -2,6 +2,7 @@
 session_start();
 $_SESSION['pageActuelle']="connexion.php";
 ?>
+  <link rel="stylesheet" href="css/loginStyle.css">
     <section class="sign-in">
         <div class="containerlogin">
             <div class="signin-content">

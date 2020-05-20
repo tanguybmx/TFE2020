@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['pageActuelle']="profil.php";
 ?>
-
+  <link rel="stylesheet" href="css/loginStyle.css">
     <section class="d-lg-flex align-items-center section-margin--large">
         <div class="container">
                         <div class="main">
