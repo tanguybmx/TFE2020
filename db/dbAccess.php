@@ -8,7 +8,7 @@ class dbAccess
     public function connexionDB()
     {
         try {
-            $this->pdo = new PDO("mysql:host=localhost:3308;dbname=goforit;charset=utf8", "root", "");
+            $this->pdo = new PDO("mysql:host=localhost:3308;dbname=goforit;charset=utf8", "root", "root");
         } catch (Exception $e) {
             die("Erreur :" . $e->getMessage());
         }
