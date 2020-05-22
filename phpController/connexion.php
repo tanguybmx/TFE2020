@@ -3,8 +3,8 @@ session_start();
 include "../db/dbAccess.php";
 
 $db = new dbAccess();
-$mdp = hash('sha256',$_POST['password']);
-$login = $_POST['login'];
+$mdp = hash('sha256',htmlspecialchars($_POST['password']));
+$login = htmlspecialchars($_POST['login']);
 
 $connexion = $db->callProcedure('connexionClient',[$login,$mdp]);
 $connexion2 = $db->callProcedure('connexionPro',[$login,$mdp]);

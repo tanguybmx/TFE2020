@@ -25,8 +25,8 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
                     <input type="text" name="adresseEnt" id="adresseEnt"/>
                 </div>
                 <div class="form-group">
-                    <label for="descEnt">Description de l'entreprise:</label>
-                    <input type="text" name="descEnt" id="descEnt"/>
+                    <label for="descEnt">Description de l'entreprise:</label><br>
+                    <textarea name="descEnt" id="descEnt" style="width: 80%; height:8em;"/>
                 </div>
                 <div class="form-group" id="formItemServices">
                     <label for="servicesEnt1">Services de l'entreprise:</label>

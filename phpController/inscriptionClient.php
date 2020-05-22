@@ -3,12 +3,12 @@
 include "../db/dbAccess.php";
 
 $db = new dbAccess();
-$username = $_POST['username'];
-$name = $_POST['nom'];
-$firstname = $_POST['prenom'];
-$email = $_POST['email'];
-$adress = $_POST['adresse'];
-$password = hash('sha256',$_POST['mdp']);
+$username = htmlspecialchars($_POST['username']);
+$name = htmlspecialchars($_POST['nom']);
+$firstname = htmlspecialchars($_POST['prenom']);
+$email = htmlspecialchars($_POST['email']);
+$adress = htmlspecialchars($_POST['adresse']);
+$password = hash('sha256',htmlspecialchars($_POST['mdp']));
 
 echo json_encode($email);
 
