@@ -1,4 +1,5 @@
 <?php
+session_start();
 $_SESSION['pageActuelle']="services.php";
 include '../phpController/getEnt.php';
 ?>
@@ -8,7 +9,7 @@ include '../phpController/getEnt.php';
 <!-- For demo purpose -->
 <div class="row text-center mb-5">
   <div class="col-lg-7 mx-auto">
-    <h1>Services</h1>
+    <h1>Annonces</h1>
   </div>
 </div>
 <!-- End -->
@@ -33,5 +34,4 @@ include '../phpController/getEnt.php';
   var annonces = <?= $getEnt ?>;
 removeClassActive('navServices');
 affichageListeAnnonces(annonces);
-console.log(annonces);
 </script>

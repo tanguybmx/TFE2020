@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "../db/dbAccess.php";
 
 $db = new dbAccess();

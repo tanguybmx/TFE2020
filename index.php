@@ -61,9 +61,12 @@ include 'phpController/getNbPros.php';
             <ul class="nav navbar-nav menu_nav justify-content-end">
               <li class="nav-item active" id="navAccueil"><a class="nav-link" href="#" onclick="accueil()">Accueil</a></li> 
               <li class="nav-item" id="navAbout"><a class="nav-link" href="#" onclick="about()">Qui sommes-nous ?</a></li> 
-              <li class="nav-item" id="navServices"><a class="nav-link" href="#" onclick="services()">Services</a>
+              <li class="nav-item" id="navServices"><a class="nav-link" href="#" onclick="services()">Annonces</a>
               <li class="nav-item" id="navProfil"><a class="nav-link" href="#" onclick="profil()">Profil</a></li>
+              <?php if (isset($_SESSION['typeCompte']) && $_SESSION['typeCompte'] == 'professionnel'){?>
               <li class="nav-item" id="navEntreprise"><a class="nav-link" href="#" onclick="entreprise()">Entreprise</a></li>
+              <?php }?>
+              <li class="nav-item" id="navPriseDeContact"><a class="nav-link" href="#" onclick="priseDeContact()">Prise de contact</a></li>
               <li class="nav-item" id="navContact"><a class="nav-link" href="#" onclick="contact()">Contact</a></li>
               <li class="nav-item" id="navConnexion"><a class="nav-link" href="" onclick="connexion()">Se Connecter</a></li>
             </ul>

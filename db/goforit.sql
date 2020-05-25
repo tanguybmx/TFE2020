@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  ven. 22 mai 2020 à 11:51
+-- Généré le :  lun. 25 mai 2020 à 13:07
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -34,8 +34,16 @@ WHERE mail = email;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `checkConvers`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkConvers` (IN `client` INT(255), IN `pro` INT(255))  BEGIN 
+
+SELECT convers.idConvers FROM convers
+WHERE convers.idClient=client && convers.idPro = pro;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `checkEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkEnt` (IN `tva` INT(11))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkEnt` (IN `tva` INT(255))  BEGIN
 
 SELECT nom FROM ent
 WHERE nTva = tva;
@@ -61,7 +69,7 @@ END$$
 DROP PROCEDURE IF EXISTS `connexionClient`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionClient` (IN `login` VARCHAR(300), IN `pass` VARCHAR(300))  BEGIN
 
-SELECT pseudo, nom, prenom, adresse, mail FROM cli
+SELECT idCli,pseudo, nom, prenom, adresse, mail FROM cli
 WHERE (pseudo = login OR mail = login) AND (mdp = pass);
 
 END$$
@@ -69,7 +77,7 @@ END$$
 DROP PROCEDURE IF EXISTS `connexionPro`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionPro` (IN `login` VARCHAR(300), IN `pass` VARCHAR(300))  BEGIN
 
-SELECT pseudo, nom, prenom, mail, idEntreprise, adresse, statut FROM pro
+SELECT idPro, pseudo, nom, prenom, mail, idEntreprise, adresse, statut FROM pro
 WHERE (pseudo = login OR mail = login) AND (mdp = pass);
 
 END$$
@@ -88,10 +96,24 @@ INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail) VALUES(username, pwd, n
 
 END$$
 
+DROP PROCEDURE IF EXISTS `creationConvers`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationConvers` (IN `cli` INT(255), IN `pro` INT(255))  BEGIN 
+
+INSERT INTO convers(convers.idClient, convers.idPro) VALUES(cli, pro);
+
+END$$
+
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(11), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000))  BEGIN
 
 INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin) VALUES(name, adress, descri, serv, tva, idSector, admin);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `creationMsg`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationMsg` (IN `exp` INT(255), IN `dest` INT(255), IN `conv` INT(255), IN `content` VARCHAR(1000), IN `date` DATE)  BEGIN 
+
+INSERT INTO msg( msg.idExp, msg.idDest, msg.idConvers, msg.contenu, msg.dateHeure) VALUES(exp, dest, conv, content, date);
 
 END$$
 
@@ -109,6 +131,14 @@ INSERT INTO sect (nom) VALUES(name);
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getConvers`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getConvers` (IN `idUser` INT(255))  BEGIN 
+
+SELECT convers.idConvers, convers.idClient, convers.idPro FROM convers 
+WHERE convers.idClient = idUser || convers.idPro = idUser;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `getEnt`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEnt` ()  BEGIN
 
@@ -120,7 +150,7 @@ INNER JOIN sect ON ent.idSect = sect.idSecteur;
 END$$
 
 DROP PROCEDURE IF EXISTS `getHisEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `id` INT(11))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `id` INT(255))  BEGIN
 
 SELECT ent.nom, ent.adresse, ent.nTva, ent.idAdmin, sect.nom as nomSect, ent.description, ent.services FROM ent
 INNER JOIN sect ON ent.idSect = sect.idSecteur;
@@ -132,6 +162,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSecteur` ()  BEGIN
 
 SELECT idSecteur, nom
 FROM sect;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getThisConvers`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getThisConvers` (IN `client` INT(255), IN `pro` INT(255))  BEGIN 
+
+SELECT convers.idConvers FROM convers
+WHERE convers.idClient = client && convers.idPro = pro;
 
 END$$
 
@@ -179,6 +217,22 @@ CREATE TABLE IF NOT EXISTS `cli` (
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`) VALUES
 (1, 'test', 'test', 'test', 'test', 'test', 'test'),
 (2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `convers`
+--
+
+DROP TABLE IF EXISTS `convers`;
+CREATE TABLE IF NOT EXISTS `convers` (
+  `idConvers` int(255) NOT NULL AUTO_INCREMENT,
+  `idClient` int(255) NOT NULL,
+  `idPro` int(255) NOT NULL,
+  PRIMARY KEY (`idConvers`),
+  UNIQUE KEY `clientPro` (`idClient`,`idPro`),
+  KEY `idPro` (`idPro`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 
@@ -232,18 +286,37 @@ INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`,
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `msg`
+--
+
+DROP TABLE IF EXISTS `msg`;
+CREATE TABLE IF NOT EXISTS `msg` (
+  `idMsg` int(255) NOT NULL AUTO_INCREMENT,
+  `idConvers` int(255) NOT NULL,
+  `idExp` int(255) NOT NULL,
+  `idDest` int(255) NOT NULL,
+  `contenu` varchar(1000) COLLATE utf8mb4_bin NOT NULL,
+  `dateHeure` date NOT NULL,
+  `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
+  PRIMARY KEY (`idMsg`),
+  UNIQUE KEY `idConvers` (`idConvers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `pro`
 --
 
 DROP TABLE IF EXISTS `pro`;
 CREATE TABLE IF NOT EXISTS `pro` (
-  `idPro` int(11) NOT NULL AUTO_INCREMENT,
+  `idPro` int(255) NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(300) NOT NULL,
   `mdp` varchar(300) NOT NULL,
   `nom` varchar(300) NOT NULL,
   `prenom` varchar(300) NOT NULL,
   `mail` varchar(300) NOT NULL,
-  `idEntreprise` int(11) DEFAULT NULL,
+  `idEntreprise` int(255) DEFAULT NULL,
   `statut` int(1) NOT NULL DEFAULT '0' COMMENT '0 => admin; 1=> employÃ©',
   `adresse` varchar(300) NOT NULL,
   PRIMARY KEY (`idPro`),
@@ -342,6 +415,13 @@ ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idRdv`) REFERENCES `rdv` (`idRdv`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
+-- Contraintes pour la table `convers`
+--
+ALTER TABLE `convers`
+  ADD CONSTRAINT `convers_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `cli` (`idCli`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `convers_ibfk_2` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE;
+
+--
 -- Contraintes pour la table `dem`
 --
 ALTER TABLE `dem`
@@ -354,6 +434,12 @@ ALTER TABLE `dem`
 ALTER TABLE `ent`
   ADD CONSTRAINT `idAdmin` FOREIGN KEY (`idAdmin`) REFERENCES `pro` (`mail`) ON DELETE CASCADE,
   ADD CONSTRAINT `idSect` FOREIGN KEY (`idSect`) REFERENCES `sect` (`idSecteur`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `msg`
+--
+ALTER TABLE `msg`
+  ADD CONSTRAINT `msg_ibfk_1` FOREIGN KEY (`idConvers`) REFERENCES `convers` (`idConvers`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `prop`

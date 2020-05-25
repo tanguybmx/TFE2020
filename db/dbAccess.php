@@ -40,6 +40,7 @@ class dbAccess
                 switch ($nomProcedure) {
                     case'checkEnt':
                     case'getHisEnt':
+                    case'getConvers':
                         array_push($params, '?');
         
                         try {
@@ -61,7 +62,26 @@ class dbAccess
             case'connexionClient':
             case 'connexionPro':
             case 'addIdEnt':
+            case 'checkConvers':
+            case 'creationConvers':
+            case 'getThisConvers':
                 array_push($params, '?', '?');
+
+                try {
+                    $this->connexionDB();
+                    $procedureCall = 'call ' . $nomProcedure . '(' . join(',', $params) . ')';
+                    $requete = $this->pdo->prepare($procedureCall);
+                    $requete->execute($procParams);
+                    return $requete->fetchAll();
+                } catch (Exception $e) {
+                    die("Erreur :" . $e->getMessage());
+                }
+                break;
+        }
+        //procédure avec 5 param
+        switch ($nomProcedure) {
+            case 'creationMsg':
+                array_push($params, '?', '?', '?', '?', '?');
 
                 try {
                     $this->connexionDB();

@@ -397,7 +397,7 @@ h3,.h3{
 		line-height:45px
 }
 }
-@media (max-width: 991px){
+@media (max-width: 1201px){
 	.navbar-toggler{
 		border:none;
 		border-radius:0px;
@@ -457,7 +457,6 @@ h3,.h3{
 		margin-left:0px
 }
 	.header_area .navbar-collapse{
-		max-height:340px;
 		overflow-y:scroll
 }
 	.header_area .navbar .nav .nav-item.submenu ul .nav-item .nav-link{
@@ -1059,7 +1058,7 @@ h3,.h3{
 .about__content{
 	margin-top:35px
 }
-@media (min-width: 991px){
+@media (min-width: 1201px){
 	.about__content{
 		margin-top:0;
 		margin-left:35px

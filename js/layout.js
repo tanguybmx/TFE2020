@@ -6,6 +6,7 @@ function removeClassActive(active){
     $('#navConnexion').removeClass('nav-item active').addClass('nav-item');
     $('#navProfil').removeClass('nav-item active').addClass('nav-item');
     $('#navEntreprise').removeClass('nav-item active').addClass('nav-item');
+    $('#navPriseDeContact').removeClass('nav-item active').addClass('nav-item');
 
     $('#'+active).addClass('nav-item active');
 }
@@ -98,6 +99,13 @@ function entreprise(){
     removeClassActive('navEntreprise');
 }
 
+function priseDeContact(){
+    $('#content').load('inc/liveTchat/liveTchat.php');
+
+    removeClassActive('navPriseDeContact');
+}
+
+
 function estCo() {
     $('#navConnexion').html('<a class="nav-link" href="phpController/deconnexion.php" id="lienConnexion">Se déconnecter</a>');
     $("#navConnexion").prop("onclick", null).off("click");
@@ -109,6 +117,7 @@ function estCo() {
 
 function affichageListeAnnonces(tabAnnonce){
     nbAnnonces = tabAnnonce.length;
+    console.log(tabAnnonce);
     affichageAnnonces = "";
 
     for (var i = 0; i<nbAnnonces; i++){
@@ -126,7 +135,7 @@ function affichageListeAnnonces(tabAnnonce){
     affichageAnnonces +="<div class='h5'>Annonce</div><br>";
     affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
     affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
-    affichageAnnonces +=" <p><a href='#'>Contacter</a><br></p>";
+    affichageAnnonces +=" <p><a href='#' onclick='priseDeContact();'>Contacter</a><br></p>";
     affichageAnnonces +="</div></div></div></div>";
     }
 
