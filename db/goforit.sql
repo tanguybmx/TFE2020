@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 25 mai 2020 à 13:07
+-- Généré le :  lun. 25 mai 2020 à 13:13
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -162,14 +162,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSecteur` ()  BEGIN
 
 SELECT idSecteur, nom
 FROM sect;
-
-END$$
-
-DROP PROCEDURE IF EXISTS `getThisConvers`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getThisConvers` (IN `client` INT(255), IN `pro` INT(255))  BEGIN 
-
-SELECT convers.idConvers FROM convers
-WHERE convers.idClient = client && convers.idPro = pro;
 
 END$$
 

@@ -10,7 +10,6 @@ $email = htmlspecialchars($_POST['email']);
 $adress = htmlspecialchars($_POST['adresse']);
 $password = hash('sha256',htmlspecialchars($_POST['mdp']));
 
-echo json_encode($email);
 
 $checkInscription = $db->callProcedure('checkInscriptionClient',[$username,$email]);
 
