@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 25 mai 2020 à 16:00
+-- Généré le :  lun. 25 mai 2020 à 20:52
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -131,12 +131,28 @@ INSERT INTO sect (nom) VALUES(name);
 
 END$$
 
-DROP PROCEDURE IF EXISTS `getConvers`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getConvers` (IN `idUser` INT(255))  BEGIN 
+DROP PROCEDURE IF EXISTS `getConversCli`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getConversCli` (IN `idUser` INT(255))  BEGIN 
 
 SELECT convers.idConvers, convers.idClient, convers.idPro FROM convers 
-WHERE convers.idClient = idUser || convers.idPro = idUser;
+WHERE convers.idClient = idUser;
 
+END$$
+
+DROP PROCEDURE IF EXISTS `getConversPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getConversPro` (IN `idUser` INT(255))  BEGIN 
+
+SELECT convers.idConvers, convers.idClient, convers.idPro FROM convers 
+WHERE convers.idPro = idUser;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getDernierMsgConvers`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDernierMsgConvers` (IN `conv` INT(255))  BEGIN
+
+SELECT msg.idExp, msg.idDest, msg.contenu, msg.dateHeure FROM msg
+WHERE msg.idConvers = conv AND msg.dateHeure = (SELECT MAX(msg.dateHeure)FROM msg WHERE msg.idConvers = conv)
+GROUP BY msg.idConvers;
 END$$
 
 DROP PROCEDURE IF EXISTS `getEnt`$$
@@ -160,8 +176,31 @@ END$$
 DROP PROCEDURE IF EXISTS `getMsgConvers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMsgConvers` (IN `convers` INT(255))  BEGIN 
 
-SELECT msg.idExp, msg.contenu, msg.dateHeure, msg.statut FROM msg
+SELECT msg.idExp, msg.contenu, msg.dateHeure, msg.statut, msg.idConvers FROM msg
 WHERE msg.idConvers = convers;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getNomCli`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getNomCli` (IN `cli` INT(255))  BEGIN 
+
+SELECT cli.pseudo FROM cli WHERE cli.idCli = cli;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getNomPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getNomPro` (IN `pro` INT(255))  BEGIN 
+
+SELECT pro.pseudo FROM pro WHERE pro.idPro = pro;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getProEnt`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getProEnt` (IN `pro` INT(255))  BEGIN 
+
+SELECT ent.nom FROM ent
+INNER JOIN pro ON ent.idAdmin=pro.mail
+WHERE pro.idPro = pro;
 
 END$$
 

@@ -4,6 +4,9 @@ session_start();
 include 'phpController/getNbPros.php';
 
 ?>
+<script>
+var compteType; <?php if(isset($_SESSION['typeCompte'])){echo "compteType='".$_SESSION['typeCompte']."'";};?>;
+</script>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

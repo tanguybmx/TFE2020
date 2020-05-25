@@ -147,6 +147,61 @@ function affichageListeAnnonces(tabAnnonce){
 }
 
 function afficherConvers(idUser){
-    
+    let listConvers="";
+    if(compteType=="client"){
+        var conversCli = JSON.parse(getConversCli());
+        let nbConvers = (conversCli).length;
+        console.log(conversCli);
+        for (var i=0; i<nbConvers; i++){
+            let tabConversCli= JSON.parse(getDernierMsgConvers(conversCli[i]));
+            console.log(tabConversCli);
+            var contact;
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0'>";
+            listConvers+="<div class='media'><img src='https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg' alt='user' width='50' class='rounded-circle'>";
+            listConvers+="<div class='media-body ml-4'>";
+            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
+            if(tabConversCli[0]['idExp']==idUser){
+                contact = tabConversCli[0]['idDest'];
+            }
+            else{
+                contact = tabConversCli[0]['idExp'];
+            }
+            listConvers+="<h6 class='mb-0'>"+JSON.parse(getNomPro(contact))[0]['pseudo']+"</h6><h7>"+JSON.parse(getProEnt(contact))[0]['nom']+"</h7><p class='small font-weight-bold'>"+(tabConversCli[0]['contenu']).substr(0, 15);+"</p>";
+            listConvers+="</div>";
+            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversCli[0]['dateHeure']+"</p>";
+            listConvers+="</div>";
+            listConvers+="</div>";
+            listConvers+="</a>";
+        }
+        $("#listConvers").html(listConvers);
+    }
+
+    if(compteType=="professionnel"){
+        let conversPro= JSON.parse(getConversPro());
+        let nbConvers = (conversPro).length;
+        console.log(conversPro);
+        for (var i=0; i<nbConvers; i++){
+            let tabConversPro= JSON.parse(getDernierMsgConvers(conversPro[i]));
+            console.log(tabConversPro);
+            var contact;
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0'>";
+            listConvers+="<div class='media'><img src='https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg' alt='user' width='50' class='rounded-circle'>";
+            listConvers+="<div class='media-body ml-4'>";
+            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
+            if(tabConversPro[0]['idExp']==idUser){
+                contact = tabConversPro[0]['idDest'];
+            }
+            else{
+                contact = tabConversPro[0]['idExp'];
+            }
+            listConvers+="<h6 class='mb-0'>"+JSON.parse(getNomCli(contact))[0]['pseudo']+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
+            listConvers+="</div>";
+            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['dateHeure']+"</p>";
+            listConvers+="</div>";
+            listConvers+="</div>";
+            listConvers+="</a>";
+        }
+        $("#listConvers").html(listConvers);
+    }
 }
 

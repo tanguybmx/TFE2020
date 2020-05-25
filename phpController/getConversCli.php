@@ -6,17 +6,17 @@ $db = new dbAccess();
 
 $user = $_SESSION['userId'];
 
-$getConvers = $db->callProcedure('getConvers',[$user]);
+$getConversCli = $db->callProcedure('getConversCli',[$user]);
 
-if(empty($getConvers)){
+if(empty($getConversCli)){
     echo json_encode("Vous n'avez pas encore de prise de contact");
 }
 
-if(!empty($getConvers)){
-    $long = sizeof($getConvers);
+if(!empty($getConversCli)){
+    $long = sizeof($getConversCli);
     $tab;
     for($i=0; $i<$long; $i++){
-        $tab[$i] = $getConvers[$i]['idConvers'];
+        $tab[$i] = $getConversCli[$i]['idConvers'];
     }
 
     echo json_encode($tab);

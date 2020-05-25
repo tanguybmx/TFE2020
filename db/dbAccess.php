@@ -40,8 +40,13 @@ class dbAccess
                 switch ($nomProcedure) {
                     case'checkEnt':
                     case'getHisEnt':
-                    case'getConvers':
                     case 'getMsgConvers':
+                    case 'getDernierMsgConvers':
+                    case 'getNomCli':
+                    case 'getNomPro':
+                    case 'getProEnt':
+                    case'getConversCli':
+                    case'getConversPro':
                         array_push($params, '?');
         
                         try {

@@ -12,7 +12,7 @@
   
     <div class="row rounded-lg overflow-hidden shadow">
       <!-- Users box-->
-      <div class="col-3 px-0">
+      <div class="col-5 px-0">
         <div class="bg-white">
   
           <div class="bg-gray px-4 py-2 bg-light">
@@ -20,7 +20,7 @@
           </div>
   
           <div class="messages-box">
-            <div class="list-group rounded-0">
+            <div class="list-group rounded-0" id="listConvers">
               <a class="list-group-item list-group-item-action active text-white rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
@@ -114,8 +114,8 @@
         </div>
       </div>
       <!-- Chat Box-->
-      <div class="col-9 px-0">
-        <div class="px-4 py-5 chat-box bg-white">
+      <div class="col-7 px-0">
+        <div class="px-4 py-5 chat-box bg-white" id="msgConvers">
           <!-- Sender Message-->
           <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
             <div class="media-body ml-3">
@@ -194,4 +194,5 @@
   
   <script>
 removeClassActive('navPriseDeContact');
+afficherConvers('<?=$_SESSION['userId'] ?>');
   </script>

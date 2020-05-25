@@ -310,27 +310,64 @@ function contacterPro(cli, pro){
     
 }
 
-function getConvers(){
+function getConversCli(){
+    let resp = "";
     $.ajax({
-        url: "phpController/getConvers.php",
+        async:false,
+        url: "phpController/getConversCli.php",
         type: "POST",
         success: function (response) {    
-            console.log(response);                      
+                resp = response;  
+                  
             }
         });
+        return resp;
+}
+
+function getConversPro(){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getConversPro.php",
+        type: "POST",
+        success: function (response) { 
+            console.log(response);   
+            resp=response;                      
+            }
+        });
+        return resp;
 }
 
 function getMsgConvers(convers){
+    let resp = "";
     $.ajax({
+        async:false,
         url: "phpController/getMsgConvers.php",
         type: "POST",
         data:{
             "idConvers":convers
         },
         success: function (response) {    
-            console.log(response);                      
+            resp=response;                     
             }
         });
+        return resp;
+}
+
+function getDernierMsgConvers(convers){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getDernierMsgConvers.php",
+        type: "POST",
+        data:{
+            "idConvers":convers
+        },
+        success: function (response) {    
+            resp=response;                     
+            }
+        });
+        return resp;
 }
 
 function creationMsg(dest, conv, contenu){
@@ -349,3 +386,56 @@ function creationMsg(dest, conv, contenu){
 }
 
 
+function getNomPro(idPro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getNomPro.php",
+        type: "POST",
+        data: 
+        {
+            "idPro":idPro
+        },
+        success: function (response) {    
+            console.log(response);  
+            resp = response;                      
+            }
+        });
+        return resp;
+}
+
+function getNomCli(idCli){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getNomCli.php",
+        type: "POST",
+        data: 
+        {
+            "idCli":idCli
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function getProEnt(idPro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getProEnt.php",
+        type: "POST",
+        data: 
+        {
+            "idPro":idPro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}

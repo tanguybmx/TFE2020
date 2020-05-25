@@ -25,7 +25,7 @@ else if(empty($connexion2)){
 }
 
 else if(empty($connexion)){
-    $_SESSION['userId'] = $connexion[0]['idPro'];
+    $_SESSION['userId'] = $connexion2[0]['idPro'];
     $_SESSION['pseudo'] = $connexion2[0]['pseudo'];
     $_SESSION['nom'] = $connexion2[0]['nom'];
     $_SESSION['prenom'] = $connexion2[0]['prenom'];
