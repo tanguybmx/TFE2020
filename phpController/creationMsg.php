@@ -1,6 +1,6 @@
 <?php
-
-include "../db/dbAccess.php";
+session_start();
+include_once "../db/dbAccess.php";
 
 $db = new dbAccess();
 
@@ -12,4 +12,4 @@ $date = date('Y-m-d H:i:s');
 
 
     $creationMsg = $db->callProcedure('creationMsg',[$exp,$dest,$conv,$contenu,$date]);
-    json_encode($creationMsg);
+    echo json_encode($creationMsg);

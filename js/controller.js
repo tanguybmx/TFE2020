@@ -284,13 +284,68 @@ function getNbPros(){
 
 function getEnt(){
     $.ajax({
-        async: false,
         url: "phpController/getEnt.php",
         type: "POST",
         success: function (response) {    
-            console.log('liste annonces récupéré');                      
+            console.log('liste annonces récupérée');                      
             }
         });
 
 
 }
+
+function contacterPro(cli, pro){
+    $.ajax({
+        url: "phpController/checkConvers.php",
+        type: "POST",
+        data: {
+            "cli":cli,
+            "pro":pro
+        },
+        success: function (response) {    
+            console.log(response);                      
+            }
+        });
+
+    
+}
+
+function getConvers(){
+    $.ajax({
+        url: "phpController/getConvers.php",
+        type: "POST",
+        success: function (response) {    
+            console.log(response);                      
+            }
+        });
+}
+
+function getMsgConvers(convers){
+    $.ajax({
+        url: "phpController/getMsgConvers.php",
+        type: "POST",
+        data:{
+            "idConvers":convers
+        },
+        success: function (response) {    
+            console.log(response);                      
+            }
+        });
+}
+
+function creationMsg(dest, conv, contenu){
+    $.ajax({
+        url: "phpController/creationMsg.php",
+        type: "POST",
+        data:{
+            "dest": dest,
+            "conv":conv,
+            "msgContenu":contenu
+        },
+        success: function (response) {    
+            console.log(response);                      
+            }
+        });
+}
+
+

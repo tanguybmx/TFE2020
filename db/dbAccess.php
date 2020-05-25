@@ -41,6 +41,7 @@ class dbAccess
                     case'checkEnt':
                     case'getHisEnt':
                     case'getConvers':
+                    case 'getMsgConvers':
                         array_push($params, '?');
         
                         try {

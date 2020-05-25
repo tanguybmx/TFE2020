@@ -146,3 +146,7 @@ function affichageListeAnnonces(tabAnnonce){
     $('#listeAnnonces').html(affichageAnnonces);
 }
 
+function afficherConvers(idUser){
+    
+}
+

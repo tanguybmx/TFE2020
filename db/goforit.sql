@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 25 mai 2020 à 13:13
+-- Généré le :  lun. 25 mai 2020 à 16:00
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -157,6 +157,14 @@ INNER JOIN sect ON ent.idSect = sect.idSecteur;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getMsgConvers`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMsgConvers` (IN `convers` INT(255))  BEGIN 
+
+SELECT msg.idExp, msg.contenu, msg.dateHeure, msg.statut FROM msg
+WHERE msg.idConvers = convers;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `getSecteur`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSecteur` ()  BEGIN
 
@@ -224,7 +232,15 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Déchargement des données de la table `convers`
+--
+
+INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
+(1, 2, 4),
+(2, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -288,11 +304,21 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `idExp` int(255) NOT NULL,
   `idDest` int(255) NOT NULL,
   `contenu` varchar(1000) COLLATE utf8mb4_bin NOT NULL,
-  `dateHeure` date NOT NULL,
+  `dateHeure` datetime NOT NULL,
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
-  UNIQUE KEY `idConvers` (`idConvers`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Déchargement des données de la table `msg`
+--
+
+INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeure`, `statut`) VALUES
+(1, 1, 2, 4, 'Test de message et de conversation', '2020-05-25 15:00:00', 0),
+(3, 1, 4, 2, 'Test réponse d\'un pro dans une conversation', '2020-05-25 16:00:00', 0),
+(4, 2, 2, 5, 'Test envois à un second pro', '2020-05-25 16:30:00', 0),
+(5, 1, 2, 4, 'test ajax', '2020-05-25 00:00:00', 0);
 
 -- --------------------------------------------------------
 

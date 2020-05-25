@@ -1,6 +1,6 @@
 <?php
 
-include "../db/dbAccess.php";
+include_once "../db/dbAccess.php";
 
 $db = new dbAccess();
 
@@ -10,9 +10,9 @@ $pro = htmlspecialchars($_POST['pro']);
 $checkConvers = $db->callProcedure('checkConvers',[$cli,$pro]);
 
 if(empty($checkConvers)){
-    return $checkConvers;
+    echo "noConvers";
 }
 
 if(!empty($checkConvers)){
-    json_encode($checkConvers);
+    echo json_encode($checkConvers[0]['idConvers']);
 }
