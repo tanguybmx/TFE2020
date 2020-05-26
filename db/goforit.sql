@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mar. 26 mai 2020 à 13:45
+-- Généré le :  mar. 26 mai 2020 à 21:06
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -34,14 +34,6 @@ WHERE mail = email;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `checkConvers`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkConvers` (IN `client` INT(255), IN `pro` INT(255))  BEGIN 
-
-SELECT convers.idConvers FROM convers
-WHERE convers.idClient=client && convers.idPro = pro;
-
-END$$
-
 DROP PROCEDURE IF EXISTS `checkEnt`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkEnt` (IN `tva` INT(255))  BEGIN
 
@@ -63,6 +55,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `checkInscriptionProfessionnel` (IN 
 
 SELECT idPro FROM pro
 WHERE mail = email OR pseudo = username;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `checkSiDejaContact`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkSiDejaContact` (IN `cli` INT(255), IN `pro` INT(255))  BEGIN
+
+SELECT convers.idConvers FROM convers
+WHERE convers.idClient = cli && convers.idPro = pro;
 
 END$$
 
@@ -150,16 +150,26 @@ END$$
 DROP PROCEDURE IF EXISTS `getConversCli`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getConversCli` (IN `idUser` INT(255))  BEGIN 
 
-SELECT convers.idConvers, convers.idClient, convers.idPro FROM convers 
-WHERE convers.idClient = idUser;
+SELECT msg.idConvers, MAX(msg.dateHeure) as dernierMsg, convers.idClient, convers.idPro 
+FROM msg 
+INNER JOIN convers ON msg.idConvers = convers.idConvers 
+WHERE convers.idClient = idUser
+GROUP BY msg.idConvers  
+ORDER BY dernierMsg DESC;
+
 
 END$$
 
 DROP PROCEDURE IF EXISTS `getConversPro`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getConversPro` (IN `idUser` INT(255))  BEGIN 
 
-SELECT convers.idConvers, convers.idClient, convers.idPro FROM convers 
-WHERE convers.idPro = idUser;
+SELECT msg.idConvers, MAX(msg.dateHeure) as dernierMsg, convers.idClient, convers.idPro 
+FROM msg 
+INNER JOIN convers ON msg.idConvers = convers.idConvers 
+WHERE convers.idPro = idUser
+GROUP BY msg.idConvers  
+ORDER BY dernierMsg DESC;
+
 
 END$$
 
@@ -214,9 +224,17 @@ END$$
 DROP PROCEDURE IF EXISTS `getProEnt`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getProEnt` (IN `pro` INT(255))  BEGIN 
 
-SELECT ent.nom FROM ent
+SELECT pro.idPro,ent.nom FROM ent
 INNER JOIN pro ON ent.idAdmin=pro.mail
 WHERE pro.idPro = pro;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getProViaMail`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getProViaMail` (IN `email` VARCHAR(300))  BEGIN
+
+SELECT pro.idPro FROM pro 
+WHERE pro.mail=email;
 
 END$$
 
@@ -287,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
@@ -295,7 +313,9 @@ CREATE TABLE IF NOT EXISTS `convers` (
 
 INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
 (1, 2, 4),
-(2, 2, 5);
+(2, 2, 5),
+(4, 2, 6),
+(14, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -363,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -395,7 +415,12 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (50, 2, 5, 2, 'Comprends pas pourquoi refresh aléatoire', '2020-05-26 15:38:45', 0),
 (51, 1, 2, 4, 'test', '2020-05-26 15:43:33', 0),
 (52, 1, 2, 4, 'envois test ', '2020-05-26 15:44:26', 0),
-(53, 2, 2, 5, 'test envois', '2020-05-26 15:44:36', 0);
+(53, 2, 2, 5, 'test envois', '2020-05-26 15:44:36', 0),
+(54, 1, 4, 2, 'testDirect', '2020-05-26 15:48:00', 0),
+(55, 1, 2, 4, 'testDirect', '2020-05-26 15:48:24', 0),
+(56, 2, 2, 5, 'test tri', '2020-05-26 18:09:22', 0),
+(57, 2, 2, 5, 'test 2 depuis cli', '2020-05-26 18:10:08', 0),
+(60, 14, 2, 7, 'Première prise de contact effectuée', '2020-05-26 20:00:55', 0);
 
 -- --------------------------------------------------------
 
