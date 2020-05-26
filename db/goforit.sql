@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 25 mai 2020 à 20:52
+-- Généré le :  mar. 26 mai 2020 à 13:45
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -111,9 +111,9 @@ INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin) VALU
 END$$
 
 DROP PROCEDURE IF EXISTS `creationMsg`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationMsg` (IN `exp` INT(255), IN `dest` INT(255), IN `conv` INT(255), IN `content` VARCHAR(1000), IN `date` DATE)  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationMsg` (IN `exp` INT(255), IN `dest` INT(255), IN `conv` INT(255), IN `content` VARCHAR(1000))  BEGIN 
 
-INSERT INTO msg( msg.idExp, msg.idDest, msg.idConvers, msg.contenu, msg.dateHeure) VALUES(exp, dest, conv, content, date);
+INSERT INTO msg( msg.idExp, msg.idDest, msg.idConvers, msg.contenu) VALUES(exp, dest, conv, content);
 
 END$$
 
@@ -128,6 +128,22 @@ DROP PROCEDURE IF EXISTS `creationSecteur`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creationSecteur` (IN `name` VARCHAR(300))  BEGIN 
 
 INSERT INTO sect (nom) VALUES(name);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getContactCli`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getContactCli` (IN `conv` INT(255))  BEGIN 
+
+SELECT convers.idPro FROM convers
+WHERE convers.idConvers = conv;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getContactPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getContactPro` (IN `conv` INT(255))  BEGIN 
+
+SELECT convers.idClient FROM convers
+WHERE convers.idConvers = conv;
 
 END$$
 
@@ -176,9 +192,9 @@ END$$
 DROP PROCEDURE IF EXISTS `getMsgConvers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMsgConvers` (IN `convers` INT(255))  BEGIN 
 
-SELECT msg.idExp, msg.contenu, msg.dateHeure, msg.statut, msg.idConvers FROM msg
-WHERE msg.idConvers = convers;
-
+SELECT msg.idExp, msg.idDest, msg.contenu, msg.dateHeure, msg.statut, msg.idConvers FROM msg
+WHERE msg.idConvers = convers
+ORDER BY msg.dateHeure ASC;
 END$$
 
 DROP PROCEDURE IF EXISTS `getNomCli`$$
@@ -343,11 +359,11 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `idExp` int(255) NOT NULL,
   `idDest` int(255) NOT NULL,
   `contenu` varchar(1000) COLLATE utf8mb4_bin NOT NULL,
-  `dateHeure` datetime NOT NULL,
+  `dateHeure` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -357,7 +373,29 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (1, 1, 2, 4, 'Test de message et de conversation', '2020-05-25 15:00:00', 0),
 (3, 1, 4, 2, 'Test réponse d\'un pro dans une conversation', '2020-05-25 16:00:00', 0),
 (4, 2, 2, 5, 'Test envois à un second pro', '2020-05-25 16:30:00', 0),
-(5, 1, 2, 4, 'test ajax', '2020-05-25 00:00:00', 0);
+(18, 1, 4, 2, 'test', '2020-05-26 15:17:18', 0),
+(19, 1, 4, 2, 'test2', '2020-05-26 15:18:13', 0),
+(20, 1, 2, 4, 'Réponse Client avec date correct', '2020-05-26 15:18:55', 0),
+(21, 2, 2, 5, 'Bonne date', '2020-05-26 15:19:19', 0),
+(22, 1, 2, 4, 'test refresh', '2020-05-26 15:19:30', 0),
+(36, 1, 4, 2, 'test', '2020-05-26 15:26:08', 0),
+(37, 1, 4, 2, 'réponse depuis ma fenêtre de tchat', '2020-05-26 15:27:31', 0),
+(38, 1, 4, 2, 'test', '2020-05-26 15:28:01', 0),
+(39, 1, 4, 2, 'test 2 depuis pro', '2020-05-26 15:28:42', 0),
+(40, 1, 4, 2, 'test 2 depuis pro', '2020-05-26 15:28:46', 0),
+(41, 1, 4, 2, 'test 2 depuis pro', '2020-05-26 15:28:55', 0),
+(42, 1, 4, 2, 'test3', '2020-05-26 15:28:57', 0),
+(43, 1, 4, 2, 'test3', '2020-05-26 15:29:00', 0),
+(44, 1, 4, 2, 'test réponse 2eme pro', '2020-05-26 15:29:02', 0),
+(45, 1, 4, 2, 'réponse depuis ma fenêtre de tchat', '2020-05-26 15:29:58', 0),
+(46, 1, 4, 2, 'test', '2020-05-26 15:35:08', 0),
+(47, 1, 4, 2, 'test Scroll', '2020-05-26 15:35:51', 0),
+(48, 2, 5, 2, 'Test envois depuis DU', '2020-05-26 15:38:03', 0),
+(49, 2, 5, 2, 'test envois Convers ', '2020-05-26 15:38:33', 0),
+(50, 2, 5, 2, 'Comprends pas pourquoi refresh aléatoire', '2020-05-26 15:38:45', 0),
+(51, 1, 2, 4, 'test', '2020-05-26 15:43:33', 0),
+(52, 1, 2, 4, 'envois test ', '2020-05-26 15:44:26', 0),
+(53, 2, 2, 5, 'test envois', '2020-05-26 15:44:36', 0);
 
 -- --------------------------------------------------------
 
