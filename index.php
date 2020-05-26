@@ -6,6 +6,7 @@ include 'phpController/getNbPros.php';
 ?>
 <script>
 var compteType; <?php if(isset($_SESSION['typeCompte'])){echo "compteType='".$_SESSION['typeCompte']."'";};?>;
+var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['userId']."'";};?>;
 </script>
 <!DOCTYPE html>
 <html lang="fr">

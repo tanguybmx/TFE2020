@@ -156,16 +156,16 @@ function afficherConvers(idUser){
             let tabConversCli= JSON.parse(getDernierMsgConvers(conversCli[i]));
             console.log(tabConversCli);
             var contact;
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0'>";
-            listConvers+="<div class='media'><img src='https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg' alt='user' width='50' class='rounded-circle'>";
-            listConvers+="<div class='media-body ml-4'>";
-            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
             if(tabConversCli[0]['idExp']==idUser){
                 contact = tabConversCli[0]['idDest'];
             }
             else{
                 contact = tabConversCli[0]['idExp'];
             }
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' onclick='afficheMsgConvers("+conversCli[i]+","+userId+");'>";
+            listConvers+="<div class='media'>";
+            listConvers+="<div class='media-body ml-4'>";
+            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
             listConvers+="<h6 class='mb-0'>"+JSON.parse(getNomPro(contact))[0]['pseudo']+"</h6><h7>"+JSON.parse(getProEnt(contact))[0]['nom']+"</h7><p class='small font-weight-bold'>"+(tabConversCli[0]['contenu']).substr(0, 15);+"</p>";
             listConvers+="</div>";
             listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversCli[0]['dateHeure']+"</p>";
@@ -179,21 +179,19 @@ function afficherConvers(idUser){
     if(compteType=="professionnel"){
         let conversPro= JSON.parse(getConversPro());
         let nbConvers = (conversPro).length;
-        console.log(conversPro);
         for (var i=0; i<nbConvers; i++){
             let tabConversPro= JSON.parse(getDernierMsgConvers(conversPro[i]));
-            console.log(tabConversPro);
-            var contact;
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0'>";
-            listConvers+="<div class='media'><img src='https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg' alt='user' width='50' class='rounded-circle'>";
-            listConvers+="<div class='media-body ml-4'>";
-            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
+            let contact;
             if(tabConversPro[0]['idExp']==idUser){
                 contact = tabConversPro[0]['idDest'];
             }
             else{
                 contact = tabConversPro[0]['idExp'];
             }
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' onclick='afficheMsgConvers("+conversPro[i]+","+userId+");'>";
+            listConvers+="<div class='media'>";
+            listConvers+="<div class='media-body ml-4'>";
+            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
             listConvers+="<h6 class='mb-0'>"+JSON.parse(getNomCli(contact))[0]['pseudo']+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
             listConvers+="</div>";
             listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['dateHeure']+"</p>";
@@ -203,5 +201,33 @@ function afficherConvers(idUser){
         }
         $("#listConvers").html(listConvers);
     }
+}
+
+function afficheMsgConvers(idConvers, idUserActuel){
+    let tabMsgConvers=JSON.parse(getMsgConvers(idConvers));
+    let fullConver ="";
+    for (let k = 0; k<tabMsgConvers.length; k++){
+        if(idUserActuel==tabMsgConvers[k]['idExp']){
+            fullConver+='<div class="media w-50 ml-auto mb-3">';
+            fullConver+='<div class="media-body">';
+            fullConver+='<div class="bg-primary rounded py-2 px-3 mb-2">';
+            fullConver+='<p class="text-small mb-0 text-white">'+tabMsgConvers[k]['contenu']+'</p>';
+            fullConver+='</div>';
+            fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['dateHeure']+'</p>';
+            fullConver+='</div>';
+            fullConver+='</div>';
+        }
+        if(idUserActuel==tabMsgConvers[k]['idDest']){
+            fullConver+= '<div class="media w-50 mb-3">';
+            fullConver+='<div class="media-body ml-3">';
+            fullConver+='<div class="bg-light rounded py-2 px-3 mb-2">';
+            fullConver+='<p class="text-small mb-0 text-muted">'+tabMsgConvers[k]['contenu']+'</p>';
+            fullConver+='</div>';
+            fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['dateHeure']+'</p>';
+            fullConver+='</div>';
+            fullConver+='</div>';
+        }
+    }
+    $("#msgConvers").html(fullConver);
 }
 
