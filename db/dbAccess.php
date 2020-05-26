@@ -47,6 +47,8 @@ class dbAccess
                     case 'getProEnt':
                     case'getConversCli':
                     case'getConversPro':
+                    case 'getContactCli':
+                    case 'getContactPro':
                         array_push($params, '?');
         
                         try {
@@ -84,10 +86,10 @@ class dbAccess
                 }
                 break;
         }
-        //procédure avec 5 param
+        //procédure avec 4 param
         switch ($nomProcedure) {
             case 'creationMsg':
-                array_push($params, '?', '?', '?', '?', '?');
+                array_push($params, '?', '?', '?', '?');
 
                 try {
                     $this->connexionDB();

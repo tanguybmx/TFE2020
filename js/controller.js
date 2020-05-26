@@ -370,19 +370,22 @@ function getDernierMsgConvers(convers){
         return resp;
 }
 
-function creationMsg(dest, conv, contenu){
-    $.ajax({
-        url: "phpController/creationMsg.php",
-        type: "POST",
-        data:{
-            "dest": dest,
-            "conv":conv,
-            "msgContenu":contenu
-        },
-        success: function (response) {    
-            console.log(response);                      
-            }
-        });
+function creationMsg(dest, conv){
+    contenuMsg = $('#contenuNouveauMsg').val();
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest": dest,
+                "conv":conv,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
 }
 
 
@@ -431,6 +434,42 @@ function getProEnt(idPro){
         data: 
         {
             "idPro":idPro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function getContactCli(idConvers){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getContactCli.php",
+        type: "POST",
+        data: 
+        {
+            "idConvers":idConvers
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function getContactPro(idConvers){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getContactPro.php",
+        type: "POST",
+        data: 
+        {
+            "idConvers":idConvers
         },
         success: function (response) {    
             console.log(response); 

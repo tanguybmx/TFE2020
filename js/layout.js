@@ -151,7 +151,6 @@ function afficherConvers(idUser){
     if(compteType=="client"){
         var conversCli = JSON.parse(getConversCli());
         let nbConvers = (conversCli).length;
-        console.log(conversCli);
         for (var i=0; i<nbConvers; i++){
             let tabConversCli= JSON.parse(getDernierMsgConvers(conversCli[i]));
             console.log(tabConversCli);
@@ -162,11 +161,13 @@ function afficherConvers(idUser){
             else{
                 contact = tabConversCli[0]['idExp'];
             }
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' onclick='afficheMsgConvers("+conversCli[i]+","+userId+");'>";
+            let pseudoPro = JSON.parse(getNomPro(contact))[0]['pseudo'];
+            let nomEnt = JSON.parse(getProEnt(contact))[0]['nom'];
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversCli[i]+" onclick='afficheMsgConvers("+conversCli[i]+","+userId+",\""+pseudoPro+" "+nomEnt+"\");'>";
             listConvers+="<div class='media'>";
             listConvers+="<div class='media-body ml-4'>";
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
-            listConvers+="<h6 class='mb-0'>"+JSON.parse(getNomPro(contact))[0]['pseudo']+"</h6><h7>"+JSON.parse(getProEnt(contact))[0]['nom']+"</h7><p class='small font-weight-bold'>"+(tabConversCli[0]['contenu']).substr(0, 15);+"</p>";
+            listConvers+="<h6 class='mb-0'>"+pseudoPro+"</h6><h7>"+nomEnt+"</h7><p class='small font-weight-bold'>"+(tabConversCli[0]['contenu']).substr(0, 15);+"</p>";
             listConvers+="</div>";
             listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversCli[0]['dateHeure']+"</p>";
             listConvers+="</div>";
@@ -188,11 +189,12 @@ function afficherConvers(idUser){
             else{
                 contact = tabConversPro[0]['idExp'];
             }
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' onclick='afficheMsgConvers("+conversPro[i]+","+userId+");'>";
+            let pseudoCli = JSON.parse(getNomCli(contact))[0]['pseudo'];
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' onclick='afficheMsgConvers("+conversPro[i]+","+userId+",\""+pseudoCli+"\");'>";
             listConvers+="<div class='media'>";
             listConvers+="<div class='media-body ml-4'>";
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
-            listConvers+="<h6 class='mb-0'>"+JSON.parse(getNomCli(contact))[0]['pseudo']+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
+            listConvers+="<h6 class='mb-0'>"+pseudoCli+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
             listConvers+="</div>";
             listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['dateHeure']+"</p>";
             listConvers+="</div>";
@@ -203,9 +205,11 @@ function afficherConvers(idUser){
     }
 }
 
-function afficheMsgConvers(idConvers, idUserActuel){
+function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     let tabMsgConvers=JSON.parse(getMsgConvers(idConvers));
     let fullConver ="";
+    var contact;
+    fullConver+='<div class="bg-gray px-4 py-2 bg-light"><p class="h5 mb-0 py-1">'+nomContact+'</p></div><br>';
     for (let k = 0; k<tabMsgConvers.length; k++){
         if(idUserActuel==tabMsgConvers[k]['idExp']){
             fullConver+='<div class="media w-50 ml-auto mb-3">';
@@ -229,5 +233,45 @@ function afficheMsgConvers(idConvers, idUserActuel){
         }
     }
     $("#msgConvers").html(fullConver);
+    $('.messages-box a').removeClass('text-white active');
+    $('.messages-box a').addClass('text-black');
+    $('#'+idConvers).removeClass('text-black');
+    $('#'+idConvers).addClass('text-white active');
+    if(compteType=="client"){
+        let conversCli= JSON.parse(getContactCli(idConvers));
+            $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversCli[0]['idPro']+"\",\""+idConvers+"\");");
+
+
+    }
+    if(compteType=="professionnel"){
+        let conversPro= JSON.parse(getContactPro(idConvers));
+            $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
+
+    }
+    var box = document.getElementById('msgConvers');
+    box.scrollTop = box.scrollHeight;
+
+}
+
+function afficheMsgEnvoye(dest, conv){
+    creationMsg(dest, conv);
+    var dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
+    var contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
+    var dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
+    var bulleDiscussion = "";
+    bulleDiscussion+='<div class="media w-50 ml-auto mb-3">';
+    bulleDiscussion+='<div class="media-body">';
+    bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2">';
+    bulleDiscussion+='<p class="text-small mb-0 text-white">'+contenuDernierMsgEnvoye+'</p>';
+    bulleDiscussion+='</div>';
+    bulleDiscussion+='<p class="small text-muted">'+dateDernierMsgEnvoye+'</p>';
+    bulleDiscussion+='</div>';
+    bulleDiscussion+='</div>';
+    
+    $("#msgConvers").append(bulleDiscussion);
+    $('#contenuNouveauMsg').val("");
+    var box = document.getElementById('msgConvers');
+    box.scrollTop = box.scrollHeight;
+    $('#'+conv).click();
 }
 
