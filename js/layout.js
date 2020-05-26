@@ -190,7 +190,7 @@ function afficherConvers(idUser){
                 contact = tabConversPro[0]['idExp'];
             }
             let pseudoCli = JSON.parse(getNomCli(contact))[0]['pseudo'];
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' onclick='afficheMsgConvers("+conversPro[i]+","+userId+",\""+pseudoCli+"\");'>";
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversPro[i]+" onclick='afficheMsgConvers("+conversPro[i]+","+userId+",\""+pseudoCli+"\");'>";
             listConvers+="<div class='media'>";
             listConvers+="<div class='media-body ml-4'>";
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
