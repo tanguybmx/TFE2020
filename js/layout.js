@@ -135,7 +135,7 @@ function affichageListeAnnonces(tabAnnonce){
     affichageAnnonces +="<div class='h5'>Annonce</div><br>";
     affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
     affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
-    affichageAnnonces +=" <p><a href='#' onclick='priseDeContact();'>Contacter</a><br></p>";
+    affichageAnnonces +=" <p><a href='#' onclick='chatContact("+getProViaMail(tabAnnonce[i]['idAdmin'])+");'>Contacter</a><br></p>";
     affichageAnnonces +="</div></div></div></div>";
     }
 
@@ -167,7 +167,7 @@ function afficherConvers(idUser){
             listConvers+="<div class='media'>";
             listConvers+="<div class='media-body ml-4'>";
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
-            listConvers+="<h6 class='mb-0'>"+pseudoPro+"</h6><h7>"+nomEnt+"</h7><p class='small font-weight-bold'>"+(tabConversCli[0]['contenu']).substr(0, 15);+"</p>";
+            listConvers+="<h6 class='mb-0'>"+pseudoPro+"</h6><h7>"+nomEnt+"</h7><p class='small font-weight-bold'>"+((tabConversCli[0]['contenu']).substr(0, 15))+", ...</p>";
             listConvers+="</div>";
             listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversCli[0]['dateHeure']+"</p>";
             listConvers+="</div>";
@@ -209,7 +209,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     let tabMsgConvers=JSON.parse(getMsgConvers(idConvers));
     let fullConver ="";
     var contact;
-    fullConver+='<div class="bg-gray px-4 py-2 bg-light"><p class="h5 mb-0 py-1">'+nomContact+'</p></div><br>';
+    $('#nomContact').html('<div class="bg-gray px-4 py-2 bg-light"><p class="h5 mb-0 py-1">'+nomContact+'</p></div><br>');
     for (let k = 0; k<tabMsgConvers.length; k++){
         if(idUserActuel==tabMsgConvers[k]['idExp']){
             fullConver+='<div class="media w-50 ml-auto mb-3">';
@@ -275,3 +275,22 @@ function afficheMsgEnvoye(dest, conv){
     $('#'+conv).click();
 }
 
+function chatContact(idPro){
+    let reponse = checkSiDejaContact(userId, idPro);
+    priseDeContact();
+    let newConver = "";
+    let contact = getNomPro(idPro);
+    let ent = getProEnt(idPro);
+    let ajd = new Date();
+    let date = ajd.getFullYear()+'-'+(ajd.getMonth()+1)+'-'+ajd.getDate()+' '+ajd.getHours()+':'+ajd.getMinutes()+':'+ajd.getSeconds();
+    if(reponse == "noConvers"){
+        let conv=creationConvers(userId, idPro);
+        creationMsgAcceuil(idPro, conv);
+        window.location.reload();
+    }
+    else{
+        $('#'+reponse).click();
+    }
+
+
+}

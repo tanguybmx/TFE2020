@@ -115,6 +115,7 @@
       </div>
       <!-- Chat Box-->
       <div class="col-7 px-0" id="contentChat">
+        <span id="nomContact"></span>
         <div class="px-4 py-5 chat-box bg-white" id="msgConvers">
   
         </div>

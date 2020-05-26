@@ -49,6 +49,7 @@ class dbAccess
                     case'getConversPro':
                     case 'getContactCli':
                     case 'getContactPro':
+                    case 'getProViaMail':
                         array_push($params, '?');
         
                         try {
@@ -70,9 +71,9 @@ class dbAccess
             case'connexionClient':
             case 'connexionPro':
             case 'addIdEnt':
-            case 'checkConvers':
             case 'creationConvers':
             case 'getThisConvers':
+            case 'checkSiDejaContact':
                 array_push($params, '?', '?');
 
                 try {

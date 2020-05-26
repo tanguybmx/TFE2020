@@ -294,21 +294,6 @@ function getEnt(){
 
 }
 
-function contacterPro(cli, pro){
-    $.ajax({
-        url: "phpController/checkConvers.php",
-        type: "POST",
-        data: {
-            "cli":cli,
-            "pro":pro
-        },
-        success: function (response) {    
-            console.log(response);                      
-            }
-        });
-
-    
-}
 
 function getConversCli(){
     let resp = "";
@@ -378,6 +363,24 @@ function creationMsg(dest, conv){
             type: "POST",
             data:{
                 "dest": dest,
+                "conv":conv,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
+}
+
+function creationMsgAcceuil(cli, conv){
+    let contenuMsg = "Première prise de contact effectuée";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":cli,
                 "conv":conv,
                 "msgContenu":contenuMsg,
             },
@@ -470,6 +473,62 @@ function getContactPro(idConvers){
         data: 
         {
             "idConvers":idConvers
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function checkSiDejaContact(idCli, idPro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/checkSiDejaContact.php",
+        type: "POST",
+        data: 
+        {
+            "idCli":idCli,
+            "idPro":idPro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function getProViaMail(mailPro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getProViaMail.php",
+        type: "POST",
+        data: 
+        {
+            "mailPro":mailPro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function creationConvers(cli, pro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/creationConvers.php",
+        type: "POST",
+        data: 
+        {
+            "idCli":cli,
+            "idPro":pro
         },
         success: function (response) {    
             console.log(response); 
