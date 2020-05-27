@@ -24,6 +24,7 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
   <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   <link rel="stylesheet" href="vendors/Magnific-Popup/magnific-popup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
  
   
   <link rel="stylesheet" href="css/style.css">
@@ -151,7 +152,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
   <!-- ================ End footer Area ================= -->
 
-  <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
   <script src="vendors/Magnific-Popup/jquery.magnific-popup.min.js"></script>
@@ -161,6 +162,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="js/loginMain.js"></script>
   <script src="js/controller.js"></script>
   <script src="js/layout.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
   <script>
   <?php
 

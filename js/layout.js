@@ -215,7 +215,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
             fullConver+='<div class="media w-50 ml-auto mb-3">';
             fullConver+='<div class="media-body">';
             fullConver+='<div class="bg-primary rounded py-2 px-3 mb-2">';
-            fullConver+='<p class="text-small mb-0 text-white">'+tabMsgConvers[k]['contenu']+'</p>';
+            fullConver+='<p class=" mb-0 text-white">'+tabMsgConvers[k]['contenu']+'</p>';
             fullConver+='</div>';
             fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['dateHeure']+'</p>';
             fullConver+='</div>';
@@ -225,7 +225,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
             fullConver+= '<div class="media w-50 mb-3">';
             fullConver+='<div class="media-body ml-3">';
             fullConver+='<div class="bg-light rounded py-2 px-3 mb-2">';
-            fullConver+='<p class="text-small mb-0 text-muted">'+tabMsgConvers[k]['contenu']+'</p>';
+            fullConver+='<p class=" mb-0 text-muted">'+tabMsgConvers[k]['contenu']+'</p>';
             fullConver+='</div>';
             fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['dateHeure']+'</p>';
             fullConver+='</div>';
@@ -240,12 +240,12 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     if(compteType=="client"){
         let conversCli= JSON.parse(getContactCli(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversCli[0]['idPro']+"\",\""+idConvers+"\");");
-
-
+            $('#button-addon3').hide();
     }
     if(compteType=="professionnel"){
         let conversPro= JSON.parse(getContactPro(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
+            $('#button-addon3').attr("onclick","propositionRdv(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
 
     }
     var box = document.getElementById('msgConvers');
@@ -255,14 +255,14 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
 
 function afficheMsgEnvoye(dest, conv){
     creationMsg(dest, conv);
-    var dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
-    var contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
-    var dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
-    var bulleDiscussion = "";
+    let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
+    let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
+    let dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
+    let bulleDiscussion = "";
     bulleDiscussion+='<div class="media w-50 ml-auto mb-3">';
     bulleDiscussion+='<div class="media-body">';
     bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2">';
-    bulleDiscussion+='<p class="text-small mb-0 text-white">'+contenuDernierMsgEnvoye+'</p>';
+    bulleDiscussion+='<p class=" mb-0 text-white">'+contenuDernierMsgEnvoye+'</p>';
     bulleDiscussion+='</div>';
     bulleDiscussion+='<p class="small text-muted">'+dateDernierMsgEnvoye+'</p>';
     bulleDiscussion+='</div>';
@@ -293,4 +293,40 @@ function chatContact(idPro){
     }
 
 
+}
+
+function propositionRdv(cli,conv){
+    let bulleDiscussion = "";
+    let propRdv = '<div class="container"> <div class="panel-heading">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-3"> <div class="form-group"> <label class="control-label">Date et heure du rendez-vous</label> <div class="input-group date" id="datetimepicker1"> <input type="text" class="form-control" id="dateRdv"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div> </div> </div> </div> <input type="button" class="btn btn-primary" value="Proposer" id="proposerRdv"> </div> </div> <script> $(function () { $("#datetimepicker1").datetimepicker(); }); $("#datetimepicker1").datetimepicker({ isRTL: false, format: \'dd.mm.yyyy hh:ii\', autoclose:true, language: \'fr\' });</script>';
+    bulleDiscussion+='<div class="media w-70 ml-auto mb-3" id="bullePropRdv">';
+    bulleDiscussion+='<div class="media-body">';
+    bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2" style="height:30em;">';
+    bulleDiscussion+='<p class=" mb-0 text-white">'+propRdv+'</p>';
+    bulleDiscussion+='</div>';
+    bulleDiscussion+='</div>';
+    bulleDiscussion+='</div>';
+    
+    $("#msgConvers").append(bulleDiscussion);
+    var box = document.getElementById('msgConvers');
+    box.scrollTop = box.scrollHeight;
+    $('#proposerRdv').attr('onclick','affichePropositionRdv('+cli+','+conv+')');
+}
+
+function affichePropositionRdv(cli,conv){
+    creationMsgPropositionRdv(cli, conv);
+    let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
+    let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
+    let dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
+    let bulleDiscussion = "";
+    bulleDiscussion+='<div class="media w-50 ml-auto mb-3">';
+    bulleDiscussion+='<div class="media-body">';
+    bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2">';
+    bulleDiscussion+='<p class=" mb-0 text-white">'+contenuDernierMsgEnvoye+'</p>';
+    bulleDiscussion+='</div>';
+    bulleDiscussion+='<p class="small text-muted">'+dateDernierMsgEnvoye+'</p>';
+    bulleDiscussion+='</div>';
+    bulleDiscussion+='</div>';
+    $('#bullePropRdv').hide();
+    $("#msgConvers").append();
+    $("#"+conv).click();
 }

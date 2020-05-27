@@ -1,51 +1,50 @@
 
 var idUser;
-var a = 1;
 function checkInscriptionClient() {
-    a = 1;
+    let gestionErreur = 1;
     event.preventDefault();
     if ($('#username').val() == '') {
         $('#username').attr('placeholder', 'Identifiant requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#nom').val() == '') {
         $('#nom').attr('placeholder', 'Nom requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#prenom').val() == '') {
         $('#prenom').attr('placeholder', 'Prenom requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#email').val() == '') {
         $('#email').attr('placeholder', 'Email requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#adresse').val() == '') {
         $('#adresse').attr('placeholder', 'Adresse requise');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#mdp').val() == '') {
         $('#mdp').attr('placeholder', 'Mot de passe requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
 
     if ($('#re_mdp').val() == '') {
         $('#re_mdp').attr('placeholder', 'Veuillez entrer une nouvelle fois votre mot de passe');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#re_mdp').val() !== $('#mdp').val()) {
         $('#re_mdp').attr('placeholder', 'Les mots de passe ne sont pas identique');
         $('#mdp').attr('placeholder', 'Les mots de passe ne sont pas identique');
-        a = 0;
+        gestionErreur = 0;
     }
-    if (a === 1) {
+    if (gestionErreur === 1) {
         let objectForm = { 'username': $('#username').val(), 'nom': $('#nom').val(), 'prenom': $('#prenom').val(), 'email': $('#email').val(), 'adresse': $('#adresse').val(), 'mdp': $('#mdp').val() };
         console.log(objectForm);
         $.ajax({
@@ -69,50 +68,50 @@ function checkInscriptionClient() {
 }
 
 function checkInscriptionProfessionnel() {
-    a = 1;
+    let gestionErreur = 1;
     event.preventDefault();
     if ($('#username').val() == '') {
         $('#username').attr('placeholder', 'Identifiant requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#nom').val() == '') {
         $('#nom').attr('placeholder', 'Nom requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#prenom').val() == '') {
         $('#prenom').attr('placeholder', 'Prenom requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#email').val() == '') {
         $('#email').attr('placeholder', 'Email requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#adresse').val() == '') {
         $('#adresse').attr('placeholder', 'Adresse requise');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#mdp').val() == '') {
         $('#mdp').attr('placeholder', 'Mot de passe requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
 
     if ($('#re_mdp').val() == '') {
         $('#re_mdp').attr('placeholder', 'Veuillez entrer une nouvelle fois votre mot de passe');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#re_mdp').val() !== $('#mdp').val()) {
         $('#re_mdp').attr('placeholder', 'Les mots de passe ne sont pas identique');
         $('#mdp').attr('placeholder', 'Les mots de passe ne sont pas identique');
-        a = 0;
+        gestionErreur = 0;
     }
-    if (a === 1) {
+    if (gestionErreur === 1) {
         let objectForm = { 'username': $('#username').val(), 'mdp': $('#mdp').val(), 'nom': $('#nom').val(), 'prenom': $('#prenom').val(), 'email': $('#email').val(), 'adresse': $('#adresse').val() };
         console.log(objectForm);
         $.ajax({
@@ -136,18 +135,18 @@ function checkInscriptionProfessionnel() {
 }
 
 function checkConnexion() {
-    a = 1;
+    let gestionErreur = 1;
     event.preventDefault();
     if ($('#username').val() == '') {
         $('#username').attr('placeholder', 'Identifiant requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#mdp').val() == '') {
         $('#mdp').attr('placeholder', 'Mot de passe requis');
-        a = 0;
+        gestionErreur = 0;
     }
-    if (a === 1) {
+    if (gestionErreur === 1) {
         let objectForm = { 'login': $('#username').val(), 'password': $('#mdp').val()};
         console.log(objectForm);
         $.ajax({
@@ -180,39 +179,39 @@ function ajoutChampService(){
 } 
 
 function creationEnt(){
-    a = 1;
+    let gestionErreur = 1;
     event.preventDefault();
     if ($('#nomEnt').val() == '') {
         $('#nomEnt').attr('placeholder', 'Identifiant requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#adresseEnt').val() == '') {
         $('#adresseEnt').attr('placeholder', 'Adresse requise');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#descEnt').val() == '') {
         $('#descEnt').attr('placeholder', 'Description requise');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#servicesEnt1').val() == '') {
         alert('Minimum un service requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#nTvaEnt').val() == '') {
         $('#nTvaEnt').attr('placeholder', 'Numéro de TVA requis');
-        a = 0;
+        gestionErreur = 0;
     }
 
     if ($('#secteurEnt').val() == 'default') {
         alert("Il faut sélectionner un secteur différent de default");
-        a = 0;
+        gestionErreur = 0;
     }
 
-    if (a === 1) {
+    if (gestionErreur === 1) {
         var servicesEnt = '';
         var objectForm;
         if(nServices == 1){
@@ -391,6 +390,24 @@ function creationMsgAcceuil(cli, conv){
     }
 }
 
+function creationMsgPropositionRdv(cli, conv){
+    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ $('#dateRdv').val()+" Pourriez-vous me confirmer celle-ci ?";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":cli,
+                "conv":conv,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
+}
+
 
 function getNomPro(idPro){
     let resp = "";
@@ -537,3 +554,5 @@ function creationConvers(cli, pro){
         });
         return resp;
 }
+
+

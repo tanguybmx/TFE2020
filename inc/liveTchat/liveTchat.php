@@ -4,6 +4,11 @@
 ?>
 
 <link rel="stylesheet" href="inc/liveTchat/css/liveTchatStyle.css">
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <div class="container py-5 px-4">
     <!-- For demo purpose-->
     <header class="text-center">
@@ -124,8 +129,9 @@
         <form action="#" class="bg-light">
           <div class="input-group">
             <input type="text" id="contenuNouveauMsg" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
-            <div class="input-group-append">
+            <div class="input-group-append" >
               <button id="button-addon2" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+              <button id="button-addon3" class="btn btn-link" id="calendrier"> <i class="fa fa-calendar-plus"></i></button>
             </div>
           </div>
         </form>
@@ -136,6 +142,6 @@
   
   <script>
 removeClassActive('navPriseDeContact');
-afficherConvers('<?=$_SESSION['userId'] ?>');
+afficherConvers('<?=$_SESSION['userId'] ;?>');
 $("#contentChat").animate({ scrollTop: $(this).height() }, "slow");
-  </script>
+</script>
