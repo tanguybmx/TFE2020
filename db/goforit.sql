@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mar. 26 mai 2020 à 21:06
+-- Généré le :  mer. 27 mai 2020 à 13:17
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
   `mail` varchar(300) NOT NULL,
   PRIMARY KEY (`idCli`),
   UNIQUE KEY `mail` (`mail`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cli`
@@ -289,7 +289,8 @@ CREATE TABLE IF NOT EXISTS `cli` (
 
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`) VALUES
 (1, 'test', 'test', 'test', 'test', 'test', 'test'),
-(2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr');
+(2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr'),
+(3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -305,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
@@ -315,7 +316,8 @@ INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
 (1, 2, 4),
 (2, 2, 5),
 (4, 2, 6),
-(14, 2, 7);
+(14, 2, 7),
+(15, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -383,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -420,7 +422,16 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (55, 1, 2, 4, 'testDirect', '2020-05-26 15:48:24', 0),
 (56, 2, 2, 5, 'test tri', '2020-05-26 18:09:22', 0),
 (57, 2, 2, 5, 'test 2 depuis cli', '2020-05-26 18:10:08', 0),
-(60, 14, 2, 7, 'Première prise de contact effectuée', '2020-05-26 20:00:55', 0);
+(60, 14, 2, 7, 'Première prise de contact effectuée', '2020-05-26 20:00:55', 0),
+(61, 15, 3, 4, 'Première prise de contact effectuée', '2020-05-27 10:52:18', 0),
+(62, 15, 3, 4, 'Bonjour, je rencontre un problème pour connecter mon imprimante à mon ordinateur. Serait-il possible de m\'aider ?', '2020-05-27 10:52:56', 0),
+(63, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/28/2020 1:00 PM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:31:03', 0),
+(64, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 7:00 AM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:32:51', 0),
+(65, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 11:00 AM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:33:23', 0),
+(66, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/02/2020 8:00 AM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:36:08', 0),
+(67, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/27/2020 12:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:37:27', 0),
+(68, 1, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/27/2020 7:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:39:20', 0),
+(69, 1, 4, 2, 'test', '2020-05-27 15:05:27', 0);
 
 -- --------------------------------------------------------
 
