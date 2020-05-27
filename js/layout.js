@@ -258,17 +258,6 @@ function afficheMsgEnvoye(dest, conv){
     let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
     let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
     let dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
-    let bulleDiscussion = "";
-    bulleDiscussion+='<div class="media w-50 ml-auto mb-3">';
-    bulleDiscussion+='<div class="media-body">';
-    bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2">';
-    bulleDiscussion+='<p class=" mb-0 text-white">'+contenuDernierMsgEnvoye+'</p>';
-    bulleDiscussion+='</div>';
-    bulleDiscussion+='<p class="small text-muted">'+dateDernierMsgEnvoye+'</p>';
-    bulleDiscussion+='</div>';
-    bulleDiscussion+='</div>';
-    
-    $("#msgConvers").append(bulleDiscussion);
     $('#contenuNouveauMsg').val("");
     var box = document.getElementById('msgConvers');
     box.scrollTop = box.scrollHeight;
