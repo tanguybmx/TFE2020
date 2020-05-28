@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 28 mai 2020 à 21:05
+-- Généré le :  jeu. 28 mai 2020 à 21:38
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -423,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -493,7 +493,8 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (90, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-31T03:54. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:54:51', 0),
 (91, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 31-05-2020 03:54:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:55:38', 0),
 (92, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 07-06-2020 04:55:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:01:47', 0),
-(93, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 30/05/2020 08:30:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:04:47', 0);
+(93, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 30/05/2020 08:30:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:04:47', 0),
+(94, 15, 4, 3, 'Bonjour, je viens d\'annuler notre rendez-vous du 06-06-2020 01:00:00', '2020-05-28 23:36:18', 0);
 
 -- --------------------------------------------------------
 
@@ -553,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
 (1, '2020-05-30 08:30:00', 0, 2, 4),
 (5, '2020-06-01 04:00:00', 0, 3, 4),
-(8, '2020-06-06 01:00:00', 0, 3, 4);
+(8, '2020-06-06 01:00:00', 3, 3, 4);
 
 -- --------------------------------------------------------
 
