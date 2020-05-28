@@ -12,6 +12,7 @@ $_SESSION['pageActuelle']="gestionRdv.php";
           <th>Date</th>
           <th>Avec qui</th>
           <?php if($_SESSION['typeCompte'] == "client"){ echo("<th>Validation</th>");}?>
+          <th>Annulation</th>
           <th>Changement de date</th>
           <th>Statut</th>
         </tr>

@@ -723,3 +723,31 @@ function valideRdv(idRdv, idPro, idConvers,date){
 
 }
 
+function annulerRdv(idRdv, idConvers,date, idPro, idCli){
+    modifStatutRdv(idRdv,3);
+    let dest;
+    if(compteType == "client"){
+        dest = idPro;
+    }
+    if(compteType == "professionnel"){
+        dest = idCli;
+    }
+    let contenuMsg = "Bonjour, je viens d'annuler notre rendez-vous du "+date;
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":dest,
+                "conv":idConvers,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+            afficheRdv();
+           alert('Vous avez envoyé un message à la personne disant que vous annuliez le rendez-vous');
+    }  
+}
+

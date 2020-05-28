@@ -401,16 +401,21 @@ function affichageDateFormatEu(date){
             for (let i =0; i< tabRdvCli.length; i++){
                 let validationRdv ='<td></td>';
                 let propDate = '<td></td>';
+                let annulation = '<td></td>';
                 if(tabRdvCli[i]['statutRdv']==0){
                     validationRdv = '<td onclick="valideRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idPro'])+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+')"><a href="#">Valider</a></td>';
                     propDate = '<td onclick="demandeModifDateRdv('+parseInt(tabRdvCli[i]['idConvers'])+','+parseInt(tabRdvCli[i]['idPro'])+',\''+tabRdvCli[i]['rdvDate']+'\')"><a href="#">Demande de changement de date</a></td>';
+                }
+                if(tabRdvCli[i]['statutRdv']!=4 && tabRdvCli[i]['statutRdv']!=3){
+                    annulation = '<td onclick="annulerRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+','+tabRdvCli[i]['idPro']+','+tabRdvCli[i]['idCli']+')"><a href="#">Annuler</a></td>';;
                 }
                 tableRdvCli+='<tr>'
                 tableRdvCli+='<th scope="row">'+(i+1)+'</th>';
                 tableRdvCli+='<td>'+tabRdvCli[i]['rdvDate']+'</td>';
                 tableRdvCli+='<td>'+tabRdvCli[i]['pseudo']+'</td>';
                 tableRdvCli+= validationRdv;
-                tableRdvCli+=propDate;
+                tableRdvCli+= annulation;
+                tableRdvCli+= propDate;
                 tableRdvCli+='<td>'+statut[(tabRdvCli[i]['statutRdv'])]+'</td>';
                 tableRdvCli+='</tr>';
             }
@@ -421,19 +426,24 @@ function affichageDateFormatEu(date){
             let tableRdvPro="";
             for (let i =0; i< tabRdvPro.length; i++){
                 let propDate = '<td></td>';
+                let annulation = '<td></td>';
                 if(tabRdvPro[i]['statutRdv']==0){
                     validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
                     propDate = '<td id="newDate'+parseInt(tabRdvPro[i]['idRdv'])+'" onclick="affichageModifDate('+parseInt(tabRdvPro[i]['idRdv'])+',\''+tabRdvPro[i]['rdvDate']+'\',\''+tabRdvPro[i]['pseudo']+'\','+tabRdvPro[i]['idCli']+','+ tabRdvPro[i]['idConvers']+')"><a href="#">Proposer une autre date</a></td><span id="choixDate'+tabRdvPro[i]['idRdv']+'"></span>';
+                }
+                if(tabRdvPro[i]['statutRdv']!=4 && tabRdvPro[i]['statutRdv']!=3){
+                    annulation = '<td onclick="annulerRdv('+tabRdvPro[i]['idRdv']+","+parseInt(tabRdvPro[i]['idConvers'])+',\''+tabRdvPro[i]['rdvDate']+'\''+','+tabRdvPro[i]['idPro']+','+tabRdvPro[i]['idCli']+')"><a href="#">Annuler</a></td>';;
                 }
                 tableRdvPro+='<tr>'
                 tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
                 tableRdvPro+='<td>'+tabRdvPro[i]['rdvDate']+'</td>';
                 tableRdvPro+='<td>'+tabRdvPro[i]['pseudo']+'</td>';
+                tableRdvPro+=annulation;
                 tableRdvPro+=propDate;
                 tableRdvPro+='<td>'+statut[(tabRdvPro[i]['statutRdv'])]+'</td>';
                 tableRdvPro+='</tr>';
             }
-            $('#listeRdv').append(tableRdvPro);
+            $('#listeRdv').html(tableRdvPro);
         }
         
     }
