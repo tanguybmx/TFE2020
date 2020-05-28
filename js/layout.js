@@ -355,13 +355,18 @@ function affichageDateFormatEu(date){
     let annee2 = date2.substr(6,4);
     let heure2 = date2.substr(11,1);
     let minute2 = date2.substr(13,2);
+
+    let tabPM = ["13","14","15","16","17","18","19","20","21","22","23","00"];
+    if(amOrPm == "PM"){
+        heure2 = tabPM[(heure2-1)];
+    }
     
     let formatDB = annee2+"-"+mois2+"-"+jour2+" "+heure2+":"+minute2+":"+"00";
     return formatDB;
     }
 
     function afficheRdv(){
-        let statut = ['En attente','Validé','Refusé','Annulé']
+        let statut = ['En attente','Validé','Refusé','Annulé', 'Terminé']
         if(compteType=="client"){
             let tabRdvCli = JSON.parse(getAllRdvCli(userId));
             let tableRdvCli="";
@@ -375,8 +380,9 @@ function affichageDateFormatEu(date){
                 tableRdvCli+='<td>'+tabRdvCli[i]['rdvDate']+'</td>';
                 tableRdvCli+='<td>'+tabRdvCli[i]['pseudo']+'</td>';
                 tableRdvCli+= validationRdv;
-                tableRdvCli+='<td onclick="modifDateRdv('+tabRdvCli[i]['idRdv']+','+0+')"><a href="#">Proposer une autre date</a></td>';
-                tableRdvCli+='<td>'+statut[tabRdvCli[i]['statutRdv']]+'</td>';
+
+
+                tableRdvCli+='<td>'+statut[(tabRdvCli[i]['statutRdv'])]+'</td>';
                 tableRdvCli+='</tr>';
             }
             $('#listeRdv').append(tableRdvCli);
@@ -385,17 +391,17 @@ function affichageDateFormatEu(date){
             let tabRdvPro = JSON.parse(getAllRdvPro(userId));
             let tableRdvPro="";
             for (let i =0; i< tabRdvPro.length; i++){
-                let validationRdv ='<td></td>';
+                let propDate = '<td></td>';
                 if(tabRdvPro[i]['statutRdv']==0){
                     validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
+                    propDate = '<td onclick="modifDateRdv('+parseInt(tabRdvPro[i]['idRdv'])+','+0+')"><a href="#">Proposer une autre date</a></td>';
                 }
                 tableRdvPro+='<tr>'
                 tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
                 tableRdvPro+='<td>'+tabRdvPro[i]['rdvDate']+'</td>';
                 tableRdvPro+='<td>'+tabRdvPro[i]['pseudo']+'</td>';
-                tableRdvPro+= validationRdv;
-                tableRdvPro+='<td onclick="modifDateRdv('+parseInt(tabRdvPro[i]['idRdv'])+','+0+')"><a href="#">Proposer une autre date</a></td>';
-                tableRdvPro+='<td>'+statut[tabRdvPro[i]['statutRdv']]+'</td>';
+                tableRdvPro+=propDate;
+                tableRdvPro+='<td>'+statut[(tabRdvPro[i]['statutRdv'])]+'</td>';
                 tableRdvPro+='</tr>';
             }
             $('#listeRdv').append(tableRdvPro);
