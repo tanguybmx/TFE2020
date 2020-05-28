@@ -273,7 +273,7 @@ function afficheMsgEnvoye(dest, conv){
 }
 
 function chatContact(idPro){
-    let reponse = checkSiDejaContact(userId, idPro);
+    let reponse = JSON.parse(checkSiDejaContact(userId, idPro));
     priseDeContact();
     let newConver = "";
     let contact = getNomPro(idPro);
@@ -286,7 +286,9 @@ function chatContact(idPro){
         window.location.reload();
     }
     else{
-        $('#'+reponse).click();
+        priseDeContact();
+        location.replace("http://localhost/TFE2020?conv="+reponse[0]['idConvers']);
+        priseDeContact();
     }
 
 

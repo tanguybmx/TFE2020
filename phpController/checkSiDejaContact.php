@@ -14,5 +14,5 @@ if(empty($checkSiDejaContact)){
 }
 
 if(!empty($checkSiDejaContact)){
-    echo ($checkSiDejaContact[0]['idConvers']);
+    echo (json_encode($checkSiDejaContact));
 }
