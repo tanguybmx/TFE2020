@@ -10,7 +10,7 @@ $_SESSION['pageActuelle']="entreprise.php";
                                 <div class="container">
                                     <div class="signup-content">
                                         <div class="signup-form">
-                                            <h2 class="form-title">Entreprise</h2>
+                                            <h2 class="form-title">Votre annonce et les détails de votre entreprise</h2>
                                             <form method="post" class="register-form" id="register-form" action="#">
                                                 <div class="form-group">
                                                     <label for="nomEnt">Nom</label>

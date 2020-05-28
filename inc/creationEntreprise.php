@@ -6,7 +6,7 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
 <link rel="stylesheet" href="css/loginStyle.css">
 <div class="container">
                 <div id="titreCreaEnt">
-                    <h2>Merci de créer votre entreprise </h2>
+                    <h2>Merci de créer votre annonce </h2>
                     <p>Afin de pouvoir être visible sur le site</p>
                     <span id="erreurCrea"> </span>
                 </div>

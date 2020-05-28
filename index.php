@@ -54,7 +54,7 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container box_1620">
+        <div class="container box_1620" id="menuCont">
           <a class="navbar-brand logo_h" href="index.html"><img src="img/logo/logo_transparent.png" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span>
@@ -66,12 +66,19 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
             <ul class="nav navbar-nav menu_nav justify-content-end">
               <li class="nav-item active" id="navAccueil"><a class="nav-link" href="#" onclick="accueil()">Accueil</a></li> 
               <li class="nav-item" id="navAbout"><a class="nav-link" href="#" onclick="about()">Qui sommes-nous ?</a></li> 
-              <li class="nav-item" id="navServices"><a class="nav-link" href="#" onclick="services()">Annonces</a>
-              <li class="nav-item" id="navProfil"><a class="nav-link" href="#" onclick="profil()">Profil</a></li>
-              <?php if (isset($_SESSION['typeCompte']) && $_SESSION['typeCompte'] == 'professionnel'){?>
-              <li class="nav-item" id="navEntreprise"><a class="nav-link" href="#" onclick="entreprise()">Entreprise</a></li>
+              <?php if (!isset($_SESSION['typeCompte']) || $_SESSION['typeCompte'] == 'client'){?>
+                <li class="nav-item" id="navServices"><a class="nav-link" href="#" onclick="services()">Annonces</a>
               <?php }?>
-              <li class="nav-item" id="navPriseDeContact"><a class="nav-link" href="#" onclick="priseDeContact()">Prise de contact</a></li>
+              <?php if (isset($_SESSION['typeCompte'])){?>
+                <li class="nav-item" id="navProfil"><a class="nav-link" href="#" onclick="profil()">Profil</a></li>
+              <?php }?>
+              <?php if (isset($_SESSION['typeCompte']) && $_SESSION['typeCompte'] == 'professionnel'){?>
+                <li class="nav-item" id="navEntreprise"><a class="nav-link" href="#" onclick="entreprise()">Mon annonce</a></li>
+              <?php }?>
+              <?php if (isset($_SESSION['typeCompte'])){?>
+                <li class="nav-item" id="navPriseDeContact"><a class="nav-link" href="#" onclick="priseDeContact()">Prise de contact</a></li>
+                <li class="nav-item" id="navGestionRdv"><a class="nav-link" href="#" onclick="gestionRdv()">Rendez-vous</a></li>
+              <?php }?>
               <li class="nav-item" id="navContact"><a class="nav-link" href="#" onclick="contact()">Contact</a></li>
               <li class="nav-item" id="navConnexion"><a class="nav-link" href="" onclick="connexion()">Se Connecter</a></li>
             </ul>

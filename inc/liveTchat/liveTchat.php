@@ -12,12 +12,11 @@
 <div class="container py-5 px-4">
     <!-- For demo purpose-->
     <header class="text-center">
-      <h1 class="display-4 text-white">Prise de contact</h1>
-    </header>
-  
+      <h1 class="display-4 text-black">Prise de contact</h1>
+    </header><br>
     <div class="row rounded-lg overflow-hidden shadow">
       <!-- Users box-->
-      <div class="col-5 px-0">
+      <div class="col-5 px-0" id="contentConvers">
         <div class="bg-white">
   
           <div class="bg-gray px-4 py-2 bg-light">

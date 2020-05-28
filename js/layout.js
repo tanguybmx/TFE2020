@@ -7,6 +7,8 @@ function removeClassActive(active){
     $('#navProfil').removeClass('nav-item active').addClass('nav-item');
     $('#navEntreprise').removeClass('nav-item active').addClass('nav-item');
     $('#navPriseDeContact').removeClass('nav-item active').addClass('nav-item');
+    $('#navGestionRdv').removeClass('nav-item active').addClass('nav-item');
+    
 
     $('#'+active).addClass('nav-item active');
 }
@@ -103,6 +105,12 @@ function priseDeContact(){
     $('#content').load('inc/liveTchat/liveTchat.php');
 
     removeClassActive('navPriseDeContact');
+}
+
+function gestionRdv(){
+    $('#content').load('inc/gestionRdv.php');
+
+    removeClassActive('navGestionRdv');
 }
 
 
@@ -286,7 +294,7 @@ function chatContact(idPro){
 
 function propositionRdv(cli,conv){
     let bulleDiscussion = "";
-    let propRdv = '<div class="container"> <div class="panel-heading">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-3"> <div class="form-group"> <label class="control-label">Date et heure du rendez-vous</label> <div class="input-group date" id="datetimepicker1"> <input type="text" class="form-control" id="dateRdv"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div> </div> </div> </div> <input type="button" class="btn btn-primary" value="Proposer" id="proposerRdv"> </div> </div> <script> $(function () { $("#datetimepicker1").datetimepicker(); }); $("#datetimepicker1").datetimepicker({ isRTL: false, format: \'dd.mm.yyyy hh:ii\', autoclose:true, language: \'fr\' });</script>';
+    let propRdv = '<div class="container"> <div class="panel-heading">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-3"> <div class="form-group"> <label class="control-label">Date et heure du rendez-vous</label> <div class="input-group date" id="datetimepicker1"> <input type="text" class="form-control" id="dateRdv" style="display:none;"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div> </div> </div> </div> <input type="button" class="btn btn-primary" value="Proposer" id="proposerRdv"> </div> </div> <script> $(function () { $("#datetimepicker1").datetimepicker(); }); $("#datetimepicker1").datetimepicker({ isRTL: false, format: \'dd.mm.yyyy hh:ii\', autoclose:true, language: \'fr\' });</script>';
     bulleDiscussion+='<div class="media w-70 ml-auto mb-3" id="bullePropRdv">';
     bulleDiscussion+='<div class="media-body">';
     bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2" style="height:30em;">';
@@ -319,3 +327,78 @@ function affichePropositionRdv(cli,conv){
     $("#msgConvers").append();
     $("#"+conv).click();
 }
+
+//formatage de date a affiché et a envoyé à la db
+//format affichage
+function affichageDateFormatEu(date){
+    let date1 = date;
+    
+    let mois = date1.substr(0,2);
+    let jour = date1.substr(3,2);
+    let annee = date1.substr(6,4);
+    let heure = date1.substr(11,1);
+    let minute = date1.substr(13,2);
+    let amOrPm = date1.substr(16,2);
+    let tabPM = ["13","14","15","16","17","18","19","20","21","22","23","00"];
+    if(amOrPm == "PM"){
+        heure = tabPM[(heure-1)];
+    }
+        let formatAffichageEu = jour+"/"+mois+"/"+annee+" "+heure+":"+minute+":00";
+        return formatAffichageEu;
+    }
+    
+    function formatDateDb(date){
+    //format a envoyé à la db: 2020-05-29 6:00:00; obtenu avec la fonction: 2020-05-29 6:00:00
+    let date2 = date;
+    let jour2 = date2.substr(3,2);
+    let mois2 = date2.substr(0,2);
+    let annee2 = date2.substr(6,4);
+    let heure2 = date2.substr(11,1);
+    let minute2 = date2.substr(13,2);
+    
+    let formatDB = annee2+"-"+mois2+"-"+jour2+" "+heure2+":"+minute2+":"+"00";
+    return formatDB;
+    }
+
+    function afficheRdv(){
+        let statut = ['En attente','Validé','Refusé','Annulé']
+        if(compteType=="client"){
+            let tabRdvCli = JSON.parse(getAllRdvCli(userId));
+            let tableRdvCli="";
+            for (let i =0; i< tabRdvCli.length; i++){
+                let validationRdv ='<td></td>';
+                if(tabRdvCli[i]['statutRdv']==0){
+                    validationRdv = '<td onclick="modifStatutRdv('+tabRdvCli[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
+                }
+                tableRdvCli+='<tr>'
+                tableRdvCli+='<th scope="row">'+(i+1)+'</th>';
+                tableRdvCli+='<td>'+tabRdvCli[i]['rdvDate']+'</td>';
+                tableRdvCli+='<td>'+tabRdvCli[i]['pseudo']+'</td>';
+                tableRdvCli+= validationRdv;
+                tableRdvCli+='<td onclick="modifDateRdv('+tabRdvCli[i]['idRdv']+','+0+')"><a href="#">Proposer une autre date</a></td>';
+                tableRdvCli+='<td>'+statut[tabRdvCli[i]['statutRdv']]+'</td>';
+                tableRdvCli+='</tr>';
+            }
+            $('#listeRdv').append(tableRdvCli);
+        }
+        if(compteType=="professionnel"){
+            let tabRdvPro = JSON.parse(getAllRdvPro(userId));
+            let tableRdvPro="";
+            for (let i =0; i< tabRdvPro.length; i++){
+                let validationRdv ='<td></td>';
+                if(tabRdvPro[i]['statutRdv']==0){
+                    validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
+                }
+                tableRdvPro+='<tr>'
+                tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
+                tableRdvPro+='<td>'+tabRdvPro[i]['rdvDate']+'</td>';
+                tableRdvPro+='<td>'+tabRdvPro[i]['pseudo']+'</td>';
+                tableRdvPro+= validationRdv;
+                tableRdvPro+='<td onclick="modifDateRdv('+parseInt(tabRdvPro[i]['idRdv'])+','+0+')"><a href="#">Proposer une autre date</a></td>';
+                tableRdvPro+='<td>'+statut[tabRdvPro[i]['statutRdv']]+'</td>';
+                tableRdvPro+='</tr>';
+            }
+            $('#listeRdv').append(tableRdvPro);
+        }
+        
+    }

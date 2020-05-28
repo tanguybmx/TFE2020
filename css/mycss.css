@@ -48,3 +48,18 @@ color: white;
 .logoEnt{
     width: 60%;
 }
+@media (min-width: 1200px){
+    #menuCont{
+
+    max-width: 100%;
+
+    }
+}
+
+#contentConvers{
+    height: 60%;
+}
+
+#contentChat{
+    height: 60%;
+}
