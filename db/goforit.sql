@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 28 mai 2020 à 13:29
+-- Généré le :  jeu. 28 mai 2020 à 15:54
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -513,7 +513,7 @@ DROP TABLE IF EXISTS `rdv`;
 CREATE TABLE IF NOT EXISTS `rdv` (
   `idRdv` int(255) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
-  `statutRdv` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 => en attente 1=> validé 2 => refusé 3=> annulé',
+  `statutRdv` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 => en attente 1=> validé 2 => refusé 3=> annulé 4=> Effectuée',
   `idCli` int(255) NOT NULL,
   `idPro` int(255) NOT NULL,
   PRIMARY KEY (`idRdv`),
