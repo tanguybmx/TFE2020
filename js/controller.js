@@ -391,7 +391,7 @@ function creationMsgAcceuil(cli, conv){
 }
 
 function creationMsgPropositionRdv(cli, conv){
-    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ $('#dateRdv').val()+" Pourriez-vous me confirmer celle-ci ?";
+    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ affichageDateFormatEu($('#dateRdv').val())+" Pourriez-vous me confirmer celle-ci ?";
     if(contenuMsg !=""){
         $.ajax({
             url: "phpController/creationMsg.php",
@@ -555,7 +555,9 @@ function creationConvers(cli, pro){
         return resp;
 }
 
-function creationRdv(pro, cli, dateRdv){
+function creationRdv(pro, cli){
+    let dateRdv = formatDateDb($('#dateRdv').val());
+
     $.ajax({
         url: "phpController/creationRdv.php",
         type: "POST",
@@ -567,9 +569,11 @@ function creationRdv(pro, cli, dateRdv){
 
         },
         success: function (response) {    
-            console.log(response);                     
+            console.log(response);  
+            alert("Le rendez-vous a été créé");                   
             }
         });
+
 }
 
 function getRdv(idRdv){
@@ -606,7 +610,9 @@ function modifStatutRdv(rdv, statut){
         });
 }
 
-function modifDateRdv(rdv, dateRdv){
+function modifDateRdv(rdv, idCli, idConvers){
+    let dateBrutInput = $('#newDateRdv').val();
+    let dateRdv = formatDateTimeLocalToDb(dateBrutInput);
     $.ajax({
         url: "phpController/modifDateRdv.php",
         type: "POST",
@@ -617,9 +623,25 @@ function modifDateRdv(rdv, dateRdv){
 
         },
         success: function (response) {    
-            console.log(response);                     
+            console.log(response); 
+            alert('Vous avez modifié la date de ce rendez-vous');                    
             }
         });
+        let contenuMsg = "Bonjour, voici la nouvelle proposition de rendez-vous "+formatDateTimeLocalToAffichage(dateBrutInput)+". Merci de valider celle-ci si elle vous convient.";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":idCli,
+                "conv":idConvers,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
 }
 
 function getAllRdvCli(idCli){
@@ -656,5 +678,48 @@ function getAllRdvPro(idPro){
             }
         });
         return resp;
+}
+//date => date actuel du rdv qui doit être changé
+function demandeModifDateRdv(idConvers, idPro, date){
+    let contenuMsg = "Bonjour, serait-il possible de convenir d'une autre date de rendez-vous ? Celui-ci était fixé au "+date+". Merci.";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":idPro,
+                "conv":idConvers,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+           alert('Vous avez envoyé un message au professionnel demandant un changement de date d\'intervention');
+    }
+
+    
+}
+
+function valideRdv(idRdv, idPro, idConvers,date){
+    modifStatutRdv(idRdv,1);
+    let contenuMsg = "Bonjour, je viens de valider notre rendez-vous du "+date+". Merci.";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":idPro,
+                "conv":idConvers,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+            afficheRdv();
+           alert('Vous avez envoyé un message au professionnel disant que vous validiez le rendez-vous');
+    }
+
 }
 

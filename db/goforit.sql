@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 28 mai 2020 à 15:54
+-- Généré le :  jeu. 28 mai 2020 à 21:05
 -- Version du serveur :  5.7.28
--- Version de PHP :  7.3.12
+-- Version de PHP :  7.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -143,8 +143,9 @@ END$$
 DROP PROCEDURE IF EXISTS `getAllRdvCli`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `getAllRdvCli` (IN `cli` INT(255))  BEGIN 
 
-SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as rdvDate, rdv.statutRdv , rdv.idCli, rdv.idPro, pro.pseudo FROM rdv
+SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as rdvDate, rdv.statutRdv , rdv.idCli, rdv.idPro, pro.pseudo, convers.idConvers FROM rdv
 JOIN pro ON rdv.idPro = pro.idPro
+JOIN convers ON rdv.idPro = convers.idPro && rdv.idCli= convers.idClient
 WHERE rdv.idCli = cli;
 
 END$$
@@ -152,8 +153,9 @@ END$$
 DROP PROCEDURE IF EXISTS `getAllRdvPro`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `getAllRdvPro` (IN `pro` INT(255))  BEGIN 
 
-SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as rdvDate, rdv.statutRdv , rdv.idCli, cli.pseudo, rdv.idPro FROM rdv
+SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as rdvDate, rdv.statutRdv , rdv.idCli, cli.pseudo, rdv.idPro, convers.idConvers FROM rdv
 JOIN cli ON rdv.idCli = cli.idCli
+JOIN convers ON rdv.idPro = convers.idPro && rdv.idCli= convers.idClient
 WHERE rdv.idPro = pro;
 
 
@@ -170,7 +172,7 @@ END$$
 DROP PROCEDURE IF EXISTS `getContactPro`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getContactPro` (IN `conv` INT(255))  BEGIN 
 
-SELECT convers.idClient FROM convers
+SELECT convers.idClient, convers.idPro FROM convers
 WHERE convers.idConvers = conv;
 
 END$$
@@ -269,7 +271,7 @@ END$$
 DROP PROCEDURE IF EXISTS `getRdv`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `getRdv` (IN `rdv` INT(255))  BEGIN 
 
-SELECT rdv.idRdv, rdv.date, rdv.statutRdv , rdv.idCli, rdv.idPro FROM rdv
+SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as dateEu, rdv.statutRdv , rdv.idCli, rdv.idPro FROM rdv
 WHERE rdv.idRdv = rdv;
 
 END$$
@@ -421,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -468,7 +470,30 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (67, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/27/2020 12:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:37:27', 0),
 (68, 1, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/27/2020 7:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:39:20', 0),
 (69, 1, 4, 2, 'test', '2020-05-27 15:05:27', 0),
-(70, 1, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/29/2020 6:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 12:56:53', 0);
+(70, 1, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/29/2020 6:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 12:56:53', 0),
+(71, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 2. Merci.', '2020-05-28 18:37:37', 0),
+(72, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci.', '2020-05-28 18:40:31', 0),
+(73, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci.', '2020-05-28 18:53:03', 0),
+(74, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci.', '2020-05-28 19:12:23', 0),
+(75, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:26:46', 0),
+(76, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:27:56', 0),
+(77, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:29:37', 0),
+(78, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:30:30', 0),
+(79, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/31/2020 10:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:38:42', 0),
+(80, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 7:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:46:53', 0),
+(81, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 6:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:48:14', 0),
+(82, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/31/2020 9:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:52:07', 0),
+(83, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/31/2020 5:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:54:30', 0),
+(84, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/01/2020 4:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:56:36', 0),
+(85, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/01/2020 4:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:57:40', 0),
+(86, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 04/06/2020 4:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-28 21:00:12', 0),
+(87, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-28 22:16:29', 0),
+(88, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-30T00:48. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:48:58', 0),
+(89, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-31T03:51. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:51:56', 0),
+(90, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-31T03:54. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:54:51', 0),
+(91, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 31-05-2020 03:54:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:55:38', 0),
+(92, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 07-06-2020 04:55:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:01:47', 0),
+(93, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 30/05/2020 08:30:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:04:47', 0);
 
 -- --------------------------------------------------------
 
@@ -519,14 +544,16 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
 --
 
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
-(1, '2020-06-02 09:00:00', 0, 2, 4);
+(1, '2020-05-30 08:30:00', 0, 2, 4),
+(5, '2020-06-01 04:00:00', 0, 3, 4),
+(8, '2020-06-06 01:00:00', 0, 3, 4);
 
 -- --------------------------------------------------------
 

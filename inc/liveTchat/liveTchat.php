@@ -142,5 +142,9 @@
   <script>
 removeClassActive('navPriseDeContact');
 afficherConvers('<?=$_SESSION['userId'] ;?>');
-$("#contentChat").animate({ scrollTop: $(this).height() }, "slow");
+var box = document.getElementById('msgConvers');
+box.scrollTop = box.scrollHeight;
+
+
+
 </script>

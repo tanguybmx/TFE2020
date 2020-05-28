@@ -253,7 +253,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     if(compteType=="professionnel"){
         let conversPro= JSON.parse(getContactPro(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
-            $('#button-addon3').attr("onclick","propositionRdv(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
+            $('#button-addon3').attr("onclick","propositionRdv(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\","+conversPro[0]['idPro']+");");
 
     }
     var box = document.getElementById('msgConvers');
@@ -294,9 +294,9 @@ function chatContact(idPro){
 
 }
 
-function propositionRdv(cli,conv){
+function propositionRdv(cli,conv,pro){
     let bulleDiscussion = "";
-    let propRdv = '<div class="container"> <div class="panel-heading">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-3"> <div class="form-group"> <label class="control-label">Date et heure du rendez-vous</label> <div class="input-group date" id="datetimepicker1"> <input type="text" class="form-control" id="dateRdv" style="display:none;"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div> </div> </div> </div> <input type="button" class="btn btn-primary" value="Proposer" id="proposerRdv"> </div> </div> <script> $(function () { $("#datetimepicker1").datetimepicker(); }); $("#datetimepicker1").datetimepicker({ isRTL: false, format: \'dd.mm.yyyy hh:ii\', autoclose:true, language: \'fr\' });</script>';
+    let propRdv = '<div class="container"> <div class="panel-heading">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-3"> <div class="form-group"> <label class="control-label">Date et heure du rendez-vous</label> <div class="input-group date" id="datetimepicker1"> <input type="text" class="form-control" id="dateRdv" style="display:none;"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div> </div> </div> </div> <input type="button" class="btn btn-primary" value="Proposer" id="proposerRdv" onclick="creationRdv('+userId+','+cli+');"> </div> </div> <script> $(function () { $("#datetimepicker1").datetimepicker(); }); $("#datetimepicker1").datetimepicker({ isRTL: false, format: \'dd.mm.yyyy hh:ii\', autoclose:true, language: \'fr\' });</script>';
     bulleDiscussion+='<div class="media w-70 ml-auto mb-3" id="bullePropRdv">';
     bulleDiscussion+='<div class="media-body">';
     bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2" style="height:30em;">';
@@ -308,11 +308,12 @@ function propositionRdv(cli,conv){
     $("#msgConvers").append(bulleDiscussion);
     var box = document.getElementById('msgConvers');
     box.scrollTop = box.scrollHeight;
-    $('#proposerRdv').attr('onclick','affichePropositionRdv('+cli+','+conv+')');
+    $('#proposerRdv').attr('onclick','affichePropositionRdv('+cli+','+conv+','+pro+')');
 }
 
-function affichePropositionRdv(cli,conv){
+function affichePropositionRdv(cli,conv, pro){
     creationMsgPropositionRdv(cli, conv);
+    creationRdv(pro, cli);
     let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
     let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
     let dateDernierMsgEnvoye = dernierMsgenvoye[0]['msgDate'];
@@ -357,6 +358,7 @@ function affichageDateFormatEu(date){
     let annee2 = date2.substr(6,4);
     let heure2 = date2.substr(11,1);
     let minute2 = date2.substr(13,2);
+    let amOrPm = date2.substr(16,2);
 
     let tabPM = ["13","14","15","16","17","18","19","20","21","22","23","00"];
     if(amOrPm == "PM"){
@@ -367,6 +369,30 @@ function affichageDateFormatEu(date){
     return formatDB;
     }
 
+    function formatDateTimeLocalToDb(date){
+        let dateTimeLocal = date;
+        let jour = dateTimeLocal.substr(8,2);
+        let mois = dateTimeLocal.substr(5,2);
+        let annee = dateTimeLocal.substr(0,4);
+        let heure = dateTimeLocal.substr(11,2);
+        let minute = dateTimeLocal.substr(14,2);
+
+        let formatDB = annee+"-"+mois+"-"+jour+" "+heure+":"+minute+":"+"00";
+        return formatDB;
+    }
+
+    function formatDateTimeLocalToAffichage(date){
+        let dateTimeLocal = date;
+        let jour = dateTimeLocal.substr(8,2);
+        let mois = dateTimeLocal.substr(5,2);
+        let annee = dateTimeLocal.substr(0,4);
+        let heure = dateTimeLocal.substr(11,2);
+        let minute = dateTimeLocal.substr(14,2);
+
+        let formatAffichageEu = jour+"/"+mois+"/"+annee+" "+heure+":"+minute+":00";
+        return formatAffichageEu;
+    }
+
     function afficheRdv(){
         let statut = ['En attente','Validé','Refusé','Annulé', 'Terminé']
         if(compteType=="client"){
@@ -374,20 +400,21 @@ function affichageDateFormatEu(date){
             let tableRdvCli="";
             for (let i =0; i< tabRdvCli.length; i++){
                 let validationRdv ='<td></td>';
+                let propDate = '<td></td>';
                 if(tabRdvCli[i]['statutRdv']==0){
-                    validationRdv = '<td onclick="modifStatutRdv('+tabRdvCli[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
+                    validationRdv = '<td onclick="valideRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idPro'])+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+')"><a href="#">Valider</a></td>';
+                    propDate = '<td onclick="demandeModifDateRdv('+parseInt(tabRdvCli[i]['idConvers'])+','+parseInt(tabRdvCli[i]['idPro'])+',\''+tabRdvCli[i]['rdvDate']+'\')"><a href="#">Demande de changement de date</a></td>';
                 }
                 tableRdvCli+='<tr>'
                 tableRdvCli+='<th scope="row">'+(i+1)+'</th>';
                 tableRdvCli+='<td>'+tabRdvCli[i]['rdvDate']+'</td>';
                 tableRdvCli+='<td>'+tabRdvCli[i]['pseudo']+'</td>';
                 tableRdvCli+= validationRdv;
-
-
+                tableRdvCli+=propDate;
                 tableRdvCli+='<td>'+statut[(tabRdvCli[i]['statutRdv'])]+'</td>';
                 tableRdvCli+='</tr>';
             }
-            $('#listeRdv').append(tableRdvCli);
+            $('#listeRdv').html(tableRdvCli);
         }
         if(compteType=="professionnel"){
             let tabRdvPro = JSON.parse(getAllRdvPro(userId));
@@ -396,7 +423,7 @@ function affichageDateFormatEu(date){
                 let propDate = '<td></td>';
                 if(tabRdvPro[i]['statutRdv']==0){
                     validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
-                    propDate = '<td onclick="modifDateRdv('+parseInt(tabRdvPro[i]['idRdv'])+','+0+')"><a href="#">Proposer une autre date</a></td>';
+                    propDate = '<td id="newDate'+parseInt(tabRdvPro[i]['idRdv'])+'" onclick="affichageModifDate('+parseInt(tabRdvPro[i]['idRdv'])+',\''+tabRdvPro[i]['rdvDate']+'\',\''+tabRdvPro[i]['pseudo']+'\','+tabRdvPro[i]['idCli']+','+ tabRdvPro[i]['idConvers']+')"><a href="#">Proposer une autre date</a></td><span id="choixDate'+tabRdvPro[i]['idRdv']+'"></span>';
                 }
                 tableRdvPro+='<tr>'
                 tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
@@ -409,4 +436,9 @@ function affichageDateFormatEu(date){
             $('#listeRdv').append(tableRdvPro);
         }
         
+    }
+
+    function affichageModifDate(rdv, date, pseudoCli, idCli, idConvers){
+        let modifDate = "<p>Modification du rendez-vous avec "+pseudoCli+" qui avait lieu le "+date+"</p><form style='height:15em;' action='#'> <label for='newDateRdv' value='Nouvelle date'></label> <input type='datetime-local' id='newDateRdv' name='newDateRdv'> <input type='button' value='Proposer'  onclick='modifDateRdv("+rdv+","+idCli+","+idConvers+")'> </form>";
+        $('#tableRdv').html(modifDate);
     }
