@@ -555,4 +555,106 @@ function creationConvers(cli, pro){
         return resp;
 }
 
+function creationRdv(pro, cli, dateRdv){
+    $.ajax({
+        url: "phpController/creationRdv.php",
+        type: "POST",
+        data: 
+        {
+            "idPro":pro,
+            "idCli":cli,
+            "dateRdv": dateRdv
+
+        },
+        success: function (response) {    
+            console.log(response);                     
+            }
+        });
+}
+
+function getRdv(idRdv){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getRdv.php",
+        type: "POST",
+        data: 
+        {
+            "idRdv":idRdv
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function modifStatutRdv(rdv, statut){
+    $.ajax({
+        url: "phpController/modifStatutRdv.php",
+        type: "POST",
+        data: 
+        {
+            "idRdv":rdv,
+            "statutRdv":statut
+
+        },
+        success: function (response) {    
+            console.log(response);                     
+            }
+        });
+}
+
+function modifDateRdv(rdv, dateRdv){
+    $.ajax({
+        url: "phpController/modifDateRdv.php",
+        type: "POST",
+        data: 
+        {
+            "idRdv":rdv,
+            "dateRdv":dateRdv
+
+        },
+        success: function (response) {    
+            console.log(response);                     
+            }
+        });
+}
+
+function getAllRdvCli(idCli){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getAllRdvCli.php",
+        type: "POST",
+        data: 
+        {
+            "idCli":idCli
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
+
+function getAllRdvPro(idPro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getAllRdvPro.php",
+        type: "POST",
+        data: 
+        {
+            "idPro":idPro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
 

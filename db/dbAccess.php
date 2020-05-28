@@ -50,6 +50,9 @@ class dbAccess
                     case 'getContactCli':
                     case 'getContactPro':
                     case 'getProViaMail':
+                    case 'getRdv':
+                    case 'getAllRdvCli':
+                    case 'getAllRdvPro':
                         array_push($params, '?');
         
                         try {
@@ -74,6 +77,8 @@ class dbAccess
             case 'creationConvers':
             case 'getThisConvers':
             case 'checkSiDejaContact':
+            case 'modifStatutRdv':
+            case 'modifDateRdv':
                 array_push($params, '?', '?');
 
                 try {
@@ -87,6 +92,24 @@ class dbAccess
                 }
                 break;
         }
+
+         //procédure avec 3 param
+         switch ($nomProcedure) {
+            case 'creationRdv':
+                array_push($params, '?', '?', '?');
+
+                try {
+                    $this->connexionDB();
+                    $procedureCall = 'call ' . $nomProcedure . '(' . join(',', $params) . ')';
+                    $requete = $this->pdo->prepare($procedureCall);
+                    $requete->execute($procParams);
+                    return $requete->fetchAll();
+                } catch (Exception $e) {
+                    die("Erreur :" . $e->getMessage());
+                }
+                break;
+        }
+
         //procédure avec 4 param
         switch ($nomProcedure) {
             case 'creationMsg':

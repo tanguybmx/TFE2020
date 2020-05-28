@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mer. 27 mai 2020 à 13:17
+-- Généré le :  jeu. 28 mai 2020 à 09:41
 -- Version du serveur :  5.7.28
--- Version de PHP :  7.4.0
+-- Version de PHP :  7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -124,10 +124,35 @@ INSERT INTO pro(pseudo, mdp, nom, prenom, mail, adresse) VALUES(username, passwo
 
 END$$
 
+DROP PROCEDURE IF EXISTS `creationRdv`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `creationRdv` (IN `pro` INT(255), IN `cli` INT(255), IN `dateRdv` DATETIME)  BEGIN 
+
+
+INSERT INTO rdv(rdv.idPro, rdv.idCli, rdv.date) VALUES (pro, cli, dateRdv);
+
+
+END$$
+
 DROP PROCEDURE IF EXISTS `creationSecteur`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creationSecteur` (IN `name` VARCHAR(300))  BEGIN 
 
 INSERT INTO sect (nom) VALUES(name);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getAllRdvCli`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `getAllRdvCli` (IN `cli` INT(255))  BEGIN 
+
+SELECT rdv.idRdv, rdv.date, rdv.statutRdv , rdv.idCli, rdv.idPro FROM rdv
+WHERE rdv.idCli = cli;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getAllRdvPro`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `getAllRdvPro` (IN `pro` INT(255))  BEGIN 
+
+SELECT rdv.idRdv, rdv.date, rdv.statutRdv , rdv.idCli, rdv.idPro FROM rdv
+WHERE rdv.idPro = pro;
 
 END$$
 
@@ -238,11 +263,37 @@ WHERE pro.mail=email;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getRdv`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `getRdv` (IN `rdv` INT(255))  BEGIN 
+
+SELECT rdv.idRdv, rdv.date, rdv.statutRdv , rdv.idCli, rdv.idPro FROM rdv
+WHERE rdv.idRdv = rdv;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `getSecteur`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSecteur` ()  BEGIN
 
 SELECT idSecteur, nom
 FROM sect;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `modifDateRdv`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `modifDateRdv` (IN `rdv` INT(255), IN `dateRdv` DATETIME)  BEGIN 
+
+UPDATE rdv 
+SET rdv.date = dateRdv , rdv.statutRdv = 0
+WHERE rdv.idRdv = rdv;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `modifStatutRdv`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `modifStatutRdv` (IN `rdv` INT(255), IN `statut` TINYINT)  BEGIN 
+
+UPDATE rdv 
+SET rdv.statutRdv = statut
+WHERE rdv.idRdv = rdv;
 
 END$$
 
@@ -306,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
@@ -318,24 +369,6 @@ INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
 (4, 2, 6),
 (14, 2, 7),
 (15, 3, 4);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `dem`
---
-
-DROP TABLE IF EXISTS `dem`;
-CREATE TABLE IF NOT EXISTS `dem` (
-  `idDem` int(11) NOT NULL AUTO_INCREMENT,
-  `idServ` int(11) NOT NULL,
-  `idCli` int(11) NOT NULL,
-  `descr` varchar(255) NOT NULL,
-  `statut` int(1) NOT NULL DEFAULT '0' COMMENT '0 pas de prop; 1 prop effectuÃ©; 2 rdv ok',
-  PRIMARY KEY (`idDem`),
-  KEY `idServ` (`idServ`),
-  KEY `idCli` (`idCli`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -469,32 +502,19 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 -- --------------------------------------------------------
 
 --
--- Structure de la table `prop`
---
-
-DROP TABLE IF EXISTS `prop`;
-CREATE TABLE IF NOT EXISTS `prop` (
-  `idProp` int(11) NOT NULL AUTO_INCREMENT,
-  `idDem` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `descr` varchar(255) NOT NULL,
-  PRIMARY KEY (`idProp`),
-  KEY `idDem` (`idDem`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `rdv`
 --
 
 DROP TABLE IF EXISTS `rdv`;
 CREATE TABLE IF NOT EXISTS `rdv` (
-  `idRdv` int(11) NOT NULL AUTO_INCREMENT,
-  `idProp` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `idRdv` int(255) NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `statutRdv` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 => en attente 1=> validé 2 => refusé 3=> annulé',
+  `idCli` int(255) NOT NULL,
+  `idPro` int(255) NOT NULL,
   PRIMARY KEY (`idRdv`),
-  KEY `idProp` (`idProp`)
+  KEY `idCli` (`idCli`),
+  KEY `idPro` (`idPro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -553,13 +573,6 @@ ALTER TABLE `convers`
   ADD CONSTRAINT `convers_ibfk_2` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `dem`
---
-ALTER TABLE `dem`
-  ADD CONSTRAINT `dem_ibfk_1` FOREIGN KEY (`idServ`) REFERENCES `serv` (`idServ`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `dem_ibfk_3` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Contraintes pour la table `ent`
 --
 ALTER TABLE `ent`
@@ -573,16 +586,11 @@ ALTER TABLE `msg`
   ADD CONSTRAINT `msg_ibfk_1` FOREIGN KEY (`idConvers`) REFERENCES `convers` (`idConvers`) ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `prop`
---
-ALTER TABLE `prop`
-  ADD CONSTRAINT `prop_ibfk_1` FOREIGN KEY (`idDem`) REFERENCES `dem` (`idDem`) ON UPDATE CASCADE;
-
---
 -- Contraintes pour la table `rdv`
 --
 ALTER TABLE `rdv`
-  ADD CONSTRAINT `rdv_ibfk_1` FOREIGN KEY (`idProp`) REFERENCES `prop` (`idProp`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `idCli` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `idPro` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `serv`
