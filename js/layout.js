@@ -169,7 +169,7 @@ function afficherConvers(idUser){
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
             listConvers+="<h6 class='mb-0'>"+pseudoPro+"</h6><h7>"+nomEnt+"</h7><p class='small font-weight-bold'>"+((tabConversCli[0]['contenu']).substr(0, 15))+", ...</p>";
             listConvers+="</div>";
-            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversCli[0]['dateHeure']+"</p>";
+            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversCli[0]['msgDate']+"</p>";
             listConvers+="</div>";
             listConvers+="</div>";
             listConvers+="</a>";
@@ -196,7 +196,7 @@ function afficherConvers(idUser){
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
             listConvers+="<h6 class='mb-0'>"+pseudoCli+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
             listConvers+="</div>";
-            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['dateHeure']+"</p>";
+            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['msgDate']+"</p>";
             listConvers+="</div>";
             listConvers+="</div>";
             listConvers+="</a>";
@@ -217,7 +217,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
             fullConver+='<div class="bg-primary rounded py-2 px-3 mb-2">';
             fullConver+='<p class=" mb-0 text-white">'+tabMsgConvers[k]['contenu']+'</p>';
             fullConver+='</div>';
-            fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['dateHeure']+'</p>';
+            fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['msgDate']+'</p>';
             fullConver+='</div>';
             fullConver+='</div>';
         }
@@ -227,7 +227,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
             fullConver+='<div class="bg-light rounded py-2 px-3 mb-2">';
             fullConver+='<p class=" mb-0 text-muted">'+tabMsgConvers[k]['contenu']+'</p>';
             fullConver+='</div>';
-            fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['dateHeure']+'</p>';
+            fullConver+='<p class="small text-muted">'+tabMsgConvers[k]['msgDate']+'</p>';
             fullConver+='</div>';
             fullConver+='</div>';
         }
@@ -257,7 +257,7 @@ function afficheMsgEnvoye(dest, conv){
     creationMsg(dest, conv);
     let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
     let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
-    let dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
+    let dateDernierMsgEnvoye = dernierMsgenvoye[0]['msgDate'];
     $('#contenuNouveauMsg').val("");
     var box = document.getElementById('msgConvers');
     box.scrollTop = box.scrollHeight;
@@ -305,7 +305,7 @@ function affichePropositionRdv(cli,conv){
     creationMsgPropositionRdv(cli, conv);
     let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
     let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
-    let dateDernierMsgEnvoye = dernierMsgenvoye[0]['dateHeure'];
+    let dateDernierMsgEnvoye = dernierMsgenvoye[0]['msgDate'];
     let bulleDiscussion = "";
     bulleDiscussion+='<div class="media w-50 ml-auto mb-3">';
     bulleDiscussion+='<div class="media-body">';

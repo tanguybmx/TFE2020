@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 28 mai 2020 à 09:41
+-- Généré le :  jeu. 28 mai 2020 à 10:04
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -201,7 +201,7 @@ END$$
 DROP PROCEDURE IF EXISTS `getDernierMsgConvers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDernierMsgConvers` (IN `conv` INT(255))  BEGIN
 
-SELECT msg.idExp, msg.idDest, msg.contenu, msg.dateHeure FROM msg
+SELECT msg.idExp, msg.idDest, msg.contenu, DATE_FORMAT(msg.dateHeure,'%d-%m-%Y %H:%i:%s') as msgDate FROM msg
 WHERE msg.idConvers = conv AND msg.dateHeure = (SELECT MAX(msg.dateHeure)FROM msg WHERE msg.idConvers = conv)
 GROUP BY msg.idConvers;
 END$$
@@ -227,7 +227,7 @@ END$$
 DROP PROCEDURE IF EXISTS `getMsgConvers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMsgConvers` (IN `convers` INT(255))  BEGIN 
 
-SELECT msg.idExp, msg.idDest, msg.contenu, msg.dateHeure, msg.statut, msg.idConvers FROM msg
+SELECT msg.idExp, msg.idDest, msg.contenu, DATE_FORMAT(msg.dateHeure,'%d-%m-%Y %H:%i:%s') as msgDate, msg.statut, msg.idConvers FROM msg
 WHERE msg.idConvers = convers
 ORDER BY msg.dateHeure ASC;
 END$$
