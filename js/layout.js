@@ -418,7 +418,7 @@ function affichageDateFormatEu(date){
     }
 
     function afficheRdv(){
-        let statut = ['En attente','Validé','Refusé','Annulé', 'Terminé']
+        let statut = ['En attente','Validé','Refusé','Annulé', 'Terminé', 'Terminé et avis donné']
         if(compteType=="client"){
             let tabRdvCli = JSON.parse(getAllRdvCli(userId));
             let tableRdvCli="";
@@ -426,13 +426,19 @@ function affichageDateFormatEu(date){
                 let validationRdv ='<td></td>';
                 let propDate = '<td></td>';
                 let annulation = '<td></td>';
+                let avis = '<td></td>';
                 if(tabRdvCli[i]['statutRdv']==0){
                     validationRdv = '<td onclick="valideRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idPro'])+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+')"><a href="#">Valider</a></td>';
                     propDate = '<td onclick="demandeModifDateRdv('+parseInt(tabRdvCli[i]['idConvers'])+','+parseInt(tabRdvCli[i]['idPro'])+',\''+tabRdvCli[i]['rdvDate']+'\')"><a href="#">Demande de changement de date</a></td>';
                 }
-                if(tabRdvCli[i]['statutRdv']!=4 && tabRdvCli[i]['statutRdv']!=3){
+                if(tabRdvCli[i]['statutRdv']!=4 && tabRdvCli[i]['statutRdv']!=3 && tabRdvCli[i]['statutRdv']!=5){
                     annulation = '<td onclick="annulerRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+','+tabRdvCli[i]['idPro']+','+tabRdvCli[i]['idCli']+')"><a href="#">Annuler</a></td>';;
                 }
+
+                if(tabRdvCli[i]['statutRdv']==4){
+                    avis = '<td><a href="">Donner son avis</a></td>';
+                }
+
                 tableRdvCli+='<tr>'
                 tableRdvCli+='<th scope="row">'+(i+1)+'</th>';
                 tableRdvCli+='<td>'+tabRdvCli[i]['rdvDate']+'</td>';
@@ -441,6 +447,7 @@ function affichageDateFormatEu(date){
                 tableRdvCli+= annulation;
                 tableRdvCli+= propDate;
                 tableRdvCli+='<td>'+statut[(tabRdvCli[i]['statutRdv'])]+'</td>';
+                tableRdvCli+= avis;
                 tableRdvCli+='</tr>';
             }
             $('#listeRdv').html(tableRdvCli);

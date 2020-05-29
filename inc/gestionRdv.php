@@ -16,6 +16,7 @@ $_SESSION['pageActuelle']="gestionRdv.php";
           <th>Changement de date</th>
           <?php if($_SESSION['typeCompte']== "professionnel"){ echo "<th>Finalisation</th>";} ?>
           <th>Statut</th>
+          <?php if($_SESSION['typeCompte'] == "client"){ echo("<th>Avis</th>");}?>
         </tr>
       </thead>
     <tbody id="listeRdv">

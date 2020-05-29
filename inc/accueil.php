@@ -31,7 +31,7 @@ $_SESSION['pageActuelle']="accueil.php";
         </div>
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="card static__single">
-            <h3>720</h3>
+          <h3><?=$_SESSION['nbCliSatisfait']?></h3>
             <h4>Clients satisfaits</h4>
           </div>
         </div>

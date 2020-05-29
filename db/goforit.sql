@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  ven. 29 mai 2020 à 09:46
+-- Généré le :  ven. 29 mai 2020 à 11:21
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -97,6 +97,13 @@ WHERE rdv.statutRdv = 4;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `creationAvis`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationAvis` (IN `rdvId` INT, IN `avisCote` DECIMAL)  BEGIN
+
+INSERT INTO avis (avis.idRdv, avis.cote) VALUES (rdvId,  avisCote);
+
+END$$
+
 DROP PROCEDURE IF EXISTS `creationClient`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(300), IN `pwd` VARCHAR(300), IN `name` VARCHAR(300), IN `firstname` VARCHAR(300), IN `adress` VARCHAR(300), IN `email` VARCHAR(300))  BEGIN
 
@@ -166,6 +173,23 @@ JOIN cli ON rdv.idCli = cli.idCli
 JOIN convers ON rdv.idPro = convers.idPro && rdv.idCli= convers.idClient
 WHERE rdv.idPro = pro;
 
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getAvisPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAvisPro` (IN `pro` INT)  BEGIN 
+
+SELECT SUM(avis.cote) as coteTotal FROM avis
+INNER JOIN rdv ON avis.idRdv = rdv.idRdv
+WHERE rdv.idPro = pro;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getClientSatisfait`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getClientSatisfait` ()  BEGIN
+
+SELECT COUNT(avis.idAvis) as nbCli FROM avis
+WHERE avis.cote>2.5;
 
 END$$
 
@@ -322,11 +346,17 @@ DROP TABLE IF EXISTS `avis`;
 CREATE TABLE IF NOT EXISTS `avis` (
   `idAvis` int(11) NOT NULL AUTO_INCREMENT,
   `idRdv` int(11) NOT NULL,
-  `lien` varchar(255) NOT NULL,
-  `statut` int(1) NOT NULL DEFAULT '0' COMMENT '0 non utilisÃ©; 1 utilisÃ©',
+  `cote` decimal(10,0) NOT NULL COMMENT 'valeur entre 0 et 5',
   PRIMARY KEY (`idAvis`),
   KEY `idRdv` (`idRdv`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `avis`
+--
+
+INSERT INTO `avis` (`idAvis`, `idRdv`, `cote`) VALUES
+(1, 14, '4');
 
 -- --------------------------------------------------------
 
@@ -498,7 +528,7 @@ DROP TABLE IF EXISTS `rdv`;
 CREATE TABLE IF NOT EXISTS `rdv` (
   `idRdv` int(255) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
-  `statutRdv` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 => en attente 1=> validé 2 => refusé 3=> annulé 4=> Effectuée',
+  `statutRdv` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 => en attente 1=> validé 2 => refusé 3=> annulé 4=> Effectuée 5=> avis donné',
   `idCli` int(255) NOT NULL,
   `idPro` int(255) NOT NULL,
   PRIMARY KEY (`idRdv`),

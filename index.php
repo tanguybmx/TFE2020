@@ -3,6 +3,7 @@
 session_start();
 include 'phpController/getNbPros.php';
 include 'phpController/countRdvFini.php';
+include 'phpController/getClientSatisfait.php';
 
 ?>
 <script>
@@ -119,7 +120,7 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
         </div>
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="card static__single">
-            <h3>720</h3>
+            <h3><?=$_SESSION['nbCliSatisfait']?></h3>
             <h4>Clients satisfaits</h4>
           </div>
         </div>

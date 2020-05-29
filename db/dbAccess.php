@@ -24,6 +24,7 @@ class dbAccess
                     case'getEnt':
                     case 'countPro':
                     case 'countRdvFini':
+                    case 'getClientSatisfait':
                         array_push($params);
         
                         try {
@@ -54,6 +55,7 @@ class dbAccess
                     case 'getRdv':
                     case 'getAllRdvCli':
                     case 'getAllRdvPro':
+                    case 'getAvisPro':
                         array_push($params, '?');
         
                         try {
@@ -80,6 +82,7 @@ class dbAccess
             case 'checkSiDejaContact':
             case 'modifStatutRdv':
             case 'modifDateRdv':
+            case 'creationAvis':
                 array_push($params, '?', '?');
 
                 try {
