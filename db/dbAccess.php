@@ -23,6 +23,7 @@ class dbAccess
                     case'getSecteur':
                     case'getEnt':
                     case 'countPro':
+                    case 'countRdvFini':
                         array_push($params);
         
                         try {

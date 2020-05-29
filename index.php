@@ -2,6 +2,7 @@
 <?php
 session_start();
 include 'phpController/getNbPros.php';
+include 'phpController/countRdvFini.php';
 
 ?>
 <script>
@@ -112,8 +113,8 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
         </div>
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="card static__single">
-            <h3>1526</h3>
-            <h4>Projets réalisés</h4>
+            <h3 id="nbRdv"><?=$_SESSION['countRdvFini']?></h3>
+            <h4>Rendez-vous réalisés</h4>
           </div>
         </div>
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 28 mai 2020 à 21:38
+-- Généré le :  ven. 29 mai 2020 à 09:46
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -86,6 +86,14 @@ DROP PROCEDURE IF EXISTS `countPro`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `countPro` ()  BEGIN 
 
 SELECT count(pro.idPro) as nbPros FROM pro;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `countRdvFini`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `countRdvFini` ()  BEGIN 
+
+SELECT COUNT(rdv.idRdv) as nbRdv FROM rdv
+WHERE rdv.statutRdv = 4;
 
 END$$
 
@@ -362,18 +370,14 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
 --
 
 INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
-(1, 2, 4),
-(2, 2, 5),
-(4, 2, 6),
-(14, 2, 7),
-(15, 3, 4);
+(16, 2, 4);
 
 -- --------------------------------------------------------
 
@@ -423,78 +427,33 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
 --
 
 INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeure`, `statut`) VALUES
-(1, 1, 2, 4, 'Test de message et de conversation', '2020-05-25 15:00:00', 0),
-(3, 1, 4, 2, 'Test réponse d\'un pro dans une conversation', '2020-05-25 16:00:00', 0),
-(4, 2, 2, 5, 'Test envois à un second pro', '2020-05-25 16:30:00', 0),
-(18, 1, 4, 2, 'test', '2020-05-26 15:17:18', 0),
-(19, 1, 4, 2, 'test2', '2020-05-26 15:18:13', 0),
-(20, 1, 2, 4, 'Réponse Client avec date correct', '2020-05-26 15:18:55', 0),
-(21, 2, 2, 5, 'Bonne date', '2020-05-26 15:19:19', 0),
-(22, 1, 2, 4, 'test refresh', '2020-05-26 15:19:30', 0),
-(36, 1, 4, 2, 'test', '2020-05-26 15:26:08', 0),
-(37, 1, 4, 2, 'réponse depuis ma fenêtre de tchat', '2020-05-26 15:27:31', 0),
-(38, 1, 4, 2, 'test', '2020-05-26 15:28:01', 0),
-(39, 1, 4, 2, 'test 2 depuis pro', '2020-05-26 15:28:42', 0),
-(40, 1, 4, 2, 'test 2 depuis pro', '2020-05-26 15:28:46', 0),
-(41, 1, 4, 2, 'test 2 depuis pro', '2020-05-26 15:28:55', 0),
-(42, 1, 4, 2, 'test3', '2020-05-26 15:28:57', 0),
-(43, 1, 4, 2, 'test3', '2020-05-26 15:29:00', 0),
-(44, 1, 4, 2, 'test réponse 2eme pro', '2020-05-26 15:29:02', 0),
-(45, 1, 4, 2, 'réponse depuis ma fenêtre de tchat', '2020-05-26 15:29:58', 0),
-(46, 1, 4, 2, 'test', '2020-05-26 15:35:08', 0),
-(47, 1, 4, 2, 'test Scroll', '2020-05-26 15:35:51', 0),
-(48, 2, 5, 2, 'Test envois depuis DU', '2020-05-26 15:38:03', 0),
-(49, 2, 5, 2, 'test envois Convers ', '2020-05-26 15:38:33', 0),
-(50, 2, 5, 2, 'Comprends pas pourquoi refresh aléatoire', '2020-05-26 15:38:45', 0),
-(51, 1, 2, 4, 'test', '2020-05-26 15:43:33', 0),
-(52, 1, 2, 4, 'envois test ', '2020-05-26 15:44:26', 0),
-(53, 2, 2, 5, 'test envois', '2020-05-26 15:44:36', 0),
-(54, 1, 4, 2, 'testDirect', '2020-05-26 15:48:00', 0),
-(55, 1, 2, 4, 'testDirect', '2020-05-26 15:48:24', 0),
-(56, 2, 2, 5, 'test tri', '2020-05-26 18:09:22', 0),
-(57, 2, 2, 5, 'test 2 depuis cli', '2020-05-26 18:10:08', 0),
-(60, 14, 2, 7, 'Première prise de contact effectuée', '2020-05-26 20:00:55', 0),
-(61, 15, 3, 4, 'Première prise de contact effectuée', '2020-05-27 10:52:18', 0),
-(62, 15, 3, 4, 'Bonjour, je rencontre un problème pour connecter mon imprimante à mon ordinateur. Serait-il possible de m\'aider ?', '2020-05-27 10:52:56', 0),
-(63, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/28/2020 1:00 PM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:31:03', 0),
-(64, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 7:00 AM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:32:51', 0),
-(65, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 11:00 AM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:33:23', 0),
-(66, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/02/2020 8:00 AM&lt;br&gt; Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:36:08', 0),
-(67, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/27/2020 12:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:37:27', 0),
-(68, 1, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/27/2020 7:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-27 14:39:20', 0),
-(69, 1, 4, 2, 'test', '2020-05-27 15:05:27', 0),
-(70, 1, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/29/2020 6:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 12:56:53', 0),
-(71, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 2. Merci.', '2020-05-28 18:37:37', 0),
-(72, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci.', '2020-05-28 18:40:31', 0),
-(73, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci.', '2020-05-28 18:53:03', 0),
-(74, 1, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci.', '2020-05-28 19:12:23', 0),
-(75, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:26:46', 0),
-(76, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:27:56', 0),
-(77, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:29:37', 0),
-(78, 1, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 02-06-2020 09:00:00. Merci.', '2020-05-28 19:30:30', 0),
-(79, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/31/2020 10:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:38:42', 0),
-(80, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 7:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:46:53', 0),
-(81, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/30/2020 6:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:48:14', 0),
-(82, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/31/2020 9:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:52:07', 0),
-(83, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/31/2020 5:00 PM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:54:30', 0),
-(84, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/01/2020 4:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:56:36', 0),
-(85, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/01/2020 4:00 AM Pourriez-vous me confirmer celle-ci ?', '2020-05-28 20:57:40', 0),
-(86, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 04/06/2020 4:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-28 21:00:12', 0),
-(87, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 06/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-28 22:16:29', 0),
-(88, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-30T00:48. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:48:58', 0),
-(89, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-31T03:51. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:51:56', 0),
-(90, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 2020-05-31T03:54. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:54:51', 0),
-(91, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 31-05-2020 03:54:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 22:55:38', 0),
-(92, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 07-06-2020 04:55:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:01:47', 0),
-(93, 1, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 30/05/2020 08:30:00. Merci de valider celle-ci si elle vous convient.', '2020-05-28 23:04:47', 0),
-(94, 15, 4, 3, 'Bonjour, je viens d\'annuler notre rendez-vous du 06-06-2020 01:00:00', '2020-05-28 23:36:18', 0);
+(95, 15, 4, 3, 'Bonjour, voici la nouvelle proposition de rendez-vous 01/06/2020 09:00:00. Merci de valider celle-ci si elle vous convient.', '2020-05-29 10:06:45', 0),
+(96, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 10/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:07:39', 0),
+(97, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 03/06/2020 9:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:12:52', 0),
+(98, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: // ::00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:24:32', 0),
+(99, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 16/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:24:51', 0),
+(100, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: // ::00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:27:38', 0),
+(101, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 17/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:27:52', 0),
+(102, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 17/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:27:57', 0),
+(103, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 28/05/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:29:23', 0),
+(104, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 31/05/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:30:58', 0),
+(105, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:42:28', 0),
+(106, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 03/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:45:34', 0),
+(107, 16, 2, 4, 'Première prise de contact effectuée', '2020-05-29 10:53:00', 0),
+(108, 16, 2, 4, 'Bonjour, je suis un jeune en pleine rédaction de mon TFE, et mon PC ne veut plus démarrer. Pourriez-vous m\'aider ? Bien à vous.', '2020-05-29 10:54:20', 0),
+(109, 16, 4, 2, 'Bonjour, oui tout a fait nous pouvons planifier un rendez-vous. Je vais vous faire une proposition.', '2020-05-29 10:55:30', 0),
+(110, 16, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 10/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:55:59', 0),
+(111, 16, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 10-06-2020 10:00:00. Merci.', '2020-05-29 10:56:44', 0),
+(112, 16, 2, 4, 'Cela me conviendrait en semaine et plutôt en soirée. ', '2020-05-29 10:57:51', 0),
+(115, 16, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 18/06/2020 19:00:00. Merci de valider celle-ci si elle vous convient.', '2020-05-29 11:02:08', 0),
+(116, 16, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 18-06-2020 19:00:00. Merci.', '2020-05-29 11:06:50', 0);
 
 -- --------------------------------------------------------
 
@@ -545,16 +504,14 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
 --
 
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
-(1, '2020-05-30 08:30:00', 0, 2, 4),
-(5, '2020-06-01 04:00:00', 0, 3, 4),
-(8, '2020-06-06 01:00:00', 3, 3, 4);
+(14, '2020-06-18 19:00:00', 4, 2, 4);
 
 -- --------------------------------------------------------
 
