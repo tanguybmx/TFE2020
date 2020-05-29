@@ -135,22 +135,30 @@ function affichageListeAnnonces(tabAnnonce){
     affichageAnnonces = "";
 
     for (var i = 0; i<nbAnnonces; i++){
+        let idPro = getProViaMail(tabAnnonce[i]['idAdmin']);
+        let cotePro = (JSON.parse(getCotePro(idPro)))[0]['moyenne'];
 
-    affichageAnnonces +="<div class='card'>";
-    affichageAnnonces +="<div class='row'>";
-    affichageAnnonces +="<div class='col-md-3 annonce'>";
-    affichageAnnonces +="<div class='card-body cc-education-header'>";
-    affichageAnnonces +="<div class='h5'>"+ tabAnnonce[i]['nom'] +"</div>";
-    affichageAnnonces +="<p>"+ tabAnnonce[i]['nomSect'] +"</p>";
-    affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/YourLogo.png'></p>";
-    affichageAnnonces +="</div></div>";
-    affichageAnnonces +="<div class='col-md-9'>";
-    affichageAnnonces +="<div class='card-body'></div>";
-    affichageAnnonces +="<div class='h5'>Annonce</div><br>";
-    affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
-    affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
-    affichageAnnonces +=" <p><a  onclick='chatContact("+getProViaMail(tabAnnonce[i]['idAdmin'])+");'>Contacter</a><br></p>";
-    affichageAnnonces +="</div></div></div></div>";
+        affichageAnnonces +="<div class='card'>";
+        affichageAnnonces +="<div class='row'>";
+        affichageAnnonces +="<div class='col-md-3 annonce'>";
+        affichageAnnonces +="<div class='card-body cc-education-header'>";
+        affichageAnnonces +="<div class='h5'>"+ tabAnnonce[i]['nom'] +"</div>";
+        affichageAnnonces +="<p>"+ tabAnnonce[i]['nomSect'] +"</p>";
+        affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/YourLogo.png'></p>";
+        affichageAnnonces +="</div></div>";
+        affichageAnnonces +="<div class='col-md-9'>";
+        affichageAnnonces +="<div class='card-body'></div>";
+        affichageAnnonces +="<div class='h5'>Annonce</div><br>";
+        affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
+        affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
+        if(cotePro===null){
+            affichageAnnonces += '<p>Le professionnel est nouveau sur la plateforme</p>';
+        }
+        if(cotePro!==null){
+            affichageAnnonces += '<p>Voici la note moyenne de ce professionnel: '+(Math.round(cotePro * 10)/10)+'/5</p>';
+        }
+        affichageAnnonces +=" <p><a  onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
+        affichageAnnonces +="</div></div></div></div>";
     }
 
     

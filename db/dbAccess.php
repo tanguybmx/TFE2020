@@ -56,6 +56,7 @@ class dbAccess
                     case 'getAllRdvCli':
                     case 'getAllRdvPro':
                     case 'getAvisPro':
+                    case 'getCotePro':
                         array_push($params, '?');
         
                         try {

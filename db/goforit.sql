@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  ven. 29 mai 2020 à 15:28
+-- Généré le :  ven. 29 mai 2020 à 15:55
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -232,6 +232,15 @@ WHERE convers.idPro = idUser
 GROUP BY msg.idConvers  
 ORDER BY dernierMsg DESC;
 
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getCotePro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCotePro` (IN `pro` INT(255))  BEGIN
+
+SELECT AVG(avis.cote) as moyenne FROM avis
+INNER JOIN rdv ON avis.idRdv = rdv.idRdv
+WHERE rdv.idPro = pro;
 
 END$$
 

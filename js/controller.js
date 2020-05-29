@@ -773,4 +773,20 @@ function creationAvis(idRdv){
     window.location.reload();
 }
 
-
+function getCotePro(pro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getCotePro.php",
+        type: "POST",
+        data: 
+        {
+            "idPro":pro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
