@@ -8,7 +8,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
 <div class="container py-5 px-4">
     <!-- For demo purpose-->
     <header class="text-center">
@@ -36,7 +36,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -47,7 +47,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -58,7 +58,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -69,7 +69,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -80,7 +80,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -91,7 +91,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -102,7 +102,7 @@
                 </div>
               </a>
   
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <a  class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
@@ -125,12 +125,15 @@
         </div>
   
         <!-- Typing area -->
-        <form action="#" class="bg-light">
+        <form class="bg-light">
           <div class="input-group">
             <input type="text" id="contenuNouveauMsg" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
             <div class="input-group-append" >
               <button id="button-addon2" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
-              <button id="button-addon3" class="btn btn-link" id="calendrier"> <i class="fa fa-calendar-plus"></i></button>
+              <?php 
+              if($_SESSION['typeCompte']== 'professionnel'){
+                echo'<button id="button-addon3" class="btn btn-link" id="calendrier"> <i class="fa fa-calendar-plus"></i></button>';
+              }?>
             </div>
           </div>
         </form>
@@ -142,8 +145,10 @@
   <script>
 removeClassActive('navPriseDeContact');
 afficherConvers('<?=$_SESSION['userId'] ;?>');
+//$('#contentConvers a:first').click();
 var box = document.getElementById('msgConvers');
 box.scrollTop = box.scrollHeight;
+
 
 
 

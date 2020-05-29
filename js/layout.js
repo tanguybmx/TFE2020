@@ -106,12 +106,18 @@ function priseDeContact(){
 
     removeClassActive('navPriseDeContact');
 }
+function pageAvis(rdvId, pseudo, date){
+    avis(rdvId, pseudo, date);
+        //la cote sera automatiquement cherché par le controller js grace à $('#note').val()
+
+}
 
 function gestionRdv(){
     $('#content').load('inc/gestionRdv.php');
 
     removeClassActive('navGestionRdv');
 }
+
 
 
 function estCo() {
@@ -143,7 +149,7 @@ function affichageListeAnnonces(tabAnnonce){
     affichageAnnonces +="<div class='h5'>Annonce</div><br>";
     affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
     affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
-    affichageAnnonces +=" <p><a href='#' onclick='chatContact("+getProViaMail(tabAnnonce[i]['idAdmin'])+");'>Contacter</a><br></p>";
+    affichageAnnonces +=" <p><a  onclick='chatContact("+getProViaMail(tabAnnonce[i]['idAdmin'])+");'>Contacter</a><br></p>";
     affichageAnnonces +="</div></div></div></div>";
     }
 
@@ -274,21 +280,14 @@ function afficheMsgEnvoye(dest, conv){
 
 function chatContact(idPro){
     let reponse = JSON.parse(checkSiDejaContact(userId, idPro));
-    priseDeContact();
-    let newConver = "";
-    let contact = getNomPro(idPro);
-    let ent = getProEnt(idPro);
-    let ajd = new Date();
-    let date = ajd.getFullYear()+'-'+(ajd.getMonth()+1)+'-'+ajd.getDate()+' '+ajd.getHours()+':'+ajd.getMinutes()+':'+ajd.getSeconds();
     console.log(reponse);
-    if(reponse[0][0] == "noConvers"){
+    console.log(reponse);
+    if(reponse == "noConvers"){
         let conv=creationConvers(userId, idPro);
         creationMsgAcceuil(idPro, conv);
-        window.location.reload();
+        priseDeContact();
     }
     else{
-        priseDeContact();
-        location.replace("http://localhost/TFE2020?conv="+reponse[0]['idConvers']);
         priseDeContact();
     }
 
@@ -428,15 +427,15 @@ function affichageDateFormatEu(date){
                 let annulation = '<td></td>';
                 let avis = '<td></td>';
                 if(tabRdvCli[i]['statutRdv']==0){
-                    validationRdv = '<td onclick="valideRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idPro'])+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+')"><a href="#">Valider</a></td>';
-                    propDate = '<td onclick="demandeModifDateRdv('+parseInt(tabRdvCli[i]['idConvers'])+','+parseInt(tabRdvCli[i]['idPro'])+',\''+tabRdvCli[i]['rdvDate']+'\')"><a href="#">Demande de changement de date</a></td>';
+                    validationRdv = '<td onclick="valideRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idPro'])+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+')"><a class="lienBleu">Valider</a></td>';
+                    propDate = '<td onclick="demandeModifDateRdv('+parseInt(tabRdvCli[i]['idConvers'])+','+parseInt(tabRdvCli[i]['idPro'])+',\''+tabRdvCli[i]['rdvDate']+'\')"><a class="lienBleu">Demande de changement de date</a></td>';
                 }
                 if(tabRdvCli[i]['statutRdv']!=4 && tabRdvCli[i]['statutRdv']!=3 && tabRdvCli[i]['statutRdv']!=5){
-                    annulation = '<td onclick="annulerRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+','+tabRdvCli[i]['idPro']+','+tabRdvCli[i]['idCli']+')"><a href="#">Annuler</a></td>';;
+                    annulation = '<td onclick="annulerRdv('+tabRdvCli[i]['idRdv']+","+parseInt(tabRdvCli[i]['idConvers'])+',\''+tabRdvCli[i]['rdvDate']+'\''+','+tabRdvCli[i]['idPro']+','+tabRdvCli[i]['idCli']+')"><a class="lienBleu">Annuler</a></td>';;
                 }
 
                 if(tabRdvCli[i]['statutRdv']==4){
-                    avis = '<td><a href="">Donner son avis</a></td>';
+                    avis = '<td><a class="lienBleu" onclick="pageAvis('+tabRdvCli[i]['idRdv']+",'"+tabRdvCli[i]['pseudo']+"','"+tabRdvCli[i]['rdvDate']+'\')">Donner son avis</a></td>';
                 }
 
                 tableRdvCli+='<tr>'
@@ -460,14 +459,14 @@ function affichageDateFormatEu(date){
                 let annulation = '<td></td>';
                 let finalisation = '<td></td>';
                 if(tabRdvPro[i]['statutRdv']==0){
-                    validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
-                    propDate = '<td id="newDate'+parseInt(tabRdvPro[i]['idRdv'])+'" onclick="affichageModifDate('+parseInt(tabRdvPro[i]['idRdv'])+',\''+tabRdvPro[i]['rdvDate']+'\',\''+tabRdvPro[i]['pseudo']+'\','+tabRdvPro[i]['idCli']+','+ tabRdvPro[i]['idConvers']+')"><a href="#">Proposer une autre date</a></td><span id="choixDate'+tabRdvPro[i]['idRdv']+'"></span>';
+                    validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a class="lienBleu">Valider</a></td>';
+                    propDate = '<td id="newDate'+parseInt(tabRdvPro[i]['idRdv'])+'" onclick="affichageModifDate('+parseInt(tabRdvPro[i]['idRdv'])+',\''+tabRdvPro[i]['rdvDate']+'\',\''+tabRdvPro[i]['pseudo']+'\','+tabRdvPro[i]['idCli']+','+ tabRdvPro[i]['idConvers']+')"><a class="lienBleu">Proposer une autre date</a></td><span id="choixDate'+tabRdvPro[i]['idRdv']+'"></span>';
                 }
                 if(tabRdvPro[i]['statutRdv']!=4 && tabRdvPro[i]['statutRdv']!=3){
-                    annulation = '<td onclick="annulerRdv('+tabRdvPro[i]['idRdv']+","+parseInt(tabRdvPro[i]['idConvers'])+',\''+tabRdvPro[i]['rdvDate']+'\''+','+tabRdvPro[i]['idPro']+','+tabRdvPro[i]['idCli']+')"><a href="#">Annuler</a></td>';;
+                    annulation = '<td onclick="annulerRdv('+tabRdvPro[i]['idRdv']+","+parseInt(tabRdvPro[i]['idConvers'])+',\''+tabRdvPro[i]['rdvDate']+'\''+','+tabRdvPro[i]['idPro']+','+tabRdvPro[i]['idCli']+')"><a class="lienBleu">Annuler</a></td>';;
                 }
                 if(tabRdvPro[i]['statutRdv']==1){
-                    finalisation = "<td onclick='finaliserRdv("+tabRdvPro[i]['idRdv']+");'> <a href='#'>Le rendez-vous a bien eu lieu et est terminé</a></td>";
+                    finalisation = "<td onclick='finaliserRdv("+tabRdvPro[i]['idRdv']+");'> <a class='lienBleu'>Le rendez-vous a bien eu lieu et est terminé</a></td>";
                 }
                 tableRdvPro+='<tr>'
                 tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
@@ -493,4 +492,31 @@ function affichageDateFormatEu(date){
         modifStatutRdv(rdv, 4);
         alert('Vous avez indiqué que le rendez-vous était terminé');
         window.location.reload();
+    }
+
+    function avis(rdvId, pseudo, date){
+        let pageAvis="";
+        pageAvis+='<div class="container">';
+        pageAvis+='<h2>Votre avis nous importe beaucoup</h2>';
+        pageAvis+='<h3>Quel est votre avis sur ce professionnel ('+pseudo+') pendant le rendez-vous du '+date+'?</h3>';
+        pageAvis+='<p>Donné une note entre 0 et 5</p>';
+        pageAvis+='<select name="note" id="note">';
+        pageAvis+='<option value="0">0</option>';
+        pageAvis+='<option value="0.5">0.5</option>';
+        pageAvis+='<option value="1">1</option>';
+        pageAvis+='<option value="1.5">1.5</option>';
+        pageAvis+='<option value="2">2</option>';
+        pageAvis+='<option value="2.5">2.5</option>';
+        pageAvis+='<option value="3">3</option>';
+        pageAvis+='<option value="3.5">3.5</option>';
+        pageAvis+='<option value="4">4</option>';
+        pageAvis+='<option value="4.5">4.5</option>';
+        pageAvis+='<option value="5">5</option>';
+        pageAvis+='</select>';
+        pageAvis+='<input type="button" onclick="creationAvis('+rdvId+')" value="Valider">';
+        //la cote sera automatiquement cherché par le controller js grace à $('#note').val()
+        pageAvis+='</div>';
+        $('#content').html(pageAvis);
+        
+        
     }

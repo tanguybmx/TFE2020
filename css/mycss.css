@@ -51,7 +51,7 @@ color: white;
 @media (min-width: 1200px){
     #menuCont{
 
-    max-width: 100%;
+    max-width: 100% !important;
 
     }
 }
@@ -62,4 +62,15 @@ color: white;
 
 #contentChat{
     height: 60%;
+}
+
+.lienBleu{
+    color: #337ab7 !important;
+
+}
+
+.lienBleu:hover {
+    color: #032d52 !important;
+    font-weight: bold;
+    
 }
