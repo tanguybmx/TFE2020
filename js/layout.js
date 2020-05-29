@@ -157,7 +157,7 @@ function affichageListeAnnonces(tabAnnonce){
         if(cotePro!==null){
             affichageAnnonces += '<p>Voici la note moyenne de ce professionnel: '+(Math.round(cotePro * 10)/10)+'/5</p>';
         }
-        affichageAnnonces +=" <p><a  onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
+        affichageAnnonces +=" <p><a  class ='lienBleu' onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
         affichageAnnonces +="</div></div></div></div>";
     }
 
