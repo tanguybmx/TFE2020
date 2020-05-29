@@ -642,6 +642,7 @@ function modifDateRdv(rdv, idCli, idConvers){
                 }
             });
     }
+    window.location.reload();
 }
 
 function getAllRdvCli(idCli){

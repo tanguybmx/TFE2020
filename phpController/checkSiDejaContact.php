@@ -10,7 +10,7 @@ $pro = htmlspecialchars($_POST['idPro']);
 $checkSiDejaContact = $db->callProcedure('checkSiDejaContact',[$cli,$pro]);
 
 if(empty($checkSiDejaContact)){
-    echo "noConvers";
+    echo json_encode("noConvers");
 }
 
 if(!empty($checkSiDejaContact)){

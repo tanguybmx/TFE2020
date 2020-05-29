@@ -280,7 +280,8 @@ function chatContact(idPro){
     let ent = getProEnt(idPro);
     let ajd = new Date();
     let date = ajd.getFullYear()+'-'+(ajd.getMonth()+1)+'-'+ajd.getDate()+' '+ajd.getHours()+':'+ajd.getMinutes()+':'+ajd.getSeconds();
-    if(reponse == "noConvers"){
+    console.log(reponse);
+    if(reponse[0][0] == "noConvers"){
         let conv=creationConvers(userId, idPro);
         creationMsgAcceuil(idPro, conv);
         window.location.reload();
@@ -334,15 +335,27 @@ function affichePropositionRdv(cli,conv, pro){
 //formatage de date a affiché et a envoyé à la db
 //format affichage
 function affichageDateFormatEu(date){
+//entree "06/03/2020 10:00 AM"
     let date1 = date;
     
     let mois = date1.substr(0,2);
     let jour = date1.substr(3,2);
     let annee = date1.substr(6,4);
-    let heure = date1.substr(11,1);
-    let minute = date1.substr(13,2);
-    let amOrPm = date1.substr(16,2);
     let tabPM = ["13","14","15","16","17","18","19","20","21","22","23","00"];
+    let amOrPm;
+    let heure;
+    let minute;
+    
+    if(date.substr(12,1)==":"){
+        heure = date1.substr(11,1);
+        minute = date1.substr(13,2);
+        amOrPm = date1.substr(16,2);
+    }
+    if(date.substr(12,1)!=":"){
+        heure = date1.substr(11,2);
+        minute = date1.substr(14,2);
+        amOrPm = date1.substr(17,2);
+    }
     if(amOrPm == "PM"){
         heure = tabPM[(heure-1)];
     }
@@ -351,15 +364,26 @@ function affichageDateFormatEu(date){
     }
     
     function formatDateDb(date){
-    //format a envoyé à la db: 2020-05-29 6:00:00; obtenu avec la fonction: 2020-05-29 6:00:00
+    //entrée 06/02/2020 10:00 AM
+    //format a envoyé à la db: 2020-05-29 10:00:00; obtenu avec la fonction: 2020-05-29 6:00:00
     let date2 = date;
     let jour2 = date2.substr(3,2);
     let mois2 = date2.substr(0,2);
     let annee2 = date2.substr(6,4);
-    let heure2 = date2.substr(11,1);
-    let minute2 = date2.substr(13,2);
-    let amOrPm = date2.substr(16,2);
-
+    let amOrPm;
+    let heure2;
+    let minute2;
+    
+    if(date2.substr(12,1)==":"){
+        heure2 = date2.substr(11,1);
+        minute2 = date2.substr(13,2);
+        amOrPm = date2.substr(16,2);
+    }
+    if(date2.substr(12,1)!=":"){
+        heure2 = date2.substr(11,2);
+        minute2 = date2.substr(14,2);
+        amOrPm = date2.substr(17,2);
+    }
     let tabPM = ["13","14","15","16","17","18","19","20","21","22","23","00"];
     if(amOrPm == "PM"){
         heure2 = tabPM[(heure2-1)];
@@ -427,6 +451,7 @@ function affichageDateFormatEu(date){
             for (let i =0; i< tabRdvPro.length; i++){
                 let propDate = '<td></td>';
                 let annulation = '<td></td>';
+                let finalisation = '<td></td>';
                 if(tabRdvPro[i]['statutRdv']==0){
                     validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a href="#">Valider</a></td>';
                     propDate = '<td id="newDate'+parseInt(tabRdvPro[i]['idRdv'])+'" onclick="affichageModifDate('+parseInt(tabRdvPro[i]['idRdv'])+',\''+tabRdvPro[i]['rdvDate']+'\',\''+tabRdvPro[i]['pseudo']+'\','+tabRdvPro[i]['idCli']+','+ tabRdvPro[i]['idConvers']+')"><a href="#">Proposer une autre date</a></td><span id="choixDate'+tabRdvPro[i]['idRdv']+'"></span>';
@@ -434,12 +459,16 @@ function affichageDateFormatEu(date){
                 if(tabRdvPro[i]['statutRdv']!=4 && tabRdvPro[i]['statutRdv']!=3){
                     annulation = '<td onclick="annulerRdv('+tabRdvPro[i]['idRdv']+","+parseInt(tabRdvPro[i]['idConvers'])+',\''+tabRdvPro[i]['rdvDate']+'\''+','+tabRdvPro[i]['idPro']+','+tabRdvPro[i]['idCli']+')"><a href="#">Annuler</a></td>';;
                 }
+                if(tabRdvPro[i]['statutRdv']==1){
+                    finalisation = "<td onclick='finaliserRdv("+tabRdvPro[i]['idRdv']+");'> <a href='#'>Le rendez-vous a bien eu lieu et est terminé</a></td>";
+                }
                 tableRdvPro+='<tr>'
                 tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
                 tableRdvPro+='<td>'+tabRdvPro[i]['rdvDate']+'</td>';
                 tableRdvPro+='<td>'+tabRdvPro[i]['pseudo']+'</td>';
                 tableRdvPro+=annulation;
                 tableRdvPro+=propDate;
+                tableRdvPro+=finalisation;
                 tableRdvPro+='<td>'+statut[(tabRdvPro[i]['statutRdv'])]+'</td>';
                 tableRdvPro+='</tr>';
             }
@@ -451,4 +480,10 @@ function affichageDateFormatEu(date){
     function affichageModifDate(rdv, date, pseudoCli, idCli, idConvers){
         let modifDate = "<p>Modification du rendez-vous avec "+pseudoCli+" qui avait lieu le "+date+"</p><form style='height:15em;' action='#'> <label for='newDateRdv' value='Nouvelle date'></label> <input type='datetime-local' id='newDateRdv' name='newDateRdv'> <input type='button' value='Proposer'  onclick='modifDateRdv("+rdv+","+idCli+","+idConvers+")'> </form>";
         $('#tableRdv').html(modifDate);
+    }
+
+    function finaliserRdv(rdv){
+        modifStatutRdv(rdv, 4);
+        alert('Vous avez indiqué que le rendez-vous était terminé');
+        window.location.reload();
     }
