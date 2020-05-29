@@ -752,4 +752,25 @@ function annulerRdv(idRdv, idConvers,date, idPro, idCli){
     }  
 }
 
+function creationAvis(idRdv){
+    let cote = $('#note').val();
+    $.ajax({
+        url: "phpController/creationAvis.php",
+        type: "POST",
+        data: 
+        {
+            "idRdv":idRdv,
+            "cote":cote
+
+        },
+        success: function (response) {    
+            console.log(response);                     
+            }
+        });
+
+    modifStatutRdv(idRdv, 5);
+    alert('Vous venez de donner votre avis. Merci');
+    window.location.reload();
+}
+
 
