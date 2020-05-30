@@ -54,36 +54,6 @@ $_SESSION['pageActuelle']="profil.php";
                                                     <br>
                                                     <input type="text" name="type" id="type" readonly value="<?php echo $_SESSION['typeCompte'];  ?>">
                                                 </div>
-                                                <?php
-                                                    if(!empty($_SESSION['idEnt'])){
-                                                        ?>
-                                                        <div class="form-group">
-                                                            <label for="idEnt">Numéro de TVA de l'entreprise</label>
-                                                            <br>
-                                                            <br>
-                                                            <br>
-                                                            <input type="text" name="idEnt" id="idEnt" readonly value="<?php echo $_SESSION['idEnt'];  ?>">
-                                                        </div>
-                                                        <?php
-                                                    }
-                                                    if($_SESSION['typeCompte']=='professionnel'){?>
-                                                        <div class="form-group">
-                                                            <label for="nbAvis">Nombre d'avis reçu</label>
-                                                            <br>
-                                                            <br>
-                                                            <br>
-                                                            <input type="text" name="nbAvis" id="nbAvis" readonly value="<?php echo $_SESSION['nbAvis'];  ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="moyenne">Moyenne des avis</label>
-                                                            <br>
-                                                            <br>
-                                                            <br>
-                                                            <input type="text" name="moyenne" id="moyenne" readonly value="<?php echo round($_SESSION['moyenne'],1);  ?>">
-                                                        </div>
-                                                        <?php
-                                                    }
-                                                ?>
                                             </form>
                                         </div>
 

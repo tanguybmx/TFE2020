@@ -3,7 +3,7 @@ session_start();
 $_SESSION['pageActuelle']="entreprise.php";
 ?>
   <link rel="stylesheet" href="css/loginStyle.css">
-<section class="d-lg-flex align-items-center section-margin--large">
+    <section class="d-lg-flex align-items-center section-margin--large">
         <div class="container">
                         <div class="main">
                             <section class="signup">
@@ -13,54 +13,77 @@ $_SESSION['pageActuelle']="entreprise.php";
                                             <h2 class="form-title">Votre annonce et les détails de votre entreprise</h2>
                                             <form method="post" class="register-form" id="register-form" action="#">
                                                 <div class="form-group">
-                                                    <label for="nomEnt">Nom</label>
+                                                    <label for="matricule">Identifiant</label>
                                                     <br>
                                                     <br>
                                                     <br>
-                                                    <input type="text" name="nomEnt" id="nomEnt" readonly value="<?php echo $_SESSION['nomEnt']?>">
+                                                    <input type="text" name="identifiant" id="identifiant" readonly value=<?php echo $_SESSION['pseudo']; ?>>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nom">Nom</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="nom" id="nom" readonly value="<?php echo $_SESSION['nom'];  ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="prenom">Prénom</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="prenom" id="prenom" readonly value="<?php echo $_SESSION['prenom'];  ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email"> Email</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="email" name="email" id="email" readonly value="<?php echo $_SESSION['mail'];  ?>">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="adresse">Adresse</label>
                                                     <br>
                                                     <br>
                                                     <br>
-                                                    <input type="text" name="adresse" id="adresse" readonly value="<?php echo $_SESSION['adresseEnt']?>">
+                                                    <input type="text" name="adresse" id="adresse" readonly value="<?php echo $_SESSION['adresse'];  ?>">
                                                 </div>
                                                 <div class="form-group">
-                                                            <label for="idEnt">Numéro de TVA</label>
+                                                    <label for="adresse">Type de compte</label>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="type" id="type" readonly value="<?php echo $_SESSION['typeCompte'];  ?>">
+                                                </div>
+                                                <?php
+                                                    if(!empty($_SESSION['idEnt'])){
+                                                        ?>
+                                                        <div class="form-group">
+                                                            <label for="idEnt">Numéro de TVA de l'entreprise</label>
                                                             <br>
                                                             <br>
                                                             <br>
-                                                            <input type="text" name="idEnt" id="idEnt" readonly value="<?php echo $_SESSION['nTvaEnt']?>">
+                                                            <input type="text" name="idEnt" id="idEnt" readonly value="<?php echo $_SESSION['idEnt'];  ?>">
                                                         </div>
-                                                <div class="form-group">
-                                                    <label for="adminEnt">Administrateur</label>
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <input type="text" name="adminEnt" id="adminEnt" readonly value="<?php echo $_SESSION['adminEnt']?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="secteurEnt">Secteur</label>
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <input type="text" name="secteurEnt" id="secteurEnt" readonly value="<?php echo $_SESSION['sectEnt']?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="descEnt">Description</label>
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <input type="text" name="descEnt" id="descEnt" readonly value="<?php echo $_SESSION['descEnt']?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="servicesEnt">Services</label>
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <input type="servicesEnt" name="servicesEnt" id="servicesEnt" readonly value="<?php echo $_SESSION['servicesEnt']?>">
-                                                </div>
+                                                        <?php
+                                                    }
+                                                    if($_SESSION['typeCompte']=='professionnel'){?>
+                                                        <div class="form-group">
+                                                            <label for="nbAvis">Nombre d'avis reçu</label>
+                                                            <br>
+                                                            <br>
+                                                            <br>
+                                                            <input type="text" name="nbAvis" id="nbAvis" readonly value="<?php echo $_SESSION['nbAvis'];  ?>">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="moyenne">Moyenne des avis</label>
+                                                            <br>
+                                                            <br>
+                                                            <br>
+                                                            <input type="text" name="moyenne" id="moyenne" readonly value="<?php echo round($_SESSION['moyenne'],1);  ?>">
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                ?>
                                             </form>
                                         </div>
 
@@ -70,7 +93,13 @@ $_SESSION['pageActuelle']="entreprise.php";
                         </div>
             </div>
     </section>
-    <script>
+
+<script>
     removeClassActive('navEntreprise');
 
-    </script>
+<?php 
+if (empty($_SESSION['mail'])){
+    echo "$('#content').load('inc/connexion.php');";
+}
+?>
+</script>

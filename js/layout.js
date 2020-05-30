@@ -144,7 +144,7 @@ function affichageListeAnnonces(tabAnnonce){
         affichageAnnonces +="<div class='row'>";
         affichageAnnonces +="<div class='col-md-3 annonce'>";
         affichageAnnonces +="<div class='card-body cc-education-header'>";
-        affichageAnnonces +="<div class='h5'>"+ tabAnnonce[i]['nom'] +"</div>";
+        affichageAnnonces +="<div class='h5' onclick='afficheProfilPro("+idPro+")'><a class='lienHover'>"+ tabAnnonce[i]['nom'] +"</a></div>";
         affichageAnnonces +="<p>"+ tabAnnonce[i]['nomSect'] +"</p>";
         affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/YourLogo.png'></p>";
         affichageAnnonces +="</div></div>";
@@ -529,5 +529,86 @@ function affichageDateFormatEu(date){
         pageAvis+='</div>';
         $('#content').html(pageAvis);
         
+        
+    }
+
+    function afficheProfilPro(pro){
+        let infoPro = JSON.parse(getInfoPro(pro));
+        let pseudo = infoPro[0]['pseudo'];
+        let nomEnt = infoPro[0]['entNom'];
+        let nom = infoPro[0]['proNom'];
+        let prenom = infoPro[0]['prenom'];
+        let mail = infoPro[0]['mail'];
+        let adresse = infoPro[0]['adresse'];
+        let nbAvis = infoPro[0]['nbAvis'];
+        let moyenne = infoPro[0]['moyenne'];
+        let affProfilPro ='';
+
+        if(nbAvis==0){
+            moyenne = "Pas encore d'avis";
+        }
+        if(nbAvis !=0){
+           moyenne = moyenne.substr(0,3);
+        }
+         affProfilPro +='<link rel="stylesheet" href="css/loginStyle.css">';
+         affProfilPro +='<section class="d-lg-flex align-items-center section-margin--large">';
+         affProfilPro +='<div class="container">';
+         affProfilPro +='<div class="main">';
+         affProfilPro +='<section class="signup">';
+         affProfilPro +='<div class="container">';
+         affProfilPro +='<div class="signup-content">';
+         affProfilPro +='<div class="signup-form">';
+         affProfilPro +='<h2 class="form-title">Profil</h2>';
+         affProfilPro +='<form method="post" class="register-form" id="register-form" action="#">';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="matricule">Identifiant</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="identifiant" id="identifiant" readonly value="'+pseudo+'"></br>';
+         affProfilPro +='</div>';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="nomEnt">Entreprise</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="nomEnt" id="nomEnt" readonly value="'+nomEnt+'"></br>';
+         affProfilPro +='</div>';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="nom">Nom</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="nom" id="nom" readonly value="'+nom+'">';
+         affProfilPro +='</div>';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="prenom">Prénom</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="prenom" id="prenom" readonly value="'+prenom+'">';
+         affProfilPro +='</div>';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="email"> Email</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="email" name="email" id="email" readonly value="'+mail+'">';
+         affProfilPro +='</div>';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="adresse">Adresse</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="adresse" id="adresse" readonly value="'+adresse+'">';
+         affProfilPro +='</div>';
+         affProfilPro +=' <div class="form-group">';
+         affProfilPro +='<label for="nbAvis">Nombre d\'avis reçu</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="nbAvis" id="nbAvis" readonly value="'+nbAvis+'">';
+         affProfilPro +='</div>';
+         affProfilPro +='<div class="form-group">';
+         affProfilPro +='<label for="moyenne">Moyenne des avis</label>';
+         affProfilPro +='<br><br><br>';
+         affProfilPro +='<input type="text" name="moyenne" id="moyenne" readonly value="'+moyenne+'"></input>';
+         affProfilPro +='</div>';
+         affProfilPro +='</form>';
+         affProfilPro +='</div>';
+         affProfilPro +='</div>';
+         affProfilPro +='</div>';
+         affProfilPro +='</section>';
+         affProfilPro +='</div>';
+         affProfilPro +='</div>';
+         affProfilPro +='</section>';
+
+         $('#content').html(affProfilPro);                
         
     }

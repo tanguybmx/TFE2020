@@ -790,3 +790,21 @@ function getCotePro(pro){
         });
         return resp;
 }
+
+function getInfoPro(pro){
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "phpController/getInfoPro.php",
+        type: "POST",
+        data: 
+        {
+            "idPro":pro
+        },
+        success: function (response) {    
+            console.log(response); 
+            resp = response;                     
+            }
+        });
+        return resp;
+}
