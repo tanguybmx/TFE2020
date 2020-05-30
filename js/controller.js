@@ -391,7 +391,7 @@ function creationMsgAcceuil(cli, conv){
 }
 
 function creationMsgPropositionRdv(cli, conv){
-    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ formatDateTimeLocalToAffichage($('#dateRdv').val())+" Pourriez-vous me confirmer celle-ci ?";
+    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ formatDateTimeLocalToAffichage($('#dateRdv').val())+" Pourriez-vous me confirmer celle-ci dans l'onglet Rendez-vous ?";
     if(contenuMsg !=""){
         $.ajax({
             url: "phpController/creationMsg.php",
@@ -627,7 +627,7 @@ function modifDateRdv(rdv, idCli, idConvers){
             alert('Vous avez modifié la date de ce rendez-vous');                    
             }
         });
-        let contenuMsg = "Bonjour, voici la nouvelle proposition de rendez-vous "+formatDateTimeLocalToAffichage(dateBrutInput)+". Merci de valider celle-ci si elle vous convient.";
+        let contenuMsg = "Bonjour, voici la nouvelle proposition de rendez-vous "+formatDateTimeLocalToAffichage(dateBrutInput)+". Merci de valider celle-ci si elle vous convient dans l'onglet Rendez-vous.";
     if(contenuMsg !=""){
         $.ajax({
             url: "phpController/creationMsg.php",
@@ -682,7 +682,7 @@ function getAllRdvPro(idPro){
 }
 //date => date actuel du rdv qui doit être changé
 function demandeModifDateRdv(idConvers, idPro, date){
-    let contenuMsg = "Bonjour, serait-il possible de convenir d'une autre date de rendez-vous ? Celui-ci était fixé au "+date+". Merci.";
+    let contenuMsg = "Bonjour, serait-il possible de convenir d'une autre date de rendez-vous ? Celui-ci était fixé au "+date+". Merci de le faire dans l'onglet Rendez-vous.";
     if(contenuMsg !=""){
         $.ajax({
             url: "phpController/creationMsg.php",
