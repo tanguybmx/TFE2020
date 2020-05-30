@@ -21,7 +21,6 @@ class dbAccess
                 //procédure avec 0 param
                 switch ($nomProcedure) {
                     case'getSecteur':
-                    case'getEnt':
                     case 'countPro':
                     case 'countRdvFini':
                     case 'getClientSatisfait':
@@ -61,6 +60,7 @@ class dbAccess
                     case 'getAvisPro':
                     case 'getCotePro':
                     case 'getInfoPro':
+                    case'getEnt':
                         array_push($params, '?');
         
                         try {

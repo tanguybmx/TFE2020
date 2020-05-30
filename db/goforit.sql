@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  sam. 30 mai 2020 à 16:23
+-- Généré le :  sam. 30 mai 2020 à 16:38
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -253,12 +253,13 @@ GROUP BY msg.idConvers;
 END$$
 
 DROP PROCEDURE IF EXISTS `getEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getEnt` ()  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEnt` (IN `regionCli` INT)  BEGIN
 
 SELECT ent.idEnt, ent.nom, ent.adresse, ent.description, ent.services, ent.nTva, sect.nom as nomSect, ent.idAdmin
 FROM ent
 
-INNER JOIN sect ON ent.idSect = sect.idSecteur;
+INNER JOIN sect ON ent.idSect = sect.idSecteur
+WHERE ent.idRegion = 0 || ent.idRegion = regionCli;
 
 END$$
 
