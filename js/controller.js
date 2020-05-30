@@ -752,7 +752,7 @@ function annulerRdv(idRdv, idConvers,date, idPro, idCli){
     }  
 }
 
-function creationAvis(idRdv){
+function creationAvis(idRdv, dest, conv){
     let cote = $('#note').val();
     $.ajax({
         url: "phpController/creationAvis.php",
@@ -767,6 +767,21 @@ function creationAvis(idRdv){
             console.log(response);                     
             }
         });
+        contenuMsg = "Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.";
+        if(contenuMsg !=""){
+            $.ajax({
+                url: "phpController/creationMsg.php",
+                type: "POST",
+                data:{
+                    "dest": dest,
+                    "conv":conv,
+                    "msgContenu":contenuMsg,
+                },
+                success: function (response) {    
+                    console.log(response);                      
+                    }
+                });
+            }
 
     modifStatutRdv(idRdv, 5);
     alert('Vous venez de donner votre avis. Merci');
@@ -807,4 +822,22 @@ function getInfoPro(pro){
             }
         });
         return resp;
+}
+
+function creationMsgFinalisationRdv(dest, conv, date){
+    contenuMsg = "Le rendez-vous du "+date+" s'est bien terminé, merci pour votre confiance et n'oublié pas d'évaluer le rendez-vous dans l'onglet approprié";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest": dest,
+                "conv":conv,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
 }

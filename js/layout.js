@@ -106,8 +106,8 @@ function priseDeContact(){
 
     removeClassActive('navPriseDeContact');
 }
-function pageAvis(rdvId, pseudo, date){
-    avis(rdvId, pseudo, date);
+function pageAvis(rdvId, pseudo, date, dest, conv){
+    avis(rdvId, pseudo, date, dest, conv);
         //la cote sera automatiquement cherché par le controller js grace à $('#note').val()
 
 }
@@ -218,28 +218,34 @@ function afficherConvers(idUser){
     if(compteType=="professionnel"){
         let conversPro= JSON.parse(getConversPro());
         let nbConvers = (conversPro).length;
-        for (var i=0; i<nbConvers; i++){
-            let tabConversPro= JSON.parse(getDernierMsgConvers(conversPro[i]));
-            let contact;
-            if(tabConversPro[0]['idExp']==idUser){
-                contact = tabConversPro[0]['idDest'];
+        console.log(conversPro);
+        if(conversPro != "Vous n'avez pas encore de prise de contact"){
+            for (var i=0; i<nbConvers; i++){
+                let tabConversPro= JSON.parse(getDernierMsgConvers(conversPro[i]));
+                let contact;
+                if(tabConversPro[0]['idExp']==idUser){
+                    contact = tabConversPro[0]['idDest'];
+                }
+                else{
+                    contact = tabConversPro[0]['idExp'];
+                }
+                let pseudoCli = JSON.parse(getNomCli(contact))[0]['pseudo'];
+                listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversPro[i]+" onclick='afficheMsgConvers("+conversPro[i]+","+userId+",\""+pseudoCli+"\");'>";
+                listConvers+="<div class='media'>";
+                listConvers+="<div class='media-body ml-4'>";
+                listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
+                listConvers+="<h6 class='mb-0'>"+pseudoCli+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
+                listConvers+="</div>";
+                listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['msgDate']+"</p>";
+                listConvers+="</div>";
+                listConvers+="</div>";
+                listConvers+="</a>";
             }
-            else{
-                contact = tabConversPro[0]['idExp'];
-            }
-            let pseudoCli = JSON.parse(getNomCli(contact))[0]['pseudo'];
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversPro[i]+" onclick='afficheMsgConvers("+conversPro[i]+","+userId+",\""+pseudoCli+"\");'>";
-            listConvers+="<div class='media'>";
-            listConvers+="<div class='media-body ml-4'>";
-            listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
-            listConvers+="<h6 class='mb-0'>"+pseudoCli+"</h6><p class='small font-weight-bold'>"+(tabConversPro[0]['contenu']).substr(0, 15);+"</p>";
-            listConvers+="</div>";
-            listConvers+="<p class='font-italic mb-0 text-small'>"+tabConversPro[0]['msgDate']+"</p>";
-            listConvers+="</div>";
-            listConvers+="</div>";
-            listConvers+="</a>";
+            $("#listConvers").html(listConvers);
         }
-        $("#listConvers").html(listConvers);
+        else{
+            $("#pasDeContact").html("Vous n'avez pas encore eu de contact de client");
+        }
     }
 }
 
@@ -459,7 +465,7 @@ function affichageDateFormatEu(date){
                 }
 
                 if(tabRdvCli[i]['statutRdv']==4){
-                    avis = '<td><a class="lienBleu" onclick="pageAvis('+tabRdvCli[i]['idRdv']+",'"+tabRdvCli[i]['pseudo']+"','"+tabRdvCli[i]['rdvDate']+'\')">Donner son avis</a></td>';
+                    avis = '<td><a class="lienBleu" onclick="pageAvis('+tabRdvCli[i]['idRdv']+",'"+tabRdvCli[i]['pseudo']+"','"+tabRdvCli[i]['rdvDate']+'\','+tabRdvCli[i]['idPro']+','+tabRdvCli[i]['idConvers']+')">Donner son avis</a></td>';
                 }
 
                 tableRdvCli+='<tr>'
@@ -490,7 +496,7 @@ function affichageDateFormatEu(date){
                     annulation = '<td onclick="annulerRdv('+tabRdvPro[i]['idRdv']+","+parseInt(tabRdvPro[i]['idConvers'])+',\''+tabRdvPro[i]['rdvDate']+'\''+','+tabRdvPro[i]['idPro']+','+tabRdvPro[i]['idCli']+')"><a class="lienBleu">Annuler</a></td>';;
                 }
                 if(tabRdvPro[i]['statutRdv']==1){
-                    finalisation = "<td onclick='finaliserRdv("+tabRdvPro[i]['idRdv']+");'> <a class='lienBleu'>Le rendez-vous a bien eu lieu et est terminé</a></td>";
+                    finalisation = "<td onclick='finaliserRdv("+tabRdvPro[i]['idRdv']+","+tabRdvPro[i]['idCli']+","+tabRdvPro[i]['idConvers']+",\""+tabRdvPro[i]['rdvDate']+"\");'> <a class='lienBleu'>Le rendez-vous a bien eu lieu et est terminé</a></td>";
                 }
                 tableRdvPro+='<tr>'
                 tableRdvPro+='<th scope="row">'+(i+1)+'</th>';
@@ -512,13 +518,14 @@ function affichageDateFormatEu(date){
         $('#tableRdv').html(modifDate);
     }
 
-    function finaliserRdv(rdv){
+    function finaliserRdv(rdv, dest, conv,date){
         modifStatutRdv(rdv, 4);
         alert('Vous avez indiqué que le rendez-vous était terminé');
+        creationMsgFinalisationRdv(dest, conv,date);
         window.location.reload();
     }
 
-    function avis(rdvId, pseudo, date){
+    function avis(rdvId, pseudo, date, dest, conv){
         let pageAvis="";
         pageAvis+='<div class="container">';
         pageAvis+='<h2>Votre avis nous importe beaucoup</h2>';
@@ -537,7 +544,7 @@ function affichageDateFormatEu(date){
         pageAvis+='<option value="4.5">4.5</option>';
         pageAvis+='<option value="5">5</option>';
         pageAvis+='</select>';
-        pageAvis+='<input type="button" onclick="creationAvis('+rdvId+')" value="Valider">';
+        pageAvis+='<input type="button" onclick="creationAvis('+rdvId+','+dest+','+conv+')" value="Valider">';
         //la cote sera automatiquement cherché par le controller js grace à $('#note').val()
         pageAvis+='</div>';
         $('#content').html(pageAvis);

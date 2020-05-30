@@ -13,6 +13,7 @@
     <!-- For demo purpose-->
     <header class="text-center">
       <h1 class="display-4 text-black">Prise de contact</h1>
+      <h3 id="pasDeContact"></h3>
     </header><br>
     <div class="row rounded-lg overflow-hidden shadow">
       <!-- Users box-->
