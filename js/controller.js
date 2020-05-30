@@ -28,6 +28,10 @@ function checkInscriptionClient() {
         gestionErreur = 0;
     }
 
+    if ($('#regionCli').val() == '') {
+        gestionErreur = 0;
+    }
+
     if ($('#mdp').val() == '') {
         $('#mdp').attr('placeholder', 'Mot de passe requis');
         gestionErreur = 0;
@@ -45,7 +49,7 @@ function checkInscriptionClient() {
         gestionErreur = 0;
     }
     if (gestionErreur === 1) {
-        let objectForm = { 'username': $('#username').val(), 'nom': $('#nom').val(), 'prenom': $('#prenom').val(), 'email': $('#email').val(), 'adresse': $('#adresse').val(), 'mdp': $('#mdp').val() };
+        let objectForm = { 'username': $('#username').val(), 'nom': $('#nom').val(), 'prenom': $('#prenom').val(), 'email': $('#email').val(), 'adresse': $('#adresse').val(), 'mdp': $('#mdp').val(), 'regionCli': $('#regionCli').val()};
         console.log(objectForm);
         $.ajax({
             url: "phpController/inscriptionClient.php",
@@ -249,8 +253,9 @@ function creationEnt(){
 }
 
 //secteur
-var secteurs ;
+
 function getSecteur(){
+    let secteurs;
     $.ajax({
         async: "false",
         url: "phpController/getSecteur.php",
@@ -265,6 +270,41 @@ function getSecteur(){
             
 
                        
+            }
+        });
+}
+
+function getRegionCli(){
+    let regions;
+    $.ajax({
+        async: "false",
+        url: "phpController/getRegionCli.php",
+        type: "POST",
+        success: function (response) {
+            regions = JSON.parse(response);
+            var long = regions.length;
+            for (var i = 0; i<long; i++){
+                $('#regionCli').append('<option value='+ regions[i]['idRegion'] +'>'+ regions[i]['nom'] +'</option>');
+            }
+                                  
+            }
+        });
+}
+
+function getRegionPro(){
+    let regions;
+    $.ajax({
+        async: "false",
+        url: "phpController/getRegionPro.php",
+        type: "POST",
+        success: function (response) {
+
+            regions = JSON.parse(response);
+            var long = regions.length;
+            for (var i = 0; i<long; i++){
+                $('#regionPro').append('<option value='+ regions[i]['idRegion'] +'>'+ regions[i]['nom'] +'</option>');
+            }
+                                  
             }
         });
 }

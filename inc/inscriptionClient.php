@@ -31,6 +31,12 @@ $_SESSION['pageActuelle']="inscriptionClient.php";
                             <input type="text" name="adresse" id="adresse" placeholder="Votre adresse" />
                         </div>
                         <div class="form-group">
+                            <label for="regionCli">Votre région:</label><br>
+                            <select id="regionCli" name="regionCli">
+                                <option value="default">default</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="mdp"><i class="zmdi zmdi-lock"></i></label>
                             <input type="password" name="mdp" id="mdp" placeholder="Mot de passe" />
                         </div>
@@ -49,4 +55,5 @@ $_SESSION['pageActuelle']="inscriptionClient.php";
     </section>
 <script>
     removeClassActive('navConnexion');
+    getRegionCli();
 </script>

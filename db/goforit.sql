@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  sam. 30 mai 2020 à 12:06
+-- Généré le :  sam. 30 mai 2020 à 15:17
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -105,9 +105,9 @@ INSERT INTO avis (avis.idRdv, avis.cote) VALUES (rdvId,  avisCote);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationClient`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(300), IN `pwd` VARCHAR(300), IN `name` VARCHAR(300), IN `firstname` VARCHAR(300), IN `adress` VARCHAR(300), IN `email` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(300), IN `pwd` VARCHAR(300), IN `name` VARCHAR(300), IN `firstname` VARCHAR(300), IN `adress` VARCHAR(300), IN `email` VARCHAR(300), IN `region` INT(10))  BEGIN
 
-INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail) VALUES(username, pwd, name, firstname, adress, email);
+INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail,cli.idRegion) VALUES(username, pwd, name, firstname, adress, email, region);
 
 END$$
 
@@ -328,6 +328,23 @@ WHERE rdv.idRdv = rdv;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getRegionCli`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getRegionCli` ()  BEGIN
+
+SELECT region.idRegion, region.nom
+FROM region
+WHERE region.idRegion !=0;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getRegionPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getRegionPro` ()  BEGIN
+
+SELECT region.idRegion, region.nom
+FROM region;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `getSecteur`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSecteur` ()  BEGIN
 
@@ -369,14 +386,15 @@ CREATE TABLE IF NOT EXISTS `avis` (
   `cote` double(10,1) NOT NULL COMMENT 'valeur entre 0 et 5',
   PRIMARY KEY (`idAvis`),
   KEY `idRdv` (`idRdv`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `avis`
 --
 
 INSERT INTO `avis` (`idAvis`, `idRdv`, `cote`) VALUES
-(4, 14, 4.5);
+(4, 14, 4.5),
+(6, 21, 5.0);
 
 -- --------------------------------------------------------
 
@@ -393,18 +411,20 @@ CREATE TABLE IF NOT EXISTS `cli` (
   `prenom` varchar(300) NOT NULL,
   `adresse` varchar(300) NOT NULL,
   `mail` varchar(300) NOT NULL,
+  `idRegion` int(10) NOT NULL,
   PRIMARY KEY (`idCli`),
-  UNIQUE KEY `mail` (`mail`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `mail` (`mail`) USING BTREE,
+  KEY `idregion` (`idRegion`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cli`
 --
 
-INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`) VALUES
-(1, 'test', 'test', 'test', 'test', 'test', 'test'),
-(2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr'),
-(3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com');
+INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`, `idRegion`) VALUES
+(2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr', 0),
+(3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0),
+(5, 'totoBxl', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Toto', 'Tom', 'Rue de toto 1, 1000 Bruxelles', 'toto@toto', 1);
 
 -- --------------------------------------------------------
 
@@ -420,7 +440,7 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
@@ -429,7 +449,8 @@ CREATE TABLE IF NOT EXISTS `convers` (
 INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
 (16, 2, 4),
 (17, 2, 5),
-(18, 2, 7);
+(18, 2, 7),
+(19, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -451,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   UNIQUE KEY `tva` (`nTva`),
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
@@ -460,7 +481,8 @@ CREATE TABLE IF NOT EXISTS `ent` (
 INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`) VALUES
 (21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be'),
 (22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', 2, 2, 'dimitri@logicaltic.com'),
-(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', 3, 4, 'testSansEntreprise@testSansEntreprise');
+(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', 3, 4, 'testSansEntreprise@testSansEntreprise'),
+(24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', 4, 2, 'paul.kaisin@micropole.com');
 
 -- --------------------------------------------------------
 
@@ -479,7 +501,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -517,7 +539,20 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (125, 16, 4, 2, 'test', '2020-05-30 11:57:54', 0),
 (126, 16, 4, 2, 'test', '2020-05-30 12:02:23', 0),
 (127, 16, 4, 2, 'test', '2020-05-30 12:02:41', 0),
-(130, 16, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/06/2020 12:30:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-30 12:30:30', 0);
+(130, 16, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/06/2020 12:30:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-30 12:30:30', 0),
+(131, 16, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 05-06-2020 12:30:00. Merci de le faire dans l\'onglet Rendez-vous.', '2020-05-30 14:43:25', 0),
+(132, 16, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 08/06/2020 14:00:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-05-30 14:44:22', 0),
+(133, 16, 4, 2, 'Bonjour, je viens d\'annuler notre rendez-vous du 16-06-2020 10:00:00', '2020-05-30 14:44:51', 0),
+(134, 16, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 08-06-2020 14:00:00. Merci.', '2020-05-30 14:45:35', 0),
+(136, 16, 4, 2, 'Le rendez-vous du 08-06-2020 14:00:00 s\'est bien terminé, merci pour votre confiance et n\'oublié pas d\'évaluer le rendez-vous dans l\'onglet approprié', '2020-05-30 14:57:46', 0),
+(137, 19, 3, 4, 'Première prise de contact effectuée', '2020-05-30 14:58:41', 0),
+(138, 19, 3, 4, 'Bonjour, je rencontre un problème avec mon imprimante, je n\'arrive plus à lancer d\'impression depuis mon pc... Pourriez-vous m\'aider ? Bien à vous.', '2020-05-30 14:59:30', 0),
+(139, 19, 4, 3, 'Bonjour, oui tout a fait je vais vous proposer un rendez-vous dans le prochain message.', '2020-05-30 15:00:38', 0),
+(140, 19, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 02/06/2020 09:00:00 Pourriez-vous me confirmer celle-ci dans l\'onglet Rendez-vous ?', '2020-05-30 15:01:03', 0),
+(141, 19, 3, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci de le faire dans l\'onglet Rendez-vous.', '2020-05-30 15:01:27', 0),
+(142, 19, 4, 3, 'Bonjour, voici la nouvelle proposition de rendez-vous 04/06/2020 14:00:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-05-30 15:02:08', 0),
+(143, 19, 3, 4, 'Bonjour, je viens de valider notre rendez-vous du 04-06-2020 14:00:00. Merci.', '2020-05-30 15:02:26', 0),
+(145, 19, 3, 4, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-05-30 15:13:03', 0);
 
 -- --------------------------------------------------------
 
@@ -539,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `pro` (
   PRIMARY KEY (`idPro`),
   UNIQUE KEY `mail` (`mail`),
   KEY `idEntreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `pro`
@@ -550,7 +585,8 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 (5, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', 2, 0, 'rue aux loups'),
 (6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
 (7, 'testSansEntreprise', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testSansEntreprise', 'testSansEntreprise', 'testSansEntreprise@testSansEntreprise', 3, 0, 'rue testSansEntreprise'),
-(8, 'Advensys', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'NA', 'Jean-Charles', 'Jean-Charles@advensys.be', NULL, 0, 'Rue à Wavre');
+(8, 'Advensys', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'NA', 'Jean-Charles', 'Jean-Charles@advensys.be', NULL, 0, 'Rue à Wavre'),
+(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', 4, 0, 'Rue de micropole 12, 1000 Bruxelles');
 
 -- --------------------------------------------------------
 
@@ -568,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
@@ -577,8 +613,33 @@ CREATE TABLE IF NOT EXISTS `rdv` (
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
 (14, '2020-06-18 19:00:00', 5, 2, 4),
 (16, '2020-05-31 08:00:00', 0, 2, 5),
-(17, '2020-06-16 10:00:00', 0, 2, 4),
-(20, '2020-06-05 12:30:00', 0, 2, 4);
+(17, '2020-06-16 10:00:00', 3, 2, 4),
+(20, '2020-06-08 14:00:00', 4, 2, 4),
+(21, '2020-06-04 14:00:00', 5, 3, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `region`
+--
+
+DROP TABLE IF EXISTS `region`;
+CREATE TABLE IF NOT EXISTS `region` (
+  `idRegion` int(10) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`idRegion`),
+  KEY `idRegion` (`idRegion`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `region`
+--
+
+INSERT INTO `region` (`idRegion`, `nom`) VALUES
+(0, 'Belgique entière'),
+(1, 'Bruxelles'),
+(2, 'Wallonie'),
+(3, 'Flandre');
 
 -- --------------------------------------------------------
 
@@ -603,21 +664,6 @@ INSERT INTO `sect` (`idSecteur`, `nom`) VALUES
 (3, 'Telephonie'),
 (4, 'Web');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `serv`
---
-
-DROP TABLE IF EXISTS `serv`;
-CREATE TABLE IF NOT EXISTS `serv` (
-  `idServ` int(11) NOT NULL AUTO_INCREMENT,
-  `idEnt` int(11) NOT NULL,
-  `descr` varchar(255) NOT NULL,
-  PRIMARY KEY (`idServ`),
-  KEY `idEnt` (`idEnt`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Contraintes pour les tables déchargées
 --
@@ -627,6 +673,12 @@ CREATE TABLE IF NOT EXISTS `serv` (
 --
 ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idRdv`) REFERENCES `rdv` (`idRdv`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `cli`
+--
+ALTER TABLE `cli`
+  ADD CONSTRAINT `idRegion` FOREIGN KEY (`idRegion`) REFERENCES `region` (`idRegion`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `convers`
@@ -654,12 +706,6 @@ ALTER TABLE `msg`
 ALTER TABLE `rdv`
   ADD CONSTRAINT `idCli` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON UPDATE CASCADE,
   ADD CONSTRAINT `idPro` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `serv`
---
-ALTER TABLE `serv`
-  ADD CONSTRAINT `serv_ibfk_1` FOREIGN KEY (`idEnt`) REFERENCES `ent` (`idEnt`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -25,6 +25,9 @@ class dbAccess
                     case 'countPro':
                     case 'countRdvFini':
                     case 'getClientSatisfait':
+                    case 'getRegionCli':
+                    case 'getRegionPro':
+                    
                         array_push($params);
         
                         try {
@@ -134,7 +137,6 @@ class dbAccess
         }
         //procédure avec 6 param
         switch ($nomProcedure) {
-            case 'creationClient':
             case 'creationProfessionnel':
                 array_push($params, '?', '?', '?', '?', '?', '?');
 
@@ -152,6 +154,7 @@ class dbAccess
 
         //procédure 7 params
         switch ($nomProcedure) {
+            case 'creationClient':
             case 'creationEntreprise':
                 array_push($params, '?', '?', '?', '?', '?', '?', '?');
 
