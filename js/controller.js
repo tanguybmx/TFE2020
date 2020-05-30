@@ -391,7 +391,7 @@ function creationMsgAcceuil(cli, conv){
 }
 
 function creationMsgPropositionRdv(cli, conv){
-    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ affichageDateFormatEu($('#dateRdv').val())+" Pourriez-vous me confirmer celle-ci ?";
+    let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ formatDateTimeLocalToAffichage($('#dateRdv').val())+" Pourriez-vous me confirmer celle-ci ?";
     if(contenuMsg !=""){
         $.ajax({
             url: "phpController/creationMsg.php",
@@ -556,7 +556,7 @@ function creationConvers(cli, pro){
 }
 
 function creationRdv(pro, cli){
-    let dateRdv = formatDateDb($('#dateRdv').val());
+    let dateRdv = formatDateTimeLocalToDb($('#dateRdv').val());
 
     $.ajax({
         url: "phpController/creationRdv.php",

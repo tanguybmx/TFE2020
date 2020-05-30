@@ -25,6 +25,8 @@ else if(empty($connexion2)){
 }
 
 else if(empty($connexion)){
+    
+    echo json_encode($getAvisPro);
     $_SESSION['userId'] = $connexion2[0]['idPro'];
     $_SESSION['pseudo'] = $connexion2[0]['pseudo'];
     $_SESSION['nom'] = $connexion2[0]['nom'];
@@ -35,6 +37,9 @@ else if(empty($connexion)){
     $_SESSION['statut'] = $connexion2[0]['statut'];
     $_SESSION['typeCompte'] = 'professionnel';
     $_SESSION['pageActuelle']="accueil.php";
+    $getAvisPro = $db->callProcedure('getCotePro',[($_SESSION['userId'])]);
+    $_SESSION['nbAvis'] = $getAvisPro[0]['nbAvis'];
+    $_SESSION['moyenne'] = $getAvisPro[0]['moyenne'];
     if(!empty($_SESSION['idEnt'])){
         $connexion3 = $db->callProcedure('getHisEnt',[$_SESSION['idEnt']]);
         $_SESSION['nomEnt'] = $connexion3[0]['nom'];

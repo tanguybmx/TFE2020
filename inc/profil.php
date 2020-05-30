@@ -66,6 +66,23 @@ $_SESSION['pageActuelle']="profil.php";
                                                         </div>
                                                         <?php
                                                     }
+                                                    if($_SESSION['typeCompte']=='professionnel'){?>
+                                                        <div class="form-group">
+                                                            <label for="nbAvis">Nombre d'avis reçu</label>
+                                                            <br>
+                                                            <br>
+                                                            <br>
+                                                            <input type="text" name="nbAvis" id="nbAvis" readonly value="<?php echo $_SESSION['nbAvis'];  ?>">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="moyenne">Moyenne des avis</label>
+                                                            <br>
+                                                            <br>
+                                                            <br>
+                                                            <input type="text" name="moyenne" id="moyenne" readonly value="<?php echo round($_SESSION['moyenne'],1);  ?>">
+                                                        </div>
+                                                        <?php
+                                                    }
                                                 ?>
                                             </form>
                                         </div>

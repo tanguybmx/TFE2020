@@ -307,7 +307,7 @@ function chatContact(idPro){
 
 function propositionRdv(cli,conv,pro){
     let bulleDiscussion = "";
-    let propRdv = '<div class="container"> <div class="panel-heading">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-3"> <div class="form-group"> <label class="control-label">Date et heure du rendez-vous</label> <div class="input-group date" id="datetimepicker1"> <input type="text" class="form-control" id="dateRdv" style="display:none;"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div> </div> </div> </div> <input type="button" class="btn btn-primary" value="Proposer" id="proposerRdv" onclick="creationRdv('+userId+','+cli+');"> </div> </div> <script> $(function () { $("#datetimepicker1").datetimepicker(); }); $("#datetimepicker1").datetimepicker({ isRTL: false, format: \'dd.mm.yyyy hh:ii\', autoclose:true, language: \'fr\' });</script>';
+    let propRdv = '<div class="container"> <div class="panel-heading text-white">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-2"> <div class="form-group"> <label class="control-label text-white"></label> <label for="dateRdv" value="Date de rendez-vous"></label> <input type="datetime-local" id="dateRdv" name="dateRdv"> <input type="button" value="Proposer"  onclick="affichePropositionRdv('+cli+','+conv+','+userId+');"> </div> </div> </div> </div> </div>';
     bulleDiscussion+='<div class="media w-70 ml-auto mb-3" id="bullePropRdv">';
     bulleDiscussion+='<div class="media-body">';
     bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2" style="height:30em;">';
