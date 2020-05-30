@@ -136,7 +136,9 @@ function affichageListeAnnonces(tabAnnonce){
 
     for (var i = 0; i<nbAnnonces; i++){
         let idPro = getProViaMail(tabAnnonce[i]['idAdmin']);
-        let cotePro = (JSON.parse(getCotePro(idPro)))[0]['moyenne'];
+        let reponse = JSON.parse(getCotePro(idPro));
+        let cotePro = reponse[0]['moyenne'];
+        let nbAvis = reponse[0]['nbAvis'];
 
         affichageAnnonces +="<div class='card'>";
         affichageAnnonces +="<div class='row'>";
@@ -155,7 +157,8 @@ function affichageListeAnnonces(tabAnnonce){
             affichageAnnonces += '<p>Le professionnel est nouveau sur la plateforme</p>';
         }
         if(cotePro!==null){
-            affichageAnnonces += '<p>Voici la note moyenne de ce professionnel: '+(Math.round(cotePro * 10)/10)+'/5</p>';
+            affichageAnnonces += '<p>Evaluation: '+(Math.round(cotePro * 10)/10)+'/5</p>';
+            affichageAnnonces += '<p>Ce professionnel a reçu '+nbAvis+' avis</p>';
         }
         affichageAnnonces +=" <p><a  class ='lienBleu' onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
         affichageAnnonces +="</div></div></div></div>";
