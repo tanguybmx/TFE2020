@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  sam. 30 mai 2020 à 15:17
+-- Généré le :  sam. 30 mai 2020 à 16:23
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -69,7 +69,7 @@ END$$
 DROP PROCEDURE IF EXISTS `connexionClient`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionClient` (IN `login` VARCHAR(300), IN `pass` VARCHAR(300))  BEGIN
 
-SELECT idCli,pseudo, nom, prenom, adresse, mail FROM cli
+SELECT idCli,pseudo, nom, prenom, adresse, mail, cli.idRegion FROM cli
 WHERE (pseudo = login OR mail = login) AND (mdp = pass);
 
 END$$
@@ -119,9 +119,9 @@ INSERT INTO convers(convers.idClient, convers.idPro) VALUES(cli, pro);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(11), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(11), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000), IN `regi` INT(10))  BEGIN
 
-INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin) VALUES(name, adress, descri, serv, tva, idSector, admin);
+INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin, ent.idRegion) VALUES(name, adress, descri, serv, tva, idSector, admin, regi);
 
 END$$
 
@@ -263,10 +263,11 @@ INNER JOIN sect ON ent.idSect = sect.idSecteur;
 END$$
 
 DROP PROCEDURE IF EXISTS `getHisEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `id` INT(255))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `tva` INT(255))  BEGIN
 
-SELECT ent.nom, ent.adresse, ent.nTva, ent.idAdmin, sect.nom as nomSect, ent.description, ent.services FROM ent
-INNER JOIN sect ON ent.idSect = sect.idSecteur;
+SELECT ent.nom, ent.adresse, ent.nTva, ent.idAdmin, sect.nom as nomSect, ent.description, ent.services, ent.idRegion FROM ent
+INNER JOIN sect ON ent.idSect = sect.idSecteur
+WHERE ent.nTva=tva;
 
 END$$
 
@@ -415,7 +416,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
   PRIMARY KEY (`idCli`),
   UNIQUE KEY `mail` (`mail`) USING BTREE,
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cli`
@@ -424,7 +425,8 @@ CREATE TABLE IF NOT EXISTS `cli` (
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`, `idRegion`) VALUES
 (2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr', 0),
 (3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0),
-(5, 'totoBxl', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Toto', 'Tom', 'Rue de toto 1, 1000 Bruxelles', 'toto@toto', 1);
+(5, 'totoBxl', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Toto', 'Tom', 'Rue de toto 1, 1000 Bruxelles', 'toto@toto', 1),
+(6, 'testcli', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testcli', 'testcli', 'testcli', 'testcli', 3);
 
 -- --------------------------------------------------------
 
@@ -468,21 +470,24 @@ CREATE TABLE IF NOT EXISTS `ent` (
   `nTva` int(11) NOT NULL,
   `idSect` int(11) NOT NULL,
   `idAdmin` varchar(300) NOT NULL COMMENT 'mail useer createur de l''entreprise',
+  `idRegion` int(10) NOT NULL,
   PRIMARY KEY (`idEnt`),
   UNIQUE KEY `tva` (`nTva`),
   KEY `idAdmin` (`idAdmin`),
-  KEY `idSect` (`idSect`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  KEY `idSect` (`idSect`),
+  KEY `idregion` (`idRegion`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
 --
 
-INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`) VALUES
-(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be'),
-(22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', 2, 2, 'dimitri@logicaltic.com'),
-(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', 3, 4, 'testSansEntreprise@testSansEntreprise'),
-(24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', 4, 2, 'paul.kaisin@micropole.com');
+INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`, `idRegion`) VALUES
+(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be', 0),
+(22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', 2, 2, 'dimitri@logicaltic.com', 0),
+(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', 3, 4, 'testSansEntreprise@testSansEntreprise', 0),
+(24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', 4, 2, 'paul.kaisin@micropole.com', 0),
+(29, 'testEnt', 'testEnt', 'testEnt', 'testEnt,testEnt', 7, 1, 'dmouvet@hotmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -574,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `pro` (
   PRIMARY KEY (`idPro`),
   UNIQUE KEY `mail` (`mail`),
   KEY `idEntreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `pro`
@@ -586,7 +591,8 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 (6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
 (7, 'testSansEntreprise', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testSansEntreprise', 'testSansEntreprise', 'testSansEntreprise@testSansEntreprise', 3, 0, 'rue testSansEntreprise'),
 (8, 'Advensys', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'NA', 'Jean-Charles', 'Jean-Charles@advensys.be', NULL, 0, 'Rue à Wavre'),
-(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', 4, 0, 'Rue de micropole 12, 1000 Bruxelles');
+(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', 4, 0, 'Rue de micropole 12, 1000 Bruxelles'),
+(10, 'DMV', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mouvet', 'Danièle', 'dmouvet@hotmail.com', 7, 0, 'rue du pont labigniat 1, 1470 Genappe');
 
 -- --------------------------------------------------------
 
@@ -691,6 +697,7 @@ ALTER TABLE `convers`
 -- Contraintes pour la table `ent`
 --
 ALTER TABLE `ent`
+  ADD CONSTRAINT `ent_ibfk_1` FOREIGN KEY (`idRegion`) REFERENCES `region` (`idRegion`) ON UPDATE CASCADE,
   ADD CONSTRAINT `idAdmin` FOREIGN KEY (`idAdmin`) REFERENCES `pro` (`mail`) ON DELETE CASCADE,
   ADD CONSTRAINT `idSect` FOREIGN KEY (`idSect`) REFERENCES `sect` (`idSecteur`) ON DELETE CASCADE;
 

@@ -10,7 +10,7 @@ $_SESSION['pageActuelle']="profil.php";
                                 <div class="container">
                                     <div class="signup-content">
                                         <div class="signup-form">
-                                            <h2 class="form-title">Profil</h2>
+                                            <h2 class="form-title">Profil </h2>
                                             <form method="post" class="register-form" id="register-form" action="#">
                                                 <div class="form-group">
                                                     <label for="matricule">Identifiant</label>

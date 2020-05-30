@@ -5,6 +5,7 @@ include "../db/dbAccess.php";
 $db = new dbAccess();
 $nomEnt = htmlspecialchars($_POST['nomEnt']);
 $adresseEnt = htmlspecialchars($_POST['adresseEnt']);
+$regionEnt = htmlspecialchars($_POST['regionPro']);
 $nTvaEnt = htmlspecialchars($_POST['nTvaEnt']);
 $secteurEnt = htmlspecialchars($_POST['secteurEnt']);
 $idAdmin = htmlspecialchars($_SESSION['mail']);
@@ -24,7 +25,7 @@ $checkEnt = $db->callProcedure('checkEnt',[$nTvaEnt]);
 if(!empty($checkEnt)){
     echo json_encode("Entreprise existante sur la plateforme");
 } else{
-    $creationEnt = $db->callProcedure('creationEntreprise',[$nomEnt,$adresseEnt, $nTvaEnt, $secteurEnt, $idAdmin, $descEnt, $servicesEnt]);
+    $creationEnt = $db->callProcedure('creationEntreprise',[$nomEnt,$adresseEnt, $nTvaEnt, $secteurEnt, $idAdmin, $descEnt, $servicesEnt, $regionEnt]);
     echo (json_encode($creationEnt));
     $addIdEnt = $db->callProcedure('addIdEnt',[$idAdmin, $nTvaEnt]);
 }

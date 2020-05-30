@@ -155,7 +155,6 @@ class dbAccess
         //procédure 7 params
         switch ($nomProcedure) {
             case 'creationClient':
-            case 'creationEntreprise':
                 array_push($params, '?', '?', '?', '?', '?', '?', '?');
 
                 try {
@@ -169,6 +168,23 @@ class dbAccess
                 }
                 break;
         }
+
+                //procédure 8 params
+                switch ($nomProcedure) {
+                    case 'creationEntreprise':
+                        array_push($params, '?', '?', '?', '?', '?', '?', '?','?');
+        
+                        try {
+                            $this->connexionDB();
+                            $procedureCall = 'call ' . $nomProcedure . '(' . join(',', $params) . ')';
+                            $requete = $this->pdo->prepare($procedureCall);
+                            $requete->execute($procParams);
+                            return $requete->fetchAll();
+                        } catch (Exception $e) {
+                            die("Erreur :" . $e->getMessage());
+                        }
+                        break;
+                }
 
 
     }

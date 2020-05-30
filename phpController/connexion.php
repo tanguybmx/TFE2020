@@ -20,13 +20,14 @@ else if(empty($connexion2)){
     $_SESSION['prenom'] = $connexion[0]['prenom'];
     $_SESSION['adresse'] = $connexion[0]['adresse'];
     $_SESSION['mail'] = $connexion[0]['mail'];
+    $_SESSION['region'] =  $connexion[0]['idRegion'];
     $_SESSION['typeCompte']='client';
     $_SESSION['pageActuelle']="accueil.php";
 }
 
 else if(empty($connexion)){
     
-    echo json_encode($getAvisPro);
+
     $_SESSION['userId'] = $connexion2[0]['idPro'];
     $_SESSION['pseudo'] = $connexion2[0]['pseudo'];
     $_SESSION['nom'] = $connexion2[0]['nom'];
@@ -40,7 +41,7 @@ else if(empty($connexion)){
     $getAvisPro = $db->callProcedure('getCotePro',[($_SESSION['userId'])]);
     $_SESSION['nbAvis'] = $getAvisPro[0]['nbAvis'];
     $_SESSION['moyenne'] = $getAvisPro[0]['moyenne'];
-    if(!empty($_SESSION['idEnt'])){
+    if(!empty($connexion2[0]['idEntreprise'])){
         $connexion3 = $db->callProcedure('getHisEnt',[$_SESSION['idEnt']]);
         $_SESSION['nomEnt'] = $connexion3[0]['nom'];
         $_SESSION['adresseEnt'] = $connexion3[0]['adresse'];
@@ -49,6 +50,7 @@ else if(empty($connexion)){
         $_SESSION['sectEnt'] = $connexion3[0]['nomSect'];
         $_SESSION['descEnt'] = $connexion3[0]['description'];
         $_SESSION['servicesEnt'] = $connexion3[0]['services'];
+        $_SESSION['region'] = $connexion3[0]['idRegion'];
     }
 }
 

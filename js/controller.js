@@ -195,6 +195,10 @@ function creationEnt(){
         gestionErreur = 0;
     }
 
+    if ($('#regionPro').val() == '') {
+        gestionErreur = 0;
+    }
+
     if ($('#descEnt').val() == '') {
         $('#descEnt').attr('placeholder', 'Description requise');
         gestionErreur = 0;
@@ -219,7 +223,7 @@ function creationEnt(){
         var servicesEnt = '';
         var objectForm;
         if(nServices == 1){
-            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': parseInt($('#secteurEnt').val()), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': $('#servicesEnt1').val()};
+            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': parseInt($('#secteurEnt').val()), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': $('#servicesEnt1').val(), 'regionPro':$('#regionPro').val()};
         }
         else{
             servicesEnt += $('#servicesEnt1').val();
@@ -228,7 +232,7 @@ function creationEnt(){
                 console.log(i);
 
             }
-            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': parseInt($('#secteurEnt').val()), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': servicesEnt};
+            objectForm = { 'nomEnt': $('#nomEnt').val(), 'adresseEnt': $('#adresseEnt').val(), 'nTvaEnt': $('#nTvaEnt').val(), 'secteurEnt': parseInt($('#secteurEnt').val()), 'idAdmin': idUser ,'descEnt': $('#descEnt').val(), 'servicesEnt': servicesEnt, 'regionPro':$('#regionPro').val()};
             
         }
         console.log(objectForm);

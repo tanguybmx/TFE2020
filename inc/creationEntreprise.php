@@ -25,6 +25,12 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
                     <input type="text" name="adresseEnt" id="adresseEnt"/>
                 </div>
                 <div class="form-group">
+                    <label for="regionPro">Région d'activité de l'entreprise:</label><br>
+                    <select id="regionPro" name="regionPro">
+                                <option value="default">default</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="descEnt">Description de l'entreprise:</label><br>
                     <textarea name="descEnt" id="descEnt" style="width: 80%; height:8em;"/>
                 </div>
@@ -39,7 +45,7 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
                 </div>
 
                 <div class="form-group">
-                    <label for="secteurEnt">Le secteur de votre entreprise:</label>
+                    <label for="secteurEnt">Le secteur de votre entreprise:</label><br>
                     <select id="secteurEnt" name="secteurEnt">
                         <option value="default">default</option>
                     </select>
@@ -53,4 +59,5 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
 <script>
     removeClassActive('navEntreprise');
     getSecteur();
+    getRegionPro();
 </script>
