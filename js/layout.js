@@ -139,6 +139,7 @@ function affichageListeAnnonces(tabAnnonce){
         let reponse = JSON.parse(getCotePro(idPro));
         let cotePro = reponse[0]['moyenne'];
         let nbAvis = reponse[0]['nbAvis'];
+        let demiEtoile = 0;
 
         affichageAnnonces +="<div class='card'>";
         affichageAnnonces +="<div class='row'>";
@@ -157,7 +158,19 @@ function affichageListeAnnonces(tabAnnonce){
             affichageAnnonces += '<p>Le professionnel est nouveau sur la plateforme</p>';
         }
         if(cotePro!==null){
-            affichageAnnonces += '<p>Evaluation: '+(Math.round(cotePro * 10)/10)+'/5</p>';
+            let nbEtoileFull = cotePro.substr(0,1);
+            if((cotePro.substr(2,1)) != "0"){
+                demiEtoile = 1;
+            }
+            let affEtoile = "";
+            for (let i = 0;i<nbEtoileFull; i++ ){
+                affEtoile += '<i class="fas fa-star"></i>';
+            }
+            console.log(demiEtoile);
+            if(demiEtoile == 1){
+                affEtoile += '<i class="fas fa-star-half"></i>';
+            }
+            affichageAnnonces += '<p>Evaluation: '+affEtoile+'</p>';
             affichageAnnonces += '<p>Ce professionnel a reçu '+nbAvis+' avis</p>';
         }
         affichageAnnonces +=" <p><a  class ='lienBleu' onclick='chatContact("+idPro+");'>Contacter</a><br></p>";

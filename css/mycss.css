@@ -75,7 +75,9 @@ color: white;
     text-decoration: underline !important;
     
 }
-
+.lienHover{
+    text-decoration: underline !important;
+}
 .lienHover:hover{
     color: #032d52 !important;
     font-weight: bold !important;
