@@ -173,7 +173,9 @@ function affichageListeAnnonces(tabAnnonce){
             affichageAnnonces += '<p>Evaluation: '+affEtoile+'</p>';
             affichageAnnonces += '<p>Ce professionnel a reçu '+nbAvis+' avis</p>';
         }
-        affichageAnnonces +=" <p><a  class ='lienBleu' onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
+        if(userId!=null){
+            affichageAnnonces +=" <p><a  class ='lienBleu' onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
+        }
         affichageAnnonces +="</div></div></div></div>";
     }
 
@@ -492,7 +494,7 @@ function affichageDateFormatEu(date){
                     validationRdv = '<td onclick="modifStatutRdv('+tabRdvPro[i]['idRdv']+','+1+')"><a class="lienBleu">Valider</a></td>';
                     propDate = '<td id="newDate'+parseInt(tabRdvPro[i]['idRdv'])+'" onclick="affichageModifDate('+parseInt(tabRdvPro[i]['idRdv'])+',\''+tabRdvPro[i]['rdvDate']+'\',\''+tabRdvPro[i]['pseudo']+'\','+tabRdvPro[i]['idCli']+','+ tabRdvPro[i]['idConvers']+')"><a class="lienBleu">Proposer une autre date</a></td><span id="choixDate'+tabRdvPro[i]['idRdv']+'"></span>';
                 }
-                if(tabRdvPro[i]['statutRdv']!=4 && tabRdvPro[i]['statutRdv']!=3){
+                if(tabRdvPro[i]['statutRdv']!=4 && tabRdvPro[i]['statutRdv']!=3 && tabRdvPro[i]['statutRdv']!=5){
                     annulation = '<td onclick="annulerRdv('+tabRdvPro[i]['idRdv']+","+parseInt(tabRdvPro[i]['idConvers'])+',\''+tabRdvPro[i]['rdvDate']+'\''+','+tabRdvPro[i]['idPro']+','+tabRdvPro[i]['idCli']+')"><a class="lienBleu">Annuler</a></td>';;
                 }
                 if(tabRdvPro[i]['statutRdv']==1){
