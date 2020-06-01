@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  sam. 30 mai 2020 à 16:38
+-- Généré le :  lun. 01 juin 2020 à 12:09
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -388,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
   `cote` double(10,1) NOT NULL COMMENT 'valeur entre 0 et 5',
   PRIMARY KEY (`idAvis`),
   KEY `idRdv` (`idRdv`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `avis`
@@ -396,7 +396,8 @@ CREATE TABLE IF NOT EXISTS `avis` (
 
 INSERT INTO `avis` (`idAvis`, `idRdv`, `cote`) VALUES
 (4, 14, 4.5),
-(6, 21, 5.0);
+(6, 21, 5.0),
+(7, 16, 3.5);
 
 -- --------------------------------------------------------
 
@@ -507,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -558,7 +559,12 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (141, 19, 3, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci de le faire dans l\'onglet Rendez-vous.', '2020-05-30 15:01:27', 0),
 (142, 19, 4, 3, 'Bonjour, voici la nouvelle proposition de rendez-vous 04/06/2020 14:00:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-05-30 15:02:08', 0),
 (143, 19, 3, 4, 'Bonjour, je viens de valider notre rendez-vous du 04-06-2020 14:00:00. Merci.', '2020-05-30 15:02:26', 0),
-(145, 19, 3, 4, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-05-30 15:13:03', 0);
+(145, 19, 3, 4, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-05-30 15:13:03', 0),
+(146, 19, 4, 3, 'Bonjour, je viens d\'annuler notre rendez-vous du 04-06-2020 14:00:00', '2020-05-31 16:09:49', 0),
+(147, 19, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 01/06/2020 16:14:00 Pourriez-vous me confirmer celle-ci dans l\'onglet Rendez-vous ?', '2020-05-31 16:14:15', 0),
+(148, 17, 2, 5, 'Bonjour, je viens de valider notre rendez-vous du 31-05-2020 08:00:00. Merci.', '2020-06-01 12:05:38', 0),
+(149, 17, 5, 2, 'Le rendez-vous du 31-05-2020 08:00:00 s\'est bien terminé, merci pour votre confiance et n\'oublié pas d\'évaluer le rendez-vous dans l\'onglet approprié', '2020-06-01 12:06:36', 0),
+(150, 17, 2, 5, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-06-01 12:06:57', 0);
 
 -- --------------------------------------------------------
 
@@ -611,7 +617,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
@@ -619,10 +625,11 @@ CREATE TABLE IF NOT EXISTS `rdv` (
 
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
 (14, '2020-06-18 19:00:00', 5, 2, 4),
-(16, '2020-05-31 08:00:00', 0, 2, 5),
+(16, '2020-05-31 08:00:00', 5, 2, 5),
 (17, '2020-06-16 10:00:00', 3, 2, 4),
 (20, '2020-06-08 14:00:00', 4, 2, 4),
-(21, '2020-06-04 14:00:00', 5, 3, 4);
+(21, '2020-06-04 14:00:00', 5, 3, 4),
+(22, '2020-06-01 16:14:00', 0, 3, 4);
 
 -- --------------------------------------------------------
 
