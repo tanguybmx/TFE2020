@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de récupération des annonces en fonction de la région si celle-ci est définie donc si l'utilisateur est connecté
 include "../db/dbAccess.php";
 
 $db = new dbAccess();

@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de modification d'une date de rdv
 session_start();
 include_once "../db/dbAccess.php";
 

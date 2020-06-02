@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de récupération du pseudo d'un client a partir de son idclient
 session_start();
 include_once "../db/dbAccess.php";
 

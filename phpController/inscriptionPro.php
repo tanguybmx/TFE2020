@@ -1,5 +1,5 @@
 <?php
-
+//ce controlleur permet d'appeler la procédure de la db de créatiion d'un professionnel
 include "../db/dbAccess.php";
 
 $db = new dbAccess();

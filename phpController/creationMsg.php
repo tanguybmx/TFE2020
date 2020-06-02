@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de création de msg dans une conversation
 session_start();
 include_once "../db/dbAccess.php";
 

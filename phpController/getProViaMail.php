@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de récupération de l'id d'un pro a partir de son mail
 session_start();
 include_once "../db/dbAccess.php";
 

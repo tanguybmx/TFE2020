@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet de supprimer les variables de session lié à l'utilisateur et du coup de le déconnecté du site
     session_start();
     if (isset($_SESSION['nom'])) {
         // Supression des variables de session et de la session

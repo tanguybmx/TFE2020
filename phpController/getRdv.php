@@ -1,5 +1,5 @@
 <?php
-session_start();
+//ce controlleur permet d'appeler la procédure de la db de récupération des infos d'un rendez-vous
 include_once "../db/dbAccess.php";
 
 $db = new dbAccess();

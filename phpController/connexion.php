@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet de faire l'appel à la procédure qui vérifie que les identifiants sont correct et en plus attribué toute les variable de session à l'utilisateur 
 session_start();
 include "../db/dbAccess.php";
 

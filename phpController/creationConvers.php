@@ -1,5 +1,5 @@
 <?php
-
+//ce controlleur permet d'appeler la procédure de la db de création de conversation entre un client et un pro
 include_once "../db/dbAccess.php";
 
 $db = new dbAccess();

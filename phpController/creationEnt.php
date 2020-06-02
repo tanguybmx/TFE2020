@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de création d'entreprise et créer les variables de sessions de l'utilisateur
 session_start();
 include "../db/dbAccess.php";
 

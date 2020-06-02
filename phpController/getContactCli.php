@@ -1,4 +1,5 @@
 <?php
+//ce controlleur permet d'appeler la procédure de la db de récupération du professionnel dans une conversation d'un client
 session_start();
 include_once "../db/dbAccess.php";
 

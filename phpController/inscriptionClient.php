@@ -1,6 +1,5 @@
 <?php
-
-include "../db/dbAccess.php";
+//ce controlleur permet d'appeler la procédure de la db de créatiion d'un client
 
 $db = new dbAccess();
 $username = htmlspecialchars($_POST['username']);
