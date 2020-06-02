@@ -1,3 +1,4 @@
+//Cette fonction permet de sélectionner le bon menu en fonction de là où l'on est sur le site et prend en paramètre le menu a sélectionner comme actif
 function removeClassActive(active){
     $('#navAccueil').removeClass('nav-item active').addClass('nav-item');
     $('#navAbout').removeClass('nav-item active').addClass('nav-item');
@@ -13,6 +14,7 @@ function removeClassActive(active){
     $('#'+active).addClass('nav-item active');
 }
 
+//permet d'afficher le contenu de la page de connexion
 function connexion(){
 
     $('#content').load('inc/connexion.php');
@@ -21,7 +23,7 @@ function connexion(){
     
 
 }
-
+//permet d'afficher le contenu de la page de preinscription
 function preinscritption(){
 
     $('#content').load('inc/preinscription.php');
@@ -30,7 +32,7 @@ function preinscritption(){
     
 
 }
-
+//permet d'afficher le contenu de la page d'inscription en tant que client
 function inscritptionClient(){
 
     $('#content').load('inc/inscriptionClient.php');
@@ -39,7 +41,7 @@ function inscritptionClient(){
     
 
 }
-
+//permet d'afficher le contenu de la page d'inscription en tant que  professionnel
 function inscritptionPro(){
 
     $('#content').load('inc/inscriptionPro.php');
@@ -48,7 +50,7 @@ function inscritptionPro(){
     
 
 }
-
+//permet d'afficher le contenu de la page d'acceuil
 function accueil(){
 
     $('#content').load('inc/accueil.php');
@@ -58,7 +60,7 @@ function accueil(){
 
 
 }
-
+//permet d'afficher le contenu de la page A propos de nous
 function about(){
 
     $('#content').load('inc/about.php');
@@ -68,7 +70,7 @@ function about(){
 
 
 }
-
+//permet d'afficher le contenu de la page des annonces
 function services(){
 
     $('#content').load('inc/services.php');
@@ -76,7 +78,7 @@ function services(){
     removeClassActive('navServices');
     
 }
-
+//permet d'afficher le contenu de la page de contact
 function contact(){
 
     $('#content').load('inc/contact.php');
@@ -86,7 +88,7 @@ function contact(){
 
 
 }
-
+//permet d'afficher le contenu de la page de profil utilisateur
 function profil(){
 
     $('#content').load('inc/profil.php');
@@ -94,24 +96,25 @@ function profil(){
     removeClassActive('navProfil');
     
 }
-
+//permet d'afficher le contenu de la page de son annonce lorsqu'on est connecté en tant que professionnel
 function entreprise(){
     $('#content').load('inc/entreprise.php');
 
     removeClassActive('navEntreprise');
 }
-
+//permet d'afficher le contenu de la page du tchat entre professionnel et client
 function priseDeContact(){
     $('#content').load('inc/liveTchat/liveTchat.php');
 
     removeClassActive('navPriseDeContact');
 }
+//permet d'afficher le contenu de la page pour donner son avis sur un rdv en faisant appel à la fonction qui construit la page
 function pageAvis(rdvId, pseudo, date, dest, conv){
     avis(rdvId, pseudo, date, dest, conv);
         //la cote sera automatiquement cherché par le controller js grace à $('#note').val()
 
 }
-
+//permet d'afficher le contenu de la page de Rendez-vous
 function gestionRdv(){
     $('#content').load('inc/gestionRdv.php');
 
@@ -119,7 +122,7 @@ function gestionRdv(){
 }
 
 
-
+//Cette fonction va permettre de changer le bouton de connexion par le bouton de déconnexion lorsque l'utilisateur sera connecté
 function estCo() {
     $('#navConnexion').html('<a class="nav-link" href="phpController/deconnexion.php" id="lienConnexion">Se déconnecter</a>');
     $("#navConnexion").prop("onclick", null).off("click");
@@ -127,7 +130,7 @@ function estCo() {
 }
 
 
-//listeAnnonce
+//Fonction qui génère l'affichage de la liste d'annonce en recevant en paramètre un tableu d'annonce provenant de la base de données
 
 function affichageListeAnnonces(tabAnnonce){
     nbAnnonces = tabAnnonce.length;
@@ -185,7 +188,7 @@ function affichageListeAnnonces(tabAnnonce){
 
     $('#listeAnnonces').html(affichageAnnonces);
 }
-
+//permet la construction de l'affichage et l'affichage des conversations d'un utilisateur en prennant en paramètre l'id de l'user connecté
 function afficherConvers(idUser){
     let listConvers="";
     if(compteType=="client"){
@@ -250,7 +253,7 @@ function afficherConvers(idUser){
         }
     }
 }
-
+//permet la construction de l'affichage et l'affichage des messages d'une conversation en prennant en paramètre l'id de la conversation, l'id le l'utilisateur connecté et le nom du contact
 function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     let tabMsgConvers=JSON.parse(getMsgConvers(idConvers));
     let fullConver ="";
@@ -298,7 +301,7 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     box.scrollTop = box.scrollHeight;
 
 }
-
+//cette fonction permet d'affiché le msg qui vient d'être envoyé dans une conversation
 function afficheMsgEnvoye(dest, conv){
     creationMsg(dest, conv);
     let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
@@ -309,7 +312,7 @@ function afficheMsgEnvoye(dest, conv){
     box.scrollTop = box.scrollHeight;
     $('#'+conv).click();
 }
-
+//fonction qui permet de créer une nouvelle conversation lors du clic pour contacter un professionnel via une annonce et si la personne a déjà été en contact avec ce professionnel passe juste dans l'onglet de tchat
 function chatContact(idPro){
     let reponse = JSON.parse(checkSiDejaContact(userId, idPro));
     console.log(reponse);
@@ -325,7 +328,7 @@ function chatContact(idPro){
 
 
 }
-
+//Cette fonction permet l'affichage d'un formulaire dans le tchat afin de pouvoir faire proposition de rendez-vous dans une conversation (paramètres = idClient, idConversation, idProfessionnel)
 function propositionRdv(cli,conv,pro){
     let bulleDiscussion = "";
     let propRdv = '<div class="container"> <div class="panel-heading text-white">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-2"> <div class="form-group"> <label class="control-label text-white"></label> <label for="dateRdv" value="Date de rendez-vous"></label> <input type="datetime-local" id="dateRdv" name="dateRdv"> <input type="button" value="Proposer"  onclick="affichePropositionRdv('+cli+','+conv+','+userId+');"> </div> </div> </div> </div> </div>';
@@ -342,7 +345,7 @@ function propositionRdv(cli,conv,pro){
     box.scrollTop = box.scrollHeight;
     $('#proposerRdv').attr('onclick','affichePropositionRdv('+cli+','+conv+','+pro+')');
 }
-
+//cette fonction permet l'envois du msg de proposition de rendez vous et l'affichage du msg de proposition (paramètres = idClient, idConversation, idProfessionnel)
 function affichePropositionRdv(cli,conv, pro){
     creationMsgPropositionRdv(cli, conv);
     creationRdv(pro, cli);
@@ -447,7 +450,7 @@ function affichageDateFormatEu(date){
         let formatAffichageEu = jour+"/"+mois+"/"+annee+" "+heure+":"+minute+":00";
         return formatAffichageEu;
     }
-
+//Cette fonction permet l'affichage des rendez-vous d'un utilisateur
     function afficheRdv(){
         let statut = ['En attente','Validé','Refusé','Annulé', 'Terminé', 'Terminé et avis donné']
         if(compteType=="client"){
@@ -514,19 +517,19 @@ function affichageDateFormatEu(date){
         }
         
     }
-
+//Cette fonction permet l'affichage de la page de modification de date d'un rendez-vous par un professionnel (paramètres = idRdv, dateRdv, pseudoclient, idClient, idConversation)
     function affichageModifDate(rdv, date, pseudoCli, idCli, idConvers){
         let modifDate = "<p>Modification du rendez-vous avec "+pseudoCli+" qui avait lieu le "+date+"</p><form style='height:15em;' action='#'> <label for='newDateRdv' value='Nouvelle date'></label> <input type='datetime-local' id='newDateRdv' name='newDateRdv'> <input type='button' value='Proposer'  onclick='modifDateRdv("+rdv+","+idCli+","+idConvers+")'> </form>";
         $('#tableRdv').html(modifDate);
     }
-
+//Cette fonction permet au professionnel d'indiquer qu'un rendez-vous s'est bien déroulé (idRdv, destinataire = idClient, idConversation, dateRdv)
     function finaliserRdv(rdv, dest, conv,date){
         modifStatutRdv(rdv, 4);
         alert('Vous avez indiqué que le rendez-vous était terminé');
         creationMsgFinalisationRdv(dest, conv,date);
         window.location.reload();
     }
-
+//Cette fonction permet la construction et l'affichage de la page avis
     function avis(rdvId, pseudo, date, dest, conv){
         let pageAvis="";
         pageAvis+='<div class="container">';
@@ -553,11 +556,11 @@ function affichageDateFormatEu(date){
         
         
     }
-
+//cette fonction permet l'affichage du profil d'un professionnel via son annonce
     function afficheProfilPro(pro){
         let infoPro = JSON.parse(getInfoPro(pro));
         let pseudo = infoPro[0]['pseudo'];
-        let nomEnt = infoPro[0]['entNom'];
+        let nomEnt = JSON.parse(getProEnt(pro))[0]['nom'];
         let nom = infoPro[0]['proNom'];
         let prenom = infoPro[0]['prenom'];
         let mail = infoPro[0]['mail'];

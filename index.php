@@ -21,20 +21,12 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
 
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="vendors/linericon/style.css">
-  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-  <link rel="stylesheet" href="vendors/Magnific-Popup/magnific-popup.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
- 
-  
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/mycss.css">
 </head>
 <body>
   <!--================ Header Top Area Start =================-->
-  <section class="header-top d-none d-sm-block">
+  <!--<section class="header-top d-none d-sm-block">
     <div class="container">
       <div class="d-sm-flex justify-content-between">
         <ul class="header-top__info mb-2 mb-sm-0">
@@ -49,7 +41,7 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
         </ul>
       </div>
     </div>
-  </section>
+  </section>-->
   <!--================ Header Top Area end =================-->
 
   <!--================ Header Menu Area start =================-->
@@ -161,18 +153,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
   <!-- ================ End footer Area ================= -->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-  <script src="vendors/Magnific-Popup/jquery.magnific-popup.min.js"></script>
   <script src="js/jquery.ajaxchimp.min.js"></script>
-  <script src="js/mail-script.js"></script>
   <script src="js/main.js"></script>
   <script src="js/loginMain.js"></script>
   <script src="js/controller.js"></script>
   <script src="js/layout.js"></script>
-  <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
   <script>
   <?php
 

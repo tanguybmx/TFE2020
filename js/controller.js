@@ -1,5 +1,6 @@
 
 var idUser;
+//cette fonction permet de vérifier les champs à remplir pour l'inscription d'un client et fait l'appel ajax qui appel le controlleur php qui appel la procédure d'inscription 
 function checkInscriptionClient() {
     let gestionErreur = 1;
     event.preventDefault();
@@ -70,7 +71,7 @@ function checkInscriptionClient() {
     }
 
 }
-
+//cette fonction permet de vérifier les champs à remplir pour l'inscription d'un professionnel et fait l'appel ajax qui appel le controlleur php qui appel la procédure d'inscription 
 function checkInscriptionProfessionnel() {
     let gestionErreur = 1;
     event.preventDefault();
@@ -137,7 +138,7 @@ function checkInscriptionProfessionnel() {
     }
 
 }
-
+//cette fonction permet de vérifier les champs à remplir pour la connexion d'un utilisateur  et fait l'appel ajax qui appel le controlleur php qui appel la procédure de connexion
 function checkConnexion() {
     let gestionErreur = 1;
     event.preventDefault();
@@ -171,10 +172,9 @@ function checkConnexion() {
         });
     }
 }
-
+//Cette fonction permet l'ajout de champ texte pour les différents services proposés par une entreprise 
 var nServices=1;
-
-function ajoutChampService(){
+function ajoutChampService(){ 
     nServices++;
     var btn = '<button id="btnAjoutService" onclick="ajoutChampService();">Ajouter un service</button>';
     $('#btnAjoutService').remove();
@@ -182,6 +182,7 @@ function ajoutChampService(){
     $('#formItemServices').append(btn);
 } 
 
+//cette fonction permet de vérifier les champs à remplir pour la création de son annonce et fait l'appel ajax qui appel le controlleur php qui appel la procédure de création d'annonce
 function creationEnt(){
     let gestionErreur = 1;
     event.preventDefault();
@@ -190,8 +191,13 @@ function creationEnt(){
         gestionErreur = 0;
     }
 
-    if ($('#adresseEnt').val() == '') {
+    if ($('#adresseEnt').val() == 'default') {
         $('#adresseEnt').attr('placeholder', 'Adresse requise');
+        gestionErreur = 0;
+    }
+
+    if ($('#regionPro').val() == '') {
+        alert("Il faut sélectionner une région et pas la sélection par défaut");
         gestionErreur = 0;
     }
 
@@ -256,7 +262,7 @@ function creationEnt(){
     }
 }
 
-//secteur
+//permet d'appeler le controleur php qui appel la procédure de récupération des différents secteurs présent dans la base de données
 
 function getSecteur(){
     let secteurs;
@@ -278,6 +284,7 @@ function getSecteur(){
         });
 }
 
+//permet d'appeler le controleur php qui appel la procédure de récupération des différentes régions pour les clients présentent dans la base de données
 function getRegionCli(){
     let regions;
     $.ajax({
@@ -294,7 +301,7 @@ function getRegionCli(){
             }
         });
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des différentes régions pour les professionnels présentent dans la base de données
 function getRegionPro(){
     let regions;
     $.ajax({
@@ -313,6 +320,7 @@ function getRegionPro(){
         });
 }
 
+//permet d'appeler le controleur php qui appel la procédure de récupération du nombre de professionnels inscrits sur la palteforme
 function getNbPros(){
         $.ajax({
             url: "phpController/getNbPros.php",
@@ -324,7 +332,7 @@ function getNbPros(){
 
 }
 
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des différentes annonces présentes dans la base de données
 function getEnt(){
     $.ajax({
         url: "phpController/getEnt.php",
@@ -337,7 +345,7 @@ function getEnt(){
 
 }
 
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des différentes conversations d'un client présentes dans la base de données
 function getConversCli(){
     let resp = "";
     $.ajax({
@@ -351,7 +359,7 @@ function getConversCli(){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des différentes conversations d'un professionnel présentes dans la base de données
 function getConversPro(){
     let resp = "";
     $.ajax({
@@ -365,7 +373,7 @@ function getConversPro(){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des différents msg d'une conversation présents dans la base de données (param = idConversation)
 function getMsgConvers(convers){
     let resp = "";
     $.ajax({
@@ -381,7 +389,7 @@ function getMsgConvers(convers){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération du dernier msg d'une conversation présent dans la base de données (param = idConversation)
 function getDernierMsgConvers(convers){
     let resp = "";
     $.ajax({
@@ -397,7 +405,7 @@ function getDernierMsgConvers(convers){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création de msg (param = idDestinataire qui peu etre soit idClient soit idPro, idConversation)
 function creationMsg(dest, conv){
     contenuMsg = $('#contenuNouveauMsg').val();
     if(contenuMsg !=""){
@@ -415,7 +423,7 @@ function creationMsg(dest, conv){
             });
     }
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création de msg (param = idClient , idConversation) et ici le contenu du msg est prédéfinis pour une creation de conversation
 function creationMsgAcceuil(cli, conv){
     let contenuMsg = "Première prise de contact effectuée";
     if(contenuMsg !=""){
@@ -433,7 +441,7 @@ function creationMsgAcceuil(cli, conv){
             });
     }
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création de msg (param = idClient , idConversation) et ici le contenu du msg est prédéfinis pour une proposition de Rdv
 function creationMsgPropositionRdv(cli, conv){
     let contenuMsg = "Bonjour, voici ma propositon de rendez-vous: "+ formatDateTimeLocalToAffichage($('#dateRdv').val())+" Pourriez-vous me confirmer celle-ci dans l'onglet Rendez-vous ?";
     if(contenuMsg !=""){
@@ -452,7 +460,7 @@ function creationMsgPropositionRdv(cli, conv){
     }
 }
 
-
+//permet d'appeler le controleur php qui appel la procédure de récupération du pseudo d'un professionnel grâce à l'id de celui-ci passé en param
 function getNomPro(idPro){
     let resp = "";
     $.ajax({
@@ -470,7 +478,7 @@ function getNomPro(idPro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération du pseudo d'un client grâce à l'id de celui-ci passé en param
 function getNomCli(idCli){
     let resp = "";
     $.ajax({
@@ -488,7 +496,7 @@ function getNomCli(idCli){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération du nom d'entreprise d'un professionnel grâce à l'id de celui-ci passé en param
 function getProEnt(idPro){
     let resp = "";
     $.ajax({
@@ -506,7 +514,7 @@ function getProEnt(idPro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération de l'id d'un professionnel d'une conversation avec un client grâce à l'id de la conversation passé en param
 function getContactCli(idConvers){
     let resp = "";
     $.ajax({
@@ -524,7 +532,7 @@ function getContactCli(idConvers){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération de l'id d'un client d'une conversation  avec un professionnel grâce à l'id de la conversation passé en param
 function getContactPro(idConvers){
     let resp = "";
     $.ajax({
@@ -542,7 +550,7 @@ function getContactPro(idConvers){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération de conversation afin de vérifier s'il en existe uen entre le client et le professionnel grâce à leurs ids passés en param
 function checkSiDejaContact(idCli, idPro){
     let resp = "";
     $.ajax({
@@ -561,7 +569,7 @@ function checkSiDejaContact(idCli, idPro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération du id d'un professionnel grâce à son mail passé en param
 function getProViaMail(mailPro){
     let resp = "";
     $.ajax({
@@ -579,7 +587,7 @@ function getProViaMail(mailPro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création de conversation entre un pro et un client avec en paramètre l'id de chacun
 function creationConvers(cli, pro){
     let resp = "";
     $.ajax({
@@ -598,7 +606,7 @@ function creationConvers(cli, pro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création de rendez-vous entre un pro et un client avec en paramètre l'id de chacun
 function creationRdv(pro, cli){
     let dateRdv = formatDateTimeLocalToDb($('#dateRdv').val());
 
@@ -619,7 +627,7 @@ function creationRdv(pro, cli){
         });
 
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des informations sur un rendez-vous (id, date, statut, idClient, idProfessionnel) en passant en paramètre l'id du rendez vous
 function getRdv(idRdv){
     let resp = "";
     $.ajax({
@@ -637,7 +645,7 @@ function getRdv(idRdv){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de modification du statut d'un rendez-vous en lui passant en paramètre l'id du rdv et le statut souhaité 
 function modifStatutRdv(rdv, statut){
     $.ajax({
         url: "phpController/modifStatutRdv.php",
@@ -653,7 +661,7 @@ function modifStatutRdv(rdv, statut){
             }
         });
 }
-
+//permet d'appeler le controleur php qui appel la procédure de modification du date d'un rendez-vous en lui passant en paramètre l'id du rdv et l'id du client et l'id de la conversation
 function modifDateRdv(rdv, idCli, idConvers){
     let dateBrutInput = $('#newDateRdv').val();
     let dateRdv = formatDateTimeLocalToDb(dateBrutInput);
@@ -688,7 +696,7 @@ function modifDateRdv(rdv, idCli, idConvers){
     }
     window.location.reload();
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération de tous les rdv d'un client en lui passant en paramètres l'id du client
 function getAllRdvCli(idCli){
     let resp = "";
     $.ajax({
@@ -706,7 +714,7 @@ function getAllRdvCli(idCli){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération de tous les rdv d'un professionnel en lui passant en paramètres l'id du proffessionnel
 function getAllRdvPro(idPro){
     let resp = "";
     $.ajax({
@@ -724,7 +732,7 @@ function getAllRdvPro(idPro){
         });
         return resp;
 }
-//date => date actuel du rdv qui doit être changé
+//permet d'appeler le controleur php qui appel la procédure de création de msg avec un contenu prédéfinis pour la demande de changement de date (param = id de la conversation, id du professionnel et la date de rdv à modifier)
 function demandeModifDateRdv(idConvers, idPro, date){
     let contenuMsg = "Bonjour, serait-il possible de convenir d'une autre date de rendez-vous ? Celui-ci était fixé au "+date+". Merci de le faire dans l'onglet Rendez-vous.";
     if(contenuMsg !=""){
@@ -745,9 +753,10 @@ function demandeModifDateRdv(idConvers, idPro, date){
 
     
 }
-
+//permet d'appeler le controleur php qui appel la procédure de modification d'rdv en lui passant en paramètres l'id du rdv, l'id du professionnel du rdv, id de la conversation, et la date du rdv
+//de plus elle envoit un msg prédéfinis grace à l'appel de la procédure de création de msg
 function valideRdv(idRdv, idPro, idConvers,date){
-    modifStatutRdv(idRdv,1);
+    modifStatutRdv(idRdv,1);// 1 = statut validé
     let contenuMsg = "Bonjour, je viens de valider notre rendez-vous du "+date+". Merci.";
     if(contenuMsg !=""){
         $.ajax({
@@ -767,9 +776,10 @@ function valideRdv(idRdv, idPro, idConvers,date){
     }
 
 }
-
+//permet d'appeler le controleur php qui appel la procédure de modification d'rdv en lui passant en paramètres l'id du rdv, l'id du professionnel du rdv, id de la conversation, et la date du rdv
+//de plus elle envoit un msg prédéfinis grace à l'appel de la procédure de création de msg
 function annulerRdv(idRdv, idConvers,date, idPro, idCli){
-    modifStatutRdv(idRdv,3);
+    modifStatutRdv(idRdv,3);//3 = statut annulé
     let dest;
     if(compteType == "client"){
         dest = idPro;
@@ -795,7 +805,8 @@ function annulerRdv(idRdv, idConvers,date, idPro, idCli){
            alert('Vous avez envoyé un message à la personne disant que vous annuliez le rendez-vous');
     }  
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création d'un avis sur un rdv en lui passant en param l'id du rendez-vous, dest = idProfessionnel et l'id de la conversation
+//permet d'appeler le controleur php qui appel la procédure de création de msg avec un msg prédifinis
 function creationAvis(idRdv, dest, conv){
     let cote = $('#note').val();
     $.ajax({
@@ -831,7 +842,7 @@ function creationAvis(idRdv, dest, conv){
     alert('Vous venez de donner votre avis. Merci');
     window.location.reload();
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération de la cote moyenne d'un professionnel en passant en param l'id de ce professionnel
 function getCotePro(pro){
     let resp = "";
     $.ajax({
@@ -849,7 +860,7 @@ function getCotePro(pro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de récupération des informations d'un professionnel (pseudo, nom, prenom, mail, adresse, nom de l'entreprise, moyenne, nombre avis) en passant en param l'id de ce professionnel
 function getInfoPro(pro){
     let resp = "";
     $.ajax({
@@ -867,7 +878,7 @@ function getInfoPro(pro){
         });
         return resp;
 }
-
+//permet d'appeler le controleur php qui appel la procédure de création de msg avec un msg prédéfinis propre à une fin de rendez-vous avec en param idclient, idConversation, dateRdv
 function creationMsgFinalisationRdv(dest, conv, date){
     contenuMsg = "Le rendez-vous du "+date+" s'est bien terminé, merci pour votre confiance et n'oublié pas d'évaluer le rendez-vous dans l'onglet approprié";
     if(contenuMsg !=""){
