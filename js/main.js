@@ -6,15 +6,7 @@ $(function() {
   // //------- Sticky Header -------//
   // $(".sticky-header").sticky();
 
-  //------- video popup -------//
-  $(".hero-banner__video, .video-play-button").magnificPopup({
-    disableOn: 700,
-    type: "iframe",
-    mainClass: "mfp-fade",
-    removalDelay: 160,
-    preloader: false,
-    fixedContentPos: false
-  });
+
 
   // //------- mailchimp --------//  
 	// function mailChimp() {

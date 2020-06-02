@@ -45,7 +45,7 @@ $_SESSION['pageActuelle']="entreprise.php";
                                                     <br>
                                                     <br>
                                                     <br>
-                                                    <input type="text" name="adresse" id="adresse" readonly value="<?php echo $_SESSION['adresse'];  ?>">
+                                                    <input type="text" name="adresse" id="adresse" readonly value="<?php echo $_SESSION['adresseEnt'];  ?>">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="adresse">Type de compte</label>

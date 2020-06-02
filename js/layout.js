@@ -637,3 +637,4 @@ function affichageDateFormatEu(date){
          $('#content').html(affProfilPro);                
         
     }
+

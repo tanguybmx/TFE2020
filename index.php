@@ -153,7 +153,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
   <!-- ================ End footer Area ================= -->
 
-  <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="js/jquery.ajaxchimp.min.js"></script>
   <script src="js/main.js"></script>

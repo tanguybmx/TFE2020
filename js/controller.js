@@ -1,5 +1,10 @@
 
 var idUser;
+//regex vérifiant si une adresse email entré correspond au format d'une adresse email
+function validateEmail(email) {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    return re.test(email); 
+       }
 //cette fonction permet de vérifier les champs à remplir pour l'inscription d'un client et fait l'appel ajax qui appel le controlleur php qui appel la procédure d'inscription 
 function checkInscriptionClient() {
     let gestionErreur = 1;
@@ -21,6 +26,12 @@ function checkInscriptionClient() {
 
     if ($('#email').val() == '') {
         $('#email').attr('placeholder', 'Email requis');
+        gestionErreur = 0;
+    }
+
+    if (validateEmail($('#email').val()) == false) {
+        $('#email').val("");
+        $('#email').attr('placeholder', 'Cela ne semble pas être une adresse mail');
         gestionErreur = 0;
     }
 
@@ -92,6 +103,12 @@ function checkInscriptionProfessionnel() {
 
     if ($('#email').val() == '') {
         $('#email').attr('placeholder', 'Email requis');
+        gestionErreur = 0;
+    }
+    
+    if (validateEmail($('#email').val()) == false) {
+        $('#email').val("");
+        $('#email').attr('placeholder', 'Cela ne semble pas être une adresse mail');
         gestionErreur = 0;
     }
 
@@ -196,12 +213,8 @@ function creationEnt(){
         gestionErreur = 0;
     }
 
-    if ($('#regionPro').val() == '') {
+    if ($('#regionPro').val() == 'default') {
         alert("Il faut sélectionner une région et pas la sélection par défaut");
-        gestionErreur = 0;
-    }
-
-    if ($('#regionPro').val() == '') {
         gestionErreur = 0;
     }
 
@@ -217,6 +230,13 @@ function creationEnt(){
 
     if ($('#nTvaEnt').val() == '') {
         $('#nTvaEnt').attr('placeholder', 'Numéro de TVA requis');
+        gestionErreur = 0;
+    }
+
+    if (checkTva()==false) {
+        alert('Le numéro de TVA entré n\'est pas valide');
+        $('#nTvaEnt').val("");
+        $('#nTvaEnt').attr('placeholder', 'Numéro de TVA invalide');
         gestionErreur = 0;
     }
 
@@ -895,4 +915,18 @@ function creationMsgFinalisationRdv(dest, conv, date){
                 }
             });
     }
+}
+
+function checkTva(){
+    let tva=$('#nTvaEnt').val();
+    let resp = "";
+    $.ajax({
+        async:false,
+        url: "http://www.apilayer.net/api/validate?access_key=d06a0f519d600b9a0b70f687dd93ba2c&vat_number="+tva+"&format=1",
+        type: "GET",
+        success: function (response) {    
+            resp = response;                     
+            }
+        });
+        return resp['valid'];
 }

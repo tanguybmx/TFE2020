@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 01 juin 2020 à 12:09
+-- Généré le :  mar. 02 juin 2020 à 14:51
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -119,7 +119,7 @@ INSERT INTO convers(convers.idClient, convers.idPro) VALUES(cli, pro);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` INT(11), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000), IN `regi` INT(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` VARCHAR(25), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000), IN `regi` INT(10))  BEGIN
 
 INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin, ent.idRegion) VALUES(name, adress, descri, serv, tva, idSector, admin, regi);
 
@@ -469,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   `adresse` varchar(60) NOT NULL,
   `description` varchar(3000) NOT NULL COMMENT 'description de l''entreprise',
   `services` varchar(3000) NOT NULL COMMENT 'liste de services séparé de virgule',
-  `nTva` int(11) NOT NULL,
+  `nTva` varchar(25) NOT NULL,
   `idSect` int(11) NOT NULL,
   `idAdmin` varchar(300) NOT NULL COMMENT 'mail useer createur de l''entreprise',
   `idRegion` int(10) NOT NULL,
@@ -478,18 +478,19 @@ CREATE TABLE IF NOT EXISTS `ent` (
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`),
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
 --
 
 INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`, `idRegion`) VALUES
-(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', 1, 2, 'service@itrescue.be', 0),
-(22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', 2, 2, 'dimitri@logicaltic.com', 0),
-(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', 3, 4, 'testSansEntreprise@testSansEntreprise', 0),
-(24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', 4, 2, 'paul.kaisin@micropole.com', 0),
-(29, 'testEnt', 'testEnt', 'testEnt', 'testEnt,testEnt', 7, 1, 'dmouvet@hotmail.com', 1);
+(21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', '1', 2, 'service@itrescue.be', 0),
+(22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', '2', 2, 'dimitri@logicaltic.com', 0),
+(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', '3', 4, 'testSansEntreprise@testSansEntreprise', 0),
+(24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', '4', 2, 'paul.kaisin@micropole.com', 0),
+(29, 'testEnt', 'testEnt', 'testEnt', 'testEnt,testEnt', '7', 1, 'dmouvet@hotmail.com', 1),
+(30, 'ADVENSYS', 'Avenue Einstein 16, 1300 Wavre', 'Créer et apporter de la sérénité est devenu au fil de nos 25 années d’expérience, notre priorité et notre mission auprès de nos clients. En perpétuelle évolution, l’informatique doit être transparente et fiable pour son utilisateur.\nNotre mission est de conférer à nos clients une infrastructure performante, des outils fiables et un niveau de service continu et performant.\n', 'Sécurité,Audit et conseil', 'BE0869703879', 2, 'Jean-Charles@advensys.be', 0);
 
 -- --------------------------------------------------------
 
@@ -643,7 +644,7 @@ CREATE TABLE IF NOT EXISTS `region` (
   `nom` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idRegion`),
   KEY `idRegion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `region`
