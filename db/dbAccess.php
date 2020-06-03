@@ -61,6 +61,8 @@ class dbAccess
                     case 'getCotePro':
                     case 'getInfoPro':
                     case'getEnt':
+                    case 'deleteClient':
+                    case 'deletePro':
                         array_push($params, '?');
         
                         try {

@@ -325,7 +325,7 @@ function chatContact(idPro){
     else{
         priseDeContact();
     }
-
+    window.location.reload();
 
 }
 //Cette fonction permet l'affichage d'un formulaire dans le tchat afin de pouvoir faire proposition de rendez-vous dans une conversation (paramètres = idClient, idConversation, idProfessionnel)
@@ -638,3 +638,10 @@ function affichageDateFormatEu(date){
         
     }
 
+function supprimerCompte(){
+    contenuPage = "<div class='container'><h1>Voulez-vous réelement supprimer votre comtpe ?</h1><br><br><br><br><br><br>";
+    contenuPage += "<p><input type='button' value='Oui' align=center onclick='deleteUser()'></p><br><br>";
+    contenuPage += "<p><input type='button' value='Non' onclick='profil();'></p></div>";
+    $('#content').html(contenuPage);
+
+}

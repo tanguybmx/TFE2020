@@ -133,6 +133,10 @@ var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['user
   </section>
   <!--================ About section end =================-->
 </div>
+<div id="cookieConsent">
+    <div id="closeCookieConsent">x</div>
+    Toutes les données enregistrées sur la plateforme sont uniquement utilisées dans le cadre de l'utilisation de celle-ci. <a class="cookieConsentOK">OK</a>
+</div>
 <!--==================End Content of the page===============--> 
     <div class="footer-bottom">
       <div class="container">
@@ -177,6 +181,14 @@ if(isset($_SESSION['nom'])){
 ?>
 
   removeClassActive('navAccueil');
+  $(document).ready(function(){   
+    setTimeout(function () {
+        $("#cookieConsent").fadeIn(200);
+     }, 4000);
+    $("#closeCookieConsent, .cookieConsentOK").click(function() {
+        $("#cookieConsent").fadeOut(200);
+    }); 
+}); 
   </script>
 </body>
 </html>

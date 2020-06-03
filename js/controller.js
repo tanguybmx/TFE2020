@@ -233,12 +233,12 @@ function creationEnt(){
         gestionErreur = 0;
     }
 
-    if (checkTva()==false) {
+    /*if (checkTva()==false) {
         alert('Le numéro de TVA entré n\'est pas valide');
         $('#nTvaEnt').val("");
         $('#nTvaEnt').attr('placeholder', 'Numéro de TVA invalide');
         gestionErreur = 0;
-    }
+    }*/
 
     if ($('#secteurEnt').val() == 'default') {
         alert("Il faut sélectionner un secteur différent de default");
@@ -842,25 +842,28 @@ function creationAvis(idRdv, dest, conv){
             console.log(response);                     
             }
         });
-        contenuMsg = "Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.";
-        if(contenuMsg !=""){
-            $.ajax({
-                url: "phpController/creationMsg.php",
-                type: "POST",
-                data:{
-                    "dest": dest,
-                    "conv":conv,
-                    "msgContenu":contenuMsg,
-                },
-                success: function (response) {    
-                    console.log(response);                      
-                    }
-                });
-            }
-
+    creationMsgAvisDonne(dest,conv);    
     modifStatutRdv(idRdv, 5);
     alert('Vous venez de donner votre avis. Merci');
     window.location.reload();
+}
+
+function creationMsgAvisDonne(dest,conv){
+    let contenuMsg = "Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.";
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest": dest,
+                "conv":conv,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
 }
 //permet d'appeler le controleur php qui appel la procédure de récupération de la cote moyenne d'un professionnel en passant en param l'id de ce professionnel
 function getCotePro(pro){
@@ -929,4 +932,16 @@ function checkTva(){
             }
         });
         return resp['valid'];
+}
+
+function deleteUser(){
+    $.ajax({
+        url: "phpController/deleteUser.php",
+        type: "POST",
+        success: function (response) {    
+            console.log(response);                     
+            }
+        });
+        alert('Vous avez supprimé votre compte, vous allez être déconnecté');
+        window.location.reload();
 }

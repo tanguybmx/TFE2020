@@ -55,6 +55,7 @@ $_SESSION['pageActuelle']="profil.php";
                                                     <input type="text" name="type" id="type" readonly value="<?php echo $_SESSION['typeCompte'];  ?>">
                                                 </div>
                                             </form>
+                                            <h5 class="lienBleu" onclick="supprimerCompte(<?=$_SESSION['userId']?>);">Supprimer compte</h5>
                                         </div>
 
                                     </div>

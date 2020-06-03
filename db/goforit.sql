@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mar. 02 juin 2020 à 14:51
+-- Généré le :  mer. 03 juin 2020 à 10:29
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -152,6 +152,22 @@ DROP PROCEDURE IF EXISTS `creationSecteur`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creationSecteur` (IN `name` VARCHAR(300))  BEGIN 
 
 INSERT INTO sect (nom) VALUES(name);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `deleteClient`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteClient` (IN `id` INT)  BEGIN
+
+DELETE FROM cli
+WHERE cli.idCli = id;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `deletePro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deletePro` (IN `id` INT)  BEGIN
+
+DELETE FROM pro
+WHERE pro.idPro = id;
 
 END$$
 
@@ -388,16 +404,14 @@ CREATE TABLE IF NOT EXISTS `avis` (
   `cote` double(10,1) NOT NULL COMMENT 'valeur entre 0 et 5',
   PRIMARY KEY (`idAvis`),
   KEY `idRdv` (`idRdv`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `avis`
 --
 
 INSERT INTO `avis` (`idAvis`, `idRdv`, `cote`) VALUES
-(4, 14, 4.5),
-(6, 21, 5.0),
-(7, 16, 3.5);
+(11, 23, 4.0);
 
 -- --------------------------------------------------------
 
@@ -427,7 +441,6 @@ CREATE TABLE IF NOT EXISTS `cli` (
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`, `idRegion`) VALUES
 (2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr', 0),
 (3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0),
-(5, 'totoBxl', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Toto', 'Tom', 'Rue de toto 1, 1000 Bruxelles', 'toto@toto', 1),
 (6, 'testcli', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testcli', 'testcli', 'testcli', 'testcli', 3);
 
 -- --------------------------------------------------------
@@ -444,17 +457,15 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
 --
 
 INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
-(16, 2, 4),
-(17, 2, 5),
-(18, 2, 7),
-(19, 3, 4);
+(20, 2, 4),
+(21, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -478,7 +489,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`),
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
@@ -487,9 +498,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
 INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`, `idSect`, `idAdmin`, `idRegion`) VALUES
 (21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', '1', 2, 'service@itrescue.be', 0),
 (22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', '2', 2, 'dimitri@logicaltic.com', 0),
-(23, 'test', 'rue test  Test', 'test test test', 'test1,test2,test3', '3', 4, 'testSansEntreprise@testSansEntreprise', 0),
 (24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', '4', 2, 'paul.kaisin@micropole.com', 0),
-(29, 'testEnt', 'testEnt', 'testEnt', 'testEnt,testEnt', '7', 1, 'dmouvet@hotmail.com', 1),
 (30, 'ADVENSYS', 'Avenue Einstein 16, 1300 Wavre', 'Créer et apporter de la sérénité est devenu au fil de nos 25 années d’expérience, notre priorité et notre mission auprès de nos clients. En perpétuelle évolution, l’informatique doit être transparente et fiable pour son utilisateur.\nNotre mission est de conférer à nos clients une infrastructure performante, des outils fiables et un niveau de service continu et performant.\n', 'Sécurité,Audit et conseil', 'BE0869703879', 2, 'Jean-Charles@advensys.be', 0);
 
 -- --------------------------------------------------------
@@ -509,63 +518,28 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
 --
 
 INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeure`, `statut`) VALUES
-(95, 15, 4, 3, 'Bonjour, voici la nouvelle proposition de rendez-vous 01/06/2020 09:00:00. Merci de valider celle-ci si elle vous convient.', '2020-05-29 10:06:45', 0),
-(96, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 10/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:07:39', 0),
-(97, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 03/06/2020 9:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:12:52', 0),
-(98, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: // ::00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:24:32', 0),
-(99, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 16/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:24:51', 0),
-(100, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: // ::00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:27:38', 0),
-(101, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 17/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:27:52', 0),
-(102, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 17/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:27:57', 0),
-(103, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 28/05/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:29:23', 0),
-(104, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 31/05/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:30:58', 0),
-(105, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 05/06/2020 1::0:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:42:28', 0),
-(106, 15, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 03/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:45:34', 0),
-(107, 16, 2, 4, 'Première prise de contact effectuée', '2020-05-29 10:53:00', 0),
-(108, 16, 2, 4, 'Bonjour, je suis un jeune en pleine rédaction de mon TFE, et mon PC ne veut plus démarrer. Pourriez-vous m\'aider ? Bien à vous.', '2020-05-29 10:54:20', 0),
-(109, 16, 4, 2, 'Bonjour, oui tout a fait nous pouvons planifier un rendez-vous. Je vais vous faire une proposition.', '2020-05-29 10:55:30', 0),
-(110, 16, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 10/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 10:55:59', 0),
-(111, 16, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 10-06-2020 10:00:00. Merci.', '2020-05-29 10:56:44', 0),
-(112, 16, 2, 4, 'Cela me conviendrait en semaine et plutôt en soirée. ', '2020-05-29 10:57:51', 0),
-(115, 16, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 18/06/2020 19:00:00. Merci de valider celle-ci si elle vous convient.', '2020-05-29 11:02:08', 0),
-(116, 16, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 18-06-2020 19:00:00. Merci.', '2020-05-29 11:06:50', 0),
-(117, 17, 2, 5, 'Première prise de contact effectuée', '2020-05-29 16:00:45', 0),
-(118, 18, 2, 7, 'Première prise de contact effectuée', '2020-05-29 16:01:59', 0),
-(119, 18, 2, 7, 'test', '2020-05-29 16:02:15', 0),
-(120, 18, 2, 7, 'test', '2020-05-29 16:04:00', 0),
-(121, 17, 2, 5, 'test', '2020-05-29 16:04:08', 0),
-(122, 17, 5, 2, 'Bonjour, voici ma propositon de rendez-vous: 31/05/2020 8:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 16:12:54', 0),
-(123, 17, 2, 5, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 31-05-2020 08:00:00. Merci.', '2020-05-29 16:23:45', 0),
-(124, 16, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 16/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-29 16:25:57', 0),
-(125, 16, 4, 2, 'test', '2020-05-30 11:57:54', 0),
-(126, 16, 4, 2, 'test', '2020-05-30 12:02:23', 0),
-(127, 16, 4, 2, 'test', '2020-05-30 12:02:41', 0),
-(130, 16, 4, 2, 'Bonjour, voici ma propositon de rendez-vous: 05/06/2020 12:30:00 Pourriez-vous me confirmer celle-ci ?', '2020-05-30 12:30:30', 0),
-(131, 16, 2, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 05-06-2020 12:30:00. Merci de le faire dans l\'onglet Rendez-vous.', '2020-05-30 14:43:25', 0),
-(132, 16, 4, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 08/06/2020 14:00:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-05-30 14:44:22', 0),
-(133, 16, 4, 2, 'Bonjour, je viens d\'annuler notre rendez-vous du 16-06-2020 10:00:00', '2020-05-30 14:44:51', 0),
-(134, 16, 2, 4, 'Bonjour, je viens de valider notre rendez-vous du 08-06-2020 14:00:00. Merci.', '2020-05-30 14:45:35', 0),
-(136, 16, 4, 2, 'Le rendez-vous du 08-06-2020 14:00:00 s\'est bien terminé, merci pour votre confiance et n\'oublié pas d\'évaluer le rendez-vous dans l\'onglet approprié', '2020-05-30 14:57:46', 0),
-(137, 19, 3, 4, 'Première prise de contact effectuée', '2020-05-30 14:58:41', 0),
-(138, 19, 3, 4, 'Bonjour, je rencontre un problème avec mon imprimante, je n\'arrive plus à lancer d\'impression depuis mon pc... Pourriez-vous m\'aider ? Bien à vous.', '2020-05-30 14:59:30', 0),
-(139, 19, 4, 3, 'Bonjour, oui tout a fait je vais vous proposer un rendez-vous dans le prochain message.', '2020-05-30 15:00:38', 0),
-(140, 19, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 02/06/2020 09:00:00 Pourriez-vous me confirmer celle-ci dans l\'onglet Rendez-vous ?', '2020-05-30 15:01:03', 0),
-(141, 19, 3, 4, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 02-06-2020 09:00:00. Merci de le faire dans l\'onglet Rendez-vous.', '2020-05-30 15:01:27', 0),
-(142, 19, 4, 3, 'Bonjour, voici la nouvelle proposition de rendez-vous 04/06/2020 14:00:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-05-30 15:02:08', 0),
-(143, 19, 3, 4, 'Bonjour, je viens de valider notre rendez-vous du 04-06-2020 14:00:00. Merci.', '2020-05-30 15:02:26', 0),
-(145, 19, 3, 4, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-05-30 15:13:03', 0),
-(146, 19, 4, 3, 'Bonjour, je viens d\'annuler notre rendez-vous du 04-06-2020 14:00:00', '2020-05-31 16:09:49', 0),
-(147, 19, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 01/06/2020 16:14:00 Pourriez-vous me confirmer celle-ci dans l\'onglet Rendez-vous ?', '2020-05-31 16:14:15', 0),
-(148, 17, 2, 5, 'Bonjour, je viens de valider notre rendez-vous du 31-05-2020 08:00:00. Merci.', '2020-06-01 12:05:38', 0),
-(149, 17, 5, 2, 'Le rendez-vous du 31-05-2020 08:00:00 s\'est bien terminé, merci pour votre confiance et n\'oublié pas d\'évaluer le rendez-vous dans l\'onglet approprié', '2020-06-01 12:06:36', 0),
-(150, 17, 2, 5, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-06-01 12:06:57', 0);
+(151, 20, 2, 4, 'Première prise de contact effectuée', '2020-06-03 11:04:43', 0),
+(152, 21, 2, 5, 'Première prise de contact effectuée', '2020-06-03 11:07:09', 0),
+(153, 21, 2, 5, 'Bonjour, je n\'arrive plus à allumer mon pc, pourriez-vous m\'aider ?', '2020-06-03 11:07:46', 0),
+(154, 21, 5, 2, 'Bonjour, oui bien sur, je vais vous envoyer une proposition de rendes-vous.', '2020-06-03 11:08:38', 0),
+(155, 21, 5, 2, 'Bonjour, voici ma propositon de rendez-vous: 09/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci dans l\'onglet Rendez-vous ?', '2020-06-03 11:08:54', 0),
+(156, 21, 2, 5, 'Bonjour, serait-il possible de convenir d\'une autre date de rendez-vous ? Celui-ci était fixé au 09-06-2020 10:00:00. Merci de le faire dans l\'onglet Rendez-vous.', '2020-06-03 11:09:54', 0),
+(157, 21, 5, 2, 'Bonjour, oui biensur. Faites moi part de vos disponibilités.', '2020-06-03 11:10:45', 0),
+(158, 21, 2, 5, 'Je suis disponible tous les jours mais après 18h00.', '2020-06-03 11:12:35', 0),
+(159, 21, 5, 2, 'Bonjour, voici la nouvelle proposition de rendez-vous 09/06/2020 18:30:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-06-03 11:13:08', 0),
+(160, 21, 2, 5, 'Bonjour, je viens de valider notre rendez-vous du 09-06-2020 18:30:00. Merci.', '2020-06-03 11:13:34', 0),
+(161, 21, 5, 2, 'Le rendez-vous du 09-06-2020 18:30:00 s\'est bien terminé, merci pour votre confiance et n\'oublié pas d\'évaluer le rendez-vous dans l\'onglet approprié', '2020-06-09 20:30:10', 0),
+(168, 21, 2, 5, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-06-09 21:30:10', 0),
+(169, 20, 2, 4, 'Bonjour, j\'ai acheté une nouvelle imprimante et je ne parviens pas à l\'installer sur mon ordinateur. Pourriez-vous m\'aider ?', '2020-06-03 11:31:49', 0),
+(170, 20, 4, 2, 'Bonjour, oui bien-sur. Pour cela il faudra convenir d\'un rendez-vous. Quelles sont vos disponibilités ? ', '2020-06-03 11:34:23', 0),
+(171, 20, 2, 4, 'Je suis disponible tous les jeudis, vendredis, samedis et dimanches pendant toute la journée.', '2020-06-03 11:35:46', 0);
 
 -- --------------------------------------------------------
 
@@ -597,10 +571,8 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 (4, 'zyppo', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Eric', 'service@itrescue.be', 1, 0, 'Rue Chant des Oiseaux 4b'),
 (5, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', 2, 0, 'rue aux loups'),
 (6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
-(7, 'testSansEntreprise', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testSansEntreprise', 'testSansEntreprise', 'testSansEntreprise@testSansEntreprise', 3, 0, 'rue testSansEntreprise'),
 (8, 'Advensys', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'NA', 'Jean-Charles', 'Jean-Charles@advensys.be', NULL, 0, 'Rue à Wavre'),
-(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', 4, 0, 'Rue de micropole 12, 1000 Bruxelles'),
-(10, 'DMV', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mouvet', 'Danièle', 'dmouvet@hotmail.com', 7, 0, 'rue du pont labigniat 1, 1470 Genappe');
+(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', 4, 0, 'Rue de micropole 12, 1000 Bruxelles');
 
 -- --------------------------------------------------------
 
@@ -618,19 +590,14 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
 --
 
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
-(14, '2020-06-18 19:00:00', 5, 2, 4),
-(16, '2020-05-31 08:00:00', 5, 2, 5),
-(17, '2020-06-16 10:00:00', 3, 2, 4),
-(20, '2020-06-08 14:00:00', 4, 2, 4),
-(21, '2020-06-04 14:00:00', 5, 3, 4),
-(22, '2020-06-01 16:14:00', 0, 3, 4);
+(23, '2020-06-09 18:30:00', 5, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -699,8 +666,8 @@ ALTER TABLE `cli`
 -- Contraintes pour la table `convers`
 --
 ALTER TABLE `convers`
-  ADD CONSTRAINT `convers_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `cli` (`idCli`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `convers_ibfk_2` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `convers_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `cli` (`idCli`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `convers_ibfk_2` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `ent`
@@ -714,14 +681,14 @@ ALTER TABLE `ent`
 -- Contraintes pour la table `msg`
 --
 ALTER TABLE `msg`
-  ADD CONSTRAINT `msg_ibfk_1` FOREIGN KEY (`idConvers`) REFERENCES `convers` (`idConvers`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `msg_ibfk_1` FOREIGN KEY (`idConvers`) REFERENCES `convers` (`idConvers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `rdv`
 --
 ALTER TABLE `rdv`
-  ADD CONSTRAINT `idCli` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `idPro` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `idCli` FOREIGN KEY (`idCli`) REFERENCES `cli` (`idCli`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `idPro` FOREIGN KEY (`idPro`) REFERENCES `pro` (`idPro`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
