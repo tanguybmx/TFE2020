@@ -5,7 +5,7 @@ include_once "../db/dbAccess.php";
 
 $db = new dbAccess();
 
-$pro = htmlspecialchars($_POST['idPro']);
+$pro = $_SESSION['userId'];
 $cli = htmlspecialchars($_POST['idCli']);
 $dateRdv = htmlspecialchars($_POST['dateRdv']);
 

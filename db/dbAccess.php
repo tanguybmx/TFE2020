@@ -90,6 +90,9 @@ class dbAccess
             case 'modifStatutRdv':
             case 'modifDateRdv':
             case 'creationAvis':
+            case 'checkPossessionRdvCli':
+            case 'checkPossessionRdvPro':
+            
                 array_push($params, '?', '?');
 
                 try {

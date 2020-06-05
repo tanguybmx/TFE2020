@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mer. 03 juin 2020 à 10:29
+-- Généré le :  ven. 05 juin 2020 à 10:02
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -55,6 +55,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `checkInscriptionProfessionnel` (IN 
 
 SELECT idPro FROM pro
 WHERE mail = email OR pseudo = username;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `checkPossessionRdvCli`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkPossessionRdvCli` (IN `cliId` INT, IN `rdvId` INT)  BEGIN
+
+SELECT rdv.idRdv FROM rdv
+WHERE rdv.idCli = cliId AND rdv.idRdv = rdvId;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `checkPossessionRdvPro`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkPossessionRdvPro` (IN `proId` INT, IN `rdvId` INT)  NO SQL
+BEGIN
+
+SELECT rdv.idRdv FROM rdv
+WHERE rdv.idPro = proId AND rdv.idRdv = rdvId;
 
 END$$
 
@@ -465,7 +482,8 @@ CREATE TABLE IF NOT EXISTS `convers` (
 
 INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
 (20, 2, 4),
-(21, 2, 5);
+(21, 2, 5),
+(22, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -489,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`),
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
@@ -518,7 +536,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -539,7 +557,13 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 (168, 21, 2, 5, 'Bonjour, je viens de noter notre rendez-vous. Encore merci. Bien à vous.', '2020-06-09 21:30:10', 0),
 (169, 20, 2, 4, 'Bonjour, j\'ai acheté une nouvelle imprimante et je ne parviens pas à l\'installer sur mon ordinateur. Pourriez-vous m\'aider ?', '2020-06-03 11:31:49', 0),
 (170, 20, 4, 2, 'Bonjour, oui bien-sur. Pour cela il faudra convenir d\'un rendez-vous. Quelles sont vos disponibilités ? ', '2020-06-03 11:34:23', 0),
-(171, 20, 2, 4, 'Je suis disponible tous les jeudis, vendredis, samedis et dimanches pendant toute la journée.', '2020-06-03 11:35:46', 0);
+(171, 20, 2, 4, 'Je suis disponible tous les jeudis, vendredis, samedis et dimanches pendant toute la journée.', '2020-06-03 11:35:46', 0),
+(172, 22, 3, 4, 'Première prise de contact effectuée', '2020-06-05 11:50:50', 0),
+(173, 22, 3, 4, 'Bonjour, j\'ai un problème avec mon ordinateur, il indique un message d\'erreur au démarrage.', '2020-06-05 11:51:29', 0),
+(174, 22, 4, 3, 'Bonjour, je vais vous proposer un rendez-vous pour voir ça ensemble.', '2020-06-05 11:52:04', 0),
+(175, 22, 4, 3, 'Bonjour, voici ma propositon de rendez-vous: 16/06/2020 10:00:00 Pourriez-vous me confirmer celle-ci dans l\'onglet Rendez-vous ?', '2020-06-05 11:52:18', 0),
+(176, 22, 4, 3, 'Bonjour, voici la nouvelle proposition de rendez-vous 17/06/2020 10:00:00. Merci de valider celle-ci si elle vous convient dans l\'onglet Rendez-vous.', '2020-06-05 11:53:17', 0),
+(177, 22, 3, 4, 'Bonjour, je viens de valider notre rendez-vous du 17-06-2020 10:00:00. Merci.', '2020-06-05 11:54:26', 0);
 
 -- --------------------------------------------------------
 
@@ -561,7 +585,7 @@ CREATE TABLE IF NOT EXISTS `pro` (
   PRIMARY KEY (`idPro`),
   UNIQUE KEY `mail` (`mail`),
   KEY `idEntreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `pro`
@@ -590,14 +614,15 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
 --
 
 INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
-(23, '2020-06-09 18:30:00', 5, 2, 5);
+(23, '2020-06-09 18:30:00', 5, 2, 5),
+(24, '2020-06-17 10:00:00', 1, 3, 4);
 
 -- --------------------------------------------------------
 

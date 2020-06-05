@@ -176,7 +176,7 @@ function affichageListeAnnonces(tabAnnonce){
             affichageAnnonces += '<p>Evaluation: '+affEtoile+'</p>';
             affichageAnnonces += '<p>Ce professionnel a reçu '+nbAvis+' avis</p>';
         }
-        if(userId!=null){
+        if(utilisateur.user!=null){
             affichageAnnonces +=" <p><a  class ='lienBleu' onclick='chatContact("+idPro+");'>Contacter</a><br></p>";
         }
         affichageAnnonces +="</div></div></div></div>";
@@ -189,9 +189,10 @@ function affichageListeAnnonces(tabAnnonce){
     $('#listeAnnonces').html(affichageAnnonces);
 }
 //permet la construction de l'affichage et l'affichage des conversations d'un utilisateur en prennant en paramètre l'id de l'user connecté
-function afficherConvers(idUser){
+function afficherConvers(){
+    let idUser = utilisateur.user;
     let listConvers="";
-    if(compteType=="client"){
+    if(utilisateur.type=="client"){
         var conversCli = JSON.parse(getConversCli());
         let nbConvers = (conversCli).length;
         for (var i=0; i<nbConvers; i++){
@@ -206,7 +207,7 @@ function afficherConvers(idUser){
             }
             let pseudoPro = JSON.parse(getNomPro(contact))[0]['pseudo'];
             let nomEnt = JSON.parse(getProEnt(contact))[0]['nom'];
-            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversCli[i]+" onclick='afficheMsgConvers("+conversCli[i]+","+userId+",\""+pseudoPro+" "+nomEnt+"\");'>";
+            listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversCli[i]+" onclick='afficheMsgConvers("+conversCli[i]+",\""+pseudoPro+" "+nomEnt+"\");'>";
             listConvers+="<div class='media'>";
             listConvers+="<div class='media-body ml-4'>";
             listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
@@ -220,7 +221,7 @@ function afficherConvers(idUser){
         $("#listConvers").html(listConvers);
     }
 
-    if(compteType=="professionnel"){
+    if(utilisateur.type=="professionnel"){
         let conversPro= JSON.parse(getConversPro());
         let nbConvers = (conversPro).length;
         console.log(conversPro);
@@ -235,7 +236,7 @@ function afficherConvers(idUser){
                     contact = tabConversPro[0]['idExp'];
                 }
                 let pseudoCli = JSON.parse(getNomCli(contact))[0]['pseudo'];
-                listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversPro[i]+" onclick='afficheMsgConvers("+conversPro[i]+","+userId+",\""+pseudoCli+"\");'>";
+                listConvers+="<a class='list-group-item list-group-item-action text-black rounded-0' id="+conversPro[i]+" onclick='afficheMsgConvers("+conversPro[i]+",\""+pseudoCli+"\");'>";
                 listConvers+="<div class='media'>";
                 listConvers+="<div class='media-body ml-4'>";
                 listConvers+="<div class='d-flex align-items-center justify-content-between mb-1'>";
@@ -254,7 +255,8 @@ function afficherConvers(idUser){
     }
 }
 //permet la construction de l'affichage et l'affichage des messages d'une conversation en prennant en paramètre l'id de la conversation, l'id le l'utilisateur connecté et le nom du contact
-function afficheMsgConvers(idConvers, idUserActuel, nomContact){
+function afficheMsgConvers(idConvers, nomContact){
+    let idUserActuel = utilisateur.user;
     let tabMsgConvers=JSON.parse(getMsgConvers(idConvers));
     let fullConver ="";
     var contact;
@@ -286,12 +288,12 @@ function afficheMsgConvers(idConvers, idUserActuel, nomContact){
     $('.messages-box a').addClass('text-black');
     $('#'+idConvers).removeClass('text-black');
     $('#'+idConvers).addClass('text-white active');
-    if(compteType=="client"){
+    if(utilisateur.type=="client"){
         let conversCli= JSON.parse(getContactCli(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversCli[0]['idPro']+"\",\""+idConvers+"\");");
             $('#button-addon3').hide();
     }
-    if(compteType=="professionnel"){
+    if(utilisateur.type=="professionnel"){
         let conversPro= JSON.parse(getContactPro(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
             $('#button-addon3').attr("onclick","propositionRdv(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\","+conversPro[0]['idPro']+");");
@@ -314,11 +316,11 @@ function afficheMsgEnvoye(dest, conv){
 }
 //fonction qui permet de créer une nouvelle conversation lors du clic pour contacter un professionnel via une annonce et si la personne a déjà été en contact avec ce professionnel passe juste dans l'onglet de tchat
 function chatContact(idPro){
-    let reponse = JSON.parse(checkSiDejaContact(userId, idPro));
+    let reponse = JSON.parse(checkSiDejaContact(idPro));
     console.log(reponse);
     console.log(reponse);
     if(reponse == "noConvers"){
-        let conv=creationConvers(userId, idPro);
+        let conv=creationConvers(idPro);
         creationMsgAcceuil(idPro, conv);
         priseDeContact();
     }
@@ -331,7 +333,7 @@ function chatContact(idPro){
 //Cette fonction permet l'affichage d'un formulaire dans le tchat afin de pouvoir faire proposition de rendez-vous dans une conversation (paramètres = idClient, idConversation, idProfessionnel)
 function propositionRdv(cli,conv,pro){
     let bulleDiscussion = "";
-    let propRdv = '<div class="container"> <div class="panel-heading text-white">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-2"> <div class="form-group"> <label class="control-label text-white"></label> <label for="dateRdv" value="Date de rendez-vous"></label> <input type="datetime-local" id="dateRdv" name="dateRdv"> <input type="button" value="Proposer"  onclick="affichePropositionRdv('+cli+','+conv+','+userId+');"> </div> </div> </div> </div> </div>';
+    let propRdv = '<div class="container"> <div class="panel-heading text-white">Proposer un rendez-vous</div> <div class="panel-body"> <div class="row"> <div class="col-md-2"> <div class="form-group"> <label class="control-label text-white"></label> <label for="dateRdv" value="Date de rendez-vous"></label> <input type="datetime-local" id="dateRdv" name="dateRdv"> <input type="button" value="Proposer"  onclick="affichePropositionRdv('+cli+','+conv+','+utilisateur.user+');"> </div> </div> </div> </div> </div>';
     bulleDiscussion+='<div class="media w-70 ml-auto mb-3" id="bullePropRdv">';
     bulleDiscussion+='<div class="media-body">';
     bulleDiscussion+='<div class="bg-primary rounded py-2 px-3 mb-2" style="height:30em;">';
@@ -348,7 +350,7 @@ function propositionRdv(cli,conv,pro){
 //cette fonction permet l'envois du msg de proposition de rendez vous et l'affichage du msg de proposition (paramètres = idClient, idConversation, idProfessionnel)
 function affichePropositionRdv(cli,conv, pro){
     creationMsgPropositionRdv(cli, conv);
-    creationRdv(pro, cli);
+    creationRdv(cli);
     let dernierMsgenvoye = JSON.parse(getDernierMsgConvers(conv));
     let contenuDernierMsgEnvoye = dernierMsgenvoye[0]['contenu'];
     let dateDernierMsgEnvoye = dernierMsgenvoye[0]['msgDate'];
@@ -453,8 +455,8 @@ function affichageDateFormatEu(date){
 //Cette fonction permet l'affichage des rendez-vous d'un utilisateur
     function afficheRdv(){
         let statut = ['En attente','Validé','Refusé','Annulé', 'Terminé', 'Terminé et avis donné']
-        if(compteType=="client"){
-            let tabRdvCli = JSON.parse(getAllRdvCli(userId));
+        if(utilisateur.type=="client"){
+            let tabRdvCli = JSON.parse(getAllRdvCli(utilisateur.user));
             let tableRdvCli="";
             for (let i =0; i< tabRdvCli.length; i++){
                 let validationRdv ='<td></td>';
@@ -486,8 +488,8 @@ function affichageDateFormatEu(date){
             }
             $('#listeRdv').html(tableRdvCli);
         }
-        if(compteType=="professionnel"){
-            let tabRdvPro = JSON.parse(getAllRdvPro(userId));
+        if(utilisateur.type=="professionnel"){
+            let tabRdvPro = JSON.parse(getAllRdvPro(utilisateur.user));
             let tableRdvPro="";
             for (let i =0; i< tabRdvPro.length; i++){
                 let propDate = '<td></td>';

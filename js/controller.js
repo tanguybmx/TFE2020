@@ -570,8 +570,8 @@ function getContactPro(idConvers){
         });
         return resp;
 }
-//permet d'appeler le controleur php qui appel la procédure de récupération de conversation afin de vérifier s'il en existe uen entre le client et le professionnel grâce à leurs ids passés en param
-function checkSiDejaContact(idCli, idPro){
+//permet d'appeler le controleur php qui appel la procédure de récupération de conversation afin de vérifier s'il  existe une convers entre le client (user connecté) et le professionnel grâce à l'id du pro passé en param
+function checkSiDejaContact(idPro){
     let resp = "";
     $.ajax({
         async:false,
@@ -579,7 +579,6 @@ function checkSiDejaContact(idCli, idPro){
         type: "POST",
         data: 
         {
-            "idCli":idCli,
             "idPro":idPro
         },
         success: function (response) {    
@@ -607,8 +606,8 @@ function getProViaMail(mailPro){
         });
         return resp;
 }
-//permet d'appeler le controleur php qui appel la procédure de création de conversation entre un pro et un client avec en paramètre l'id de chacun
-function creationConvers(cli, pro){
+//permet d'appeler le controleur php qui appel la procédure de création de conversation entre un pro et un client avec en paramètre l'id de chacun (enclenché uniquement par un client)
+function creationConvers(pro){
     let resp = "";
     $.ajax({
         async:false,
@@ -616,7 +615,6 @@ function creationConvers(cli, pro){
         type: "POST",
         data: 
         {
-            "idCli":cli,
             "idPro":pro
         },
         success: function (response) {    
@@ -627,7 +625,7 @@ function creationConvers(cli, pro){
         return resp;
 }
 //permet d'appeler le controleur php qui appel la procédure de création de rendez-vous entre un pro et un client avec en paramètre l'id de chacun
-function creationRdv(pro, cli){
+function creationRdv(cli){
     let dateRdv = formatDateTimeLocalToDb($('#dateRdv').val());
 
     $.ajax({
@@ -635,7 +633,6 @@ function creationRdv(pro, cli){
         type: "POST",
         data: 
         {
-            "idPro":pro,
             "idCli":cli,
             "dateRdv": dateRdv
 
@@ -801,10 +798,10 @@ function valideRdv(idRdv, idPro, idConvers,date){
 function annulerRdv(idRdv, idConvers,date, idPro, idCli){
     modifStatutRdv(idRdv,3);//3 = statut annulé
     let dest;
-    if(compteType == "client"){
+    if(utilisateur.type == "client"){
         dest = idPro;
     }
-    if(compteType == "professionnel"){
+    if(utilisateur.type == "professionnel"){
         dest = idCli;
     }
     let contenuMsg = "Bonjour, je viens d'annuler notre rendez-vous du "+date;

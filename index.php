@@ -9,6 +9,12 @@ include 'phpController/getClientSatisfait.php';
 <script>
 var compteType; <?php if(isset($_SESSION['typeCompte'])){echo "compteType='".$_SESSION['typeCompte']."'";};?>;
 var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['userId']."'";};?>;
+const utilisateur ={
+  user: userId,
+  type: compteType
+};
+
+Object.freeze(utilisateur);
 </script>
 <!DOCTYPE html>
 <html lang="fr">

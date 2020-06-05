@@ -8,6 +8,13 @@ $db = new dbAccess();
 $idRdv = htmlspecialchars($_POST['idRdv']);
 $dateRdv = htmlspecialchars($_POST['dateRdv']);
 
-$modifDateRdv = $db->callProcedure('modifDateRdv',[$idRdv,$dateRdv]);
+$checkPossessionRdvPro = $db->callProcedure('checkPossessionRdvPro',[$_SESSION['userId'],$idRdv]);
+    if(empty($checkPossessionRdvPro)){
+        echo "Ce n'est pas votre rdv";
+    }
+    else{
+        $modifDateRdv = $db->callProcedure('modifDateRdv',[$idRdv,$dateRdv]);
+        echo json_encode($modifDateRdv);
+    }
 
-echo json_encode($modifDateRdv);
+

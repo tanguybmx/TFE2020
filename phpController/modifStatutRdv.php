@@ -8,6 +8,26 @@ $db = new dbAccess();
 $idRdv = htmlspecialchars($_POST['idRdv']);
 $statut = htmlspecialchars($_POST['statutRdv']);
 
-$modifStatutRdv = $db->callProcedure('modifStatutRdv',[$idRdv,$statut]);
+if($_SESSION['typeCompte']=="client"){
+    $checkPossessionRdvCli = $db->callProcedure('checkPossessionRdvCli',[$_SESSION['userId'],$idRdv]);
+    if(empty($checkPossessionRdvCli)){
+        echo "Ce n'est pas votre rdv";
+    }
+    else{
+        $modifStatutRdv = $db->callProcedure('modifStatutRdv',[$idRdv,$statut]);
+        echo json_encode($modifStatutRdv);
+    }
+}
+if($_SESSION['typeCompte']=="professionnel"){
+    $checkPossessionRdvPro = $db->callProcedure('checkPossessionRdvPro',[$_SESSION['userId'],$idRdv]);
+    if(empty($checkPossessionRdvPro)){
+        echo "Ce n'est pas votre rdv";
+    }
+    else{
+        $modifStatutRdv = $db->callProcedure('modifStatutRdv',[$idRdv,$statut]);
+        echo json_encode($modifStatutRdv);
+    }
+}
 
-echo json_encode($modifStatutRdv);
+
+
