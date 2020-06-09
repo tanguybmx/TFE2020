@@ -43,10 +43,9 @@ $_SESSION['pageActuelle']="accueil.php";
  <section class="d-lg-flex align-items-center section-margin--large">
     <div class="container">
       <div class="about__content">
-        <h3>We Properly Understand Your Purpose</h3>
-        <p>Multiply replenish sea won't fishl own without dry. Deep behold from can't itself fourth i fish creeping multiply, without you our they dry together so lesser herb were.</p>
-        <p>Every appear very fill. Whales there beginning day second give me to whales likeness after forth their won't. Don fruit let multiply secon brought can't darkness saying. Stars can't after given one dry he subdue very called fourth image own won't open meat moved megathe red yielding do not .</p>
-        <a class="button mt-xl-3" href="#">Learn More</a>
+      <h3>Nous comprennons votre besoin</h3>
+        <p>Le principal problème lors de la recherche de service aujourd'hui, est la fiabilité du professionnel offrant ce service.</p>
+        <p>Le but de la plateforme est de vous fournir un large choix de professionnels compétents et fiables grâce à un système d'évaluations authentifié.</p>
       </div>
     </div>
   </section>
