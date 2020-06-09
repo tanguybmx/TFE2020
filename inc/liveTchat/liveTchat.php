@@ -48,7 +48,11 @@
               <?php 
               if($_SESSION['typeCompte']== 'professionnel'){
                 echo'<button id="button-addon3" class="btn btn-link" id="calendrier"> <i class="fa fa-calendar-plus"></i></button>';
-              }?>
+              }
+              if($_SESSION['typeCompte']== 'client'){
+                echo '<button id="button-addon4" class="btn btn-link" id="infoClient"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>';
+              }
+              ?>
             </div>
           </div>
   

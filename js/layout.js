@@ -300,11 +300,13 @@ function afficheMsgConvers(idConvers, nomContact){
         let conversCli= JSON.parse(getContactCli(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversCli[0]['idPro']+"\",\""+idConvers+"\");");
             $('#button-addon3').hide();
+            $('#button-addon4').attr("onclick","afficheMsgInfoClient(\""+conversCli[0]['idPro']+"\",\""+idConvers+"\");");
     }
     if(utilisateur.type=="professionnel"){
         let conversPro= JSON.parse(getContactPro(idConvers));
             $('#button-addon2').attr("onclick","afficheMsgEnvoye(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\");");
             $('#button-addon3').attr("onclick","propositionRdv(\""+conversPro[0]['idClient']+"\",\""+idConvers+"\","+conversPro[0]['idPro']+");");
+            $('#button-addon4').hide();
 
     }
     var box = document.getElementById('msgConvers');
@@ -654,4 +656,9 @@ function supprimerCompte(){
     contenuPage += "<p><input type='button' value='Non' onclick='profil();'></p></div>";
     $('#content').html(contenuPage);
 
+}
+
+function afficheMsgInfoClient(pro, conv){
+    creationMsgInfoClient(pro, conv);
+    afficheMsgEnvoye(pro, conv);
 }

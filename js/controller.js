@@ -480,6 +480,25 @@ function creationMsgPropositionRdv(cli, conv){
     }
 }
 
+//permet l'envois de msg automatique avec les informations du client
+function creationMsgInfoClient(pro, conv){
+    let contenuMsg = "Bonjour, voici mes coordonées: "+utilisateur.nomPrenom+", "+utilisateur.adress;
+    if(contenuMsg !=""){
+        $.ajax({
+            url: "phpController/creationMsg.php",
+            type: "POST",
+            data:{
+                "dest":pro,
+                "conv":conv,
+                "msgContenu":contenuMsg,
+            },
+            success: function (response) {    
+                console.log(response);                      
+                }
+            });
+    }
+}
+
 //permet d'appeler le controleur php qui appel la procédure de récupération du pseudo d'un professionnel grâce à l'id de celui-ci passé en param
 function getNomPro(idPro){
     let resp = "";

@@ -9,9 +9,14 @@ include 'phpController/getClientSatisfait.php';
 <script>
 var compteType; <?php if(isset($_SESSION['typeCompte'])){echo "compteType='".$_SESSION['typeCompte']."'";};?>;
 var userId; <?php if(isset($_SESSION['userId'])){echo "userId='".$_SESSION['userId']."'";};?>;
+var adresse;<?php if(isset($_SESSION['adresse'])){echo "adresse='".$_SESSION['adresse']."'";};?>;
+var nom; <?php if(isset($_SESSION['nom'])){echo "nom='".$_SESSION['nom']."'";};?>;
+var prenom;<?php if(isset($_SESSION['prenom'])){echo "prenom='".$_SESSION['prenom']."'";};?>;
 const utilisateur ={
   user: userId,
-  type: compteType
+  type: compteType,
+  adress:adresse,
+  nomPrenom: nom+' '+prenom
 };
 
 Object.freeze(utilisateur);
