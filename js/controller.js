@@ -180,10 +180,11 @@ function checkConnexion() {
                 console.log(response);
                 if (response === '"erreurConnexion"') {
                     console.log("erreurConnexion");
+                    $('#erreurCo').show();
                 }
                 else {
                     console.log('connexion OK');
-                    window.location="http://localhost/TFE2020/";
+                    window.location.reload();
                 }
             }
         });

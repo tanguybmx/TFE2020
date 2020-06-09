@@ -8,6 +8,7 @@ $_SESSION['pageActuelle']="connexion.php";
             <div class="signin-content">
                 <div class="signin-form">
                     <h2 class="form-title">Connexion</h2>
+                    <span id="erreurCo" style="display:none"><h4>L'identifiant ou le mot de passe n'est pas correct</h4></span>
                     <form method="POST" class="register-form" id="login-form" action="#">
                         <div class="form-group">
                             <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>

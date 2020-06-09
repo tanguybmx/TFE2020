@@ -157,7 +157,18 @@ function affichageListeAnnonces(tabAnnonce){
         affichageAnnonces +="<div class='card-body cc-education-header'>";
         affichageAnnonces +="<div class='h5' onclick='afficheProfilPro("+idPro+")'><a class='lienHover'>"+ tabAnnonce[i]['nom'] +"</a></div>";
         affichageAnnonces +="<p>"+ tabAnnonce[i]['nomSect'] +"</p>";
-        affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/YourLogo.png'></p>";
+        if(tabAnnonce[i]['nomSect']=="Infographie"){
+            affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/logoAnnonceInfogra.jpg'></p>";
+        }
+        if(tabAnnonce[i]['nomSect']=="Infrastructure"){
+            affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/logoAnnonceInfra.jpg'></p>";
+        }
+        if(tabAnnonce[i]['nomSect']=="Telephonie"){
+            affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/logoAnnonceTele.jpg'></p>";
+        }
+        if(tabAnnonce[i]['nomSect']=="Web"){
+            affichageAnnonces +="<p><img class='img-responsive logoEnt' src='img/clients-logo/logoAnnonceWeb.jpg'></p>";
+        }
         affichageAnnonces +="</div></div>";
         affichageAnnonces +="<div class='col-md-9'>";
         affichageAnnonces +="<div class='card-body'></div>";
