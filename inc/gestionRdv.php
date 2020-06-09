@@ -6,7 +6,7 @@ if($_SESSION['typeCompte'] == "professionnel" && !isset($_SESSION['idEnt'])){
 ?>
 <div class="container">
   <h2>Vos rendez-vous</h2>
-  <div id="tableRdv">
+  <div id="tableRdv" class="table-responsive">
     <table class="table">
     <thead>
         <tr>
