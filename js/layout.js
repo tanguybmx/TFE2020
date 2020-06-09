@@ -254,13 +254,21 @@ function afficherConvers(){
         }
     }
 }
+//fonction qui permet d'afficher la liste de conversation et cacher les msg 
+function listeConvers(){
+    $('#contentChat').hide();
+    $('#contentConvers').show();
+}
+
 //permet la construction de l'affichage et l'affichage des messages d'une conversation en prennant en paramètre l'id de la conversation, l'id le l'utilisateur connecté et le nom du contact
 function afficheMsgConvers(idConvers, nomContact){
+    $('#contentChat').show();
+    $('#contentConvers').hide();
     let idUserActuel = utilisateur.user;
     let tabMsgConvers=JSON.parse(getMsgConvers(idConvers));
     let fullConver ="";
     var contact;
-    $('#nomContact').html('<div class="bg-gray px-4 py-2 bg-light"><p class="h5 mb-0 py-1">'+nomContact+'</p></div><br>');
+    $('#nomContact').html('<div class="bg-gray px-4 py-2 bg-light"><p class="h5 mb-0 py-1"><button class="btn btn-primary" onclick="listeConvers();">Retour</button>'+'  '+''+nomContact+'</p></div><br>');
     for (let k = 0; k<tabMsgConvers.length; k++){
         if(idUserActuel==tabMsgConvers[k]['idExp']){
             fullConver+='<div class="media w-50 ml-auto mb-3">';
