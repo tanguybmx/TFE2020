@@ -20,7 +20,7 @@ function connexion(){
     $('#content').load('inc/connexion.php');
     removeClassActive('navConnexion');
     
-    
+    $('.navbar-toggler').click();
 
 }
 //permet d'afficher le contenu de la page de preinscription
@@ -29,6 +29,7 @@ function preinscritption(){
     $('#content').load('inc/preinscription.php');
 
     removeClassActive('navConnexion');
+    
     
 
 }
@@ -56,7 +57,7 @@ function accueil(){
     $('#content').load('inc/accueil.php');
 
     removeClassActive('navAccueil');
-    
+    $('.navbar-toggler').click();
 
 
 }
@@ -66,7 +67,7 @@ function about(){
     $('#content').load('inc/about.php');
 
     removeClassActive('navAbout');
-    
+    $('.navbar-toggler').click();
 
 
 }
@@ -76,6 +77,7 @@ function services(){
     $('#content').load('inc/services.php');
 
     removeClassActive('navServices');
+    $('.navbar-toggler').click();
     
 }
 //permet d'afficher le contenu de la page de contact
@@ -84,6 +86,7 @@ function contact(){
     $('#content').load('inc/contact.php');
 
     removeClassActive('navContact');
+    $('.navbar-toggler').click();
     
 
 
@@ -94,6 +97,7 @@ function profil(){
     $('#content').load('inc/profil.php');
 
     removeClassActive('navProfil');
+    $('.navbar-toggler').click();
     
 }
 //permet d'afficher le contenu de la page de son annonce lorsqu'on est connecté en tant que professionnel
@@ -101,12 +105,14 @@ function entreprise(){
     $('#content').load('inc/entreprise.php');
 
     removeClassActive('navEntreprise');
+    $('.navbar-toggler').click();
 }
 //permet d'afficher le contenu de la page du tchat entre professionnel et client
 function priseDeContact(){
     $('#content').load('inc/liveTchat/liveTchat.php');
 
     removeClassActive('navPriseDeContact');
+    $('.navbar-toggler').click();
 }
 //permet d'afficher le contenu de la page pour donner son avis sur un rdv en faisant appel à la fonction qui construit la page
 function pageAvis(rdvId, pseudo, date, dest, conv){
@@ -119,6 +125,7 @@ function gestionRdv(){
     $('#content').load('inc/gestionRdv.php');
 
     removeClassActive('navGestionRdv');
+    $('.navbar-toggler').click();
 }
 
 

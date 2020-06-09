@@ -7,7 +7,7 @@ $_SESSION['pageActuelle']="creationEntreprise.php";
 <div class="container">
                 <div id="titreCreaEnt">
                     <h2>Merci de créer votre annonce </h2>
-                    <p>Afin de pouvoir être visible sur le site</p>
+                    <p>Afin de pouvoir être visible sur la plateforme et accéder à ses fonctionnalités</p>
                     <span id="erreurCrea"> </span>
                 </div>
     <div class="row">
