@@ -27,7 +27,7 @@ DELIMITER $$
 -- Procédures
 --
 DROP PROCEDURE IF EXISTS `addIdEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addIdEnt` (IN `email` VARCHAR(300), IN `nTva` VARCHAR(25))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addIdEnt` (IN `email` VARCHAR(254), IN `nTva` VARCHAR(25))  BEGIN
 
 UPDATE pro set idEntreprise = nTva
 WHERE mail = email;
@@ -43,7 +43,7 @@ WHERE nTva = tva;
 END$$
 
 DROP PROCEDURE IF EXISTS `checkInscriptionClient`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkInscriptionClient` (IN `username` VARCHAR(300), IN `email` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkInscriptionClient` (IN `username` VARCHAR(254), IN `email` VARCHAR(254))  BEGIN
 
 SELECT idCli FROM cli 
 WHERE mail = email OR pseudo = username ;
@@ -51,7 +51,7 @@ WHERE mail = email OR pseudo = username ;
 END$$
 
 DROP PROCEDURE IF EXISTS `checkInscriptionProfessionnel`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkInscriptionProfessionnel` (IN `username` VARCHAR(300), IN `email` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkInscriptionProfessionnel` (IN `username` VARCHAR(254), IN `email` VARCHAR(254))  BEGIN
 
 SELECT idPro FROM pro
 WHERE mail = email OR pseudo = username;
@@ -84,7 +84,7 @@ WHERE convers.idClient = cli && convers.idPro = pro;
 END$$
 
 DROP PROCEDURE IF EXISTS `connexionClient`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionClient` (IN `login` VARCHAR(300), IN `pass` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionClient` (IN `login` VARCHAR(254), IN `pass` VARCHAR(254))  BEGIN
 
 SELECT idCli,pseudo, nom, prenom, adresse, mail, cli.idRegion FROM cli
 WHERE (pseudo = login OR mail = login) AND (mdp = pass);
@@ -92,7 +92,7 @@ WHERE (pseudo = login OR mail = login) AND (mdp = pass);
 END$$
 
 DROP PROCEDURE IF EXISTS `connexionPro`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionPro` (IN `login` VARCHAR(300), IN `pass` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `connexionPro` (IN `login` VARCHAR(254), IN `pass` VARCHAR(254))  BEGIN
 
 SELECT idPro, pseudo, nom, prenom, mail, idEntreprise, adresse, statut FROM pro
 WHERE (pseudo = login OR mail = login) AND (mdp = pass);
@@ -122,7 +122,7 @@ INSERT INTO avis (avis.idRdv, avis.cote) VALUES (rdvId,  avisCote);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationClient`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(300), IN `pwd` VARCHAR(300), IN `name` VARCHAR(300), IN `firstname` VARCHAR(300), IN `adress` VARCHAR(300), IN `email` VARCHAR(300), IN `region` INT(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(254), IN `pwd` VARCHAR(254), IN `name` VARCHAR(254), IN `firstname` VARCHAR(254), IN `adress` VARCHAR(254), IN `email` VARCHAR(254), IN `region` INT(10))  BEGIN
 
 INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail,cli.idRegion) VALUES(username, pwd, name, firstname, adress, email, region);
 
@@ -136,28 +136,28 @@ INSERT INTO convers(convers.idClient, convers.idPro) VALUES(cli, pro);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(300), IN `adress` VARCHAR(300), IN `tva` VARCHAR(25), IN `idSector` INT(11), IN `admin` VARCHAR(300), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(3000), IN `regi` INT(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(254), IN `adress` VARCHAR(254), IN `tva` VARCHAR(25), IN `idSector` INT(11), IN `admin` VARCHAR(254), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(254), IN `regi` INT(10))  BEGIN
 
 INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin, ent.idRegion) VALUES(name, adress, descri, serv, tva, idSector, admin, regi);
 
 END$$
 
 DROP PROCEDURE IF EXISTS `creationMsg`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationMsg` (IN `exp` INT(255), IN `dest` INT(255), IN `conv` INT(255), IN `content` VARCHAR(1000))  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationMsg` (IN `exp` INT(255), IN `dest` INT(255), IN `conv` INT(255), IN `content` VARCHAR(254))  BEGIN 
 
 INSERT INTO msg( msg.idExp, msg.idDest, msg.idConvers, msg.contenu) VALUES(exp, dest, conv, content);
 
 END$$
 
 DROP PROCEDURE IF EXISTS `creationProfessionnel`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationProfessionnel` (IN `username` VARCHAR(300), IN `password` VARCHAR(300), IN `name` VARCHAR(300), IN `firstname` VARCHAR(300), IN `email` VARCHAR(300), IN `adress` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationProfessionnel` (IN `username` VARCHAR(254), IN `password` VARCHAR(254), IN `name` VARCHAR(254), IN `firstname` VARCHAR(254), IN `email` VARCHAR(254), IN `adress` VARCHAR(254))  BEGIN
 
 INSERT INTO pro(pseudo, mdp, nom, prenom, mail, adresse) VALUES(username, password, name, firstname, adress, email);
 
 END$$
 
 DROP PROCEDURE IF EXISTS `creationRdv`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `creationRdv` (IN `pro` INT(255), IN `cli` INT(255), IN `dateRdv` DATETIME)  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationRdv` (IN `pro` INT(255), IN `cli` INT(255), IN `dateRdv` DATETIME)  BEGIN 
 
 
 INSERT INTO rdv(rdv.idPro, rdv.idCli, rdv.date) VALUES (pro, cli, dateRdv);
@@ -166,7 +166,7 @@ INSERT INTO rdv(rdv.idPro, rdv.idCli, rdv.date) VALUES (pro, cli, dateRdv);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationSecteur`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationSecteur` (IN `name` VARCHAR(300))  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationSecteur` (IN `name` VARCHAR(254))  BEGIN 
 
 INSERT INTO sect (nom) VALUES(name);
 
@@ -189,7 +189,7 @@ WHERE pro.idPro = id;
 END$$
 
 DROP PROCEDURE IF EXISTS `getAllRdvCli`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `getAllRdvCli` (IN `cli` INT(255))  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllRdvCli` (IN `cli` INT(255))  BEGIN 
 
 SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as rdvDate, rdv.statutRdv , rdv.idCli, rdv.idPro, pro.pseudo, convers.idConvers FROM rdv
 JOIN pro ON rdv.idPro = pro.idPro
@@ -199,7 +199,7 @@ WHERE rdv.idCli = cli;
 END$$
 
 DROP PROCEDURE IF EXISTS `getAllRdvPro`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `getAllRdvPro` (IN `pro` INT(255))  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllRdvPro` (IN `pro` INT(255))  BEGIN 
 
 SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as rdvDate, rdv.statutRdv , rdv.idCli, cli.pseudo, rdv.idPro, convers.idConvers FROM rdv
 JOIN cli ON rdv.idCli = cli.idCli
@@ -348,7 +348,7 @@ WHERE pro.idPro = pro;
 END$$
 
 DROP PROCEDURE IF EXISTS `getProViaMail`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getProViaMail` (IN `email` VARCHAR(300))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getProViaMail` (IN `email` VARCHAR(254))  BEGIN
 
 SELECT pro.idPro FROM pro 
 WHERE pro.mail=email;
@@ -356,7 +356,7 @@ WHERE pro.mail=email;
 END$$
 
 DROP PROCEDURE IF EXISTS `getRdv`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `getRdv` (IN `rdv` INT(255))  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getRdv` (IN `rdv` INT(255))  BEGIN 
 
 SELECT rdv.idRdv, DATE_FORMAT(rdv.date,'%d-%m-%Y %H:%i:%s') as dateEu, rdv.statutRdv , rdv.idCli, rdv.idPro FROM rdv
 WHERE rdv.idRdv = rdv;
@@ -389,7 +389,7 @@ FROM sect;
 END$$
 
 DROP PROCEDURE IF EXISTS `modifDateRdv`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `modifDateRdv` (IN `rdv` INT(255), IN `dateRdv` DATETIME)  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modifDateRdv` (IN `rdv` INT(255), IN `dateRdv` DATETIME)  BEGIN 
 
 UPDATE rdv 
 SET rdv.date = dateRdv , rdv.statutRdv = 0
@@ -398,7 +398,7 @@ WHERE rdv.idRdv = rdv;
 END$$
 
 DROP PROCEDURE IF EXISTS `modifStatutRdv`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `modifStatutRdv` (IN `rdv` INT(255), IN `statut` TINYINT)  BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modifStatutRdv` (IN `rdv` INT(255), IN `statut` TINYINT)  BEGIN 
 
 UPDATE rdv 
 SET rdv.statutRdv = statut
@@ -439,12 +439,12 @@ INSERT INTO `avis` (`idAvis`, `idRdv`, `cote`) VALUES
 DROP TABLE IF EXISTS `cli`;
 CREATE TABLE IF NOT EXISTS `cli` (
   `idCli` int(255) NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(300) NOT NULL,
-  `mdp` varchar(300) NOT NULL,
-  `nom` varchar(300) NOT NULL,
-  `prenom` varchar(300) NOT NULL,
-  `adresse` varchar(300) NOT NULL,
-  `mail` varchar(300) NOT NULL,
+  `pseudo` varchar(254) NOT NULL,
+  `mdp` varchar(254) NOT NULL,
+  `nom` varchar(254) NOT NULL,
+  `prenom` varchar(254) NOT NULL,
+  `adresse` varchar(254) NOT NULL,
+  `mail` varchar(254) NOT NULL,
   `idRegion` int(10) NOT NULL,
   PRIMARY KEY (`idCli`),
   UNIQUE KEY `mail` (`mail`) USING BTREE,
@@ -494,13 +494,13 @@ INSERT INTO `convers` (`idConvers`, `idClient`, `idPro`) VALUES
 DROP TABLE IF EXISTS `ent`;
 CREATE TABLE IF NOT EXISTS `ent` (
   `idEnt` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(300) NOT NULL,
+  `nom` varchar(254) NOT NULL,
   `adresse` varchar(60) NOT NULL,
-  `description` varchar(3000) NOT NULL COMMENT 'description de l''entreprise',
-  `services` varchar(3000) NOT NULL COMMENT 'liste de services séparé de virgule',
+  `description` varchar(254) NOT NULL COMMENT 'description de l''entreprise',
+  `services` varchar(254) NOT NULL COMMENT 'liste de services séparé de virgule',
   `nTva` varchar(25) NOT NULL,
   `idSect` int(11) NOT NULL,
-  `idAdmin` varchar(300) NOT NULL COMMENT 'mail useer createur de l''entreprise',
+  `idAdmin` varchar(254) NOT NULL COMMENT 'mail useer createur de l''entreprise',
   `idRegion` int(10) NOT NULL,
   PRIMARY KEY (`idEnt`),
   UNIQUE KEY `tva` (`nTva`),
@@ -531,7 +531,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `idConvers` int(255) NOT NULL,
   `idExp` int(255) NOT NULL,
   `idDest` int(255) NOT NULL,
-  `contenu` varchar(1000) COLLATE utf8mb4_bin NOT NULL,
+  `contenu` varchar(254) COLLATE utf8mb4_bin NOT NULL,
   `dateHeure` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
@@ -574,14 +574,14 @@ INSERT INTO `msg` (`idMsg`, `idConvers`, `idExp`, `idDest`, `contenu`, `dateHeur
 DROP TABLE IF EXISTS `pro`;
 CREATE TABLE IF NOT EXISTS `pro` (
   `idPro` int(255) NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(300) NOT NULL,
-  `mdp` varchar(300) NOT NULL,
-  `nom` varchar(300) NOT NULL,
-  `prenom` varchar(300) NOT NULL,
-  `mail` varchar(300) NOT NULL,
+  `pseudo` varchar(254) NOT NULL,
+  `mdp` varchar(254) NOT NULL,
+  `nom` varchar(254) NOT NULL,
+  `prenom` varchar(254) NOT NULL,
+  `mail` varchar(254) NOT NULL,
   `idEntreprise` varchar(25) DEFAULT NULL,
   `statut` int(1) NOT NULL DEFAULT '0' COMMENT '0 => admin; 1=> employÃ©',
-  `adresse` varchar(300) NOT NULL,
+  `adresse` varchar(254) NOT NULL,
   PRIMARY KEY (`idPro`),
   UNIQUE KEY `mail` (`mail`),
   KEY `idEntreprise` (`idEntreprise`)
@@ -633,7 +633,7 @@ INSERT INTO `rdv` (`idRdv`, `date`, `statutRdv`, `idCli`, `idPro`) VALUES
 DROP TABLE IF EXISTS `region`;
 CREATE TABLE IF NOT EXISTS `region` (
   `idRegion` int(10) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) COLLATE utf8_bin NOT NULL,
+  `nom` varchar(254) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idRegion`),
   KEY `idRegion` (`idRegion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
