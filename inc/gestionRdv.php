@@ -1,6 +1,8 @@
 <?php
 session_start();
 $_SESSION['pageActuelle']="gestionRdv.php";
+if($_SESSION['typeCompte'] == "professionnel" && !isset($_SESSION['idEnt'])){
+  echo "<script>entreprise()</script>";}
 ?>
 <div class="container">
   <h2>Vos rendez-vous</h2>

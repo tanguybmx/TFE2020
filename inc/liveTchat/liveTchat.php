@@ -1,6 +1,10 @@
 <?php
   session_start();
   $_SESSION['pageActuelle']="liveTchat/liveTchat.php";
+  if($_SESSION['typeCompte'] == "professionnel" && !isset($_SESSION['idEnt'])){
+    echo "<script>entreprise()</script>";}
+  ?>
+
 ?>
 
 <link rel="stylesheet" href="inc/liveTchat/css/liveTchatStyle.css">
