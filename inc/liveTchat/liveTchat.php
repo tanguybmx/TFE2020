@@ -5,7 +5,6 @@
     echo "<script>entreprise()</script>";}
   ?>
 
-?>
 
 <link rel="stylesheet" href="inc/liveTchat/css/liveTchatStyle.css">
 <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
