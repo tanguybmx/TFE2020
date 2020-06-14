@@ -54,7 +54,4 @@ $_SESSION['pageActuelle']="accueil.php";
 
 <script>
   removeClassActive('navAccueil');
-  $( document ).ready(function() {
-    getNbPros();
-});
 </script>

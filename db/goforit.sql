@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  Dim 14 juin 2020 à 15:28
+-- Généré le :  Dim 14 juin 2020 à 16:04
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -431,7 +431,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
   `cote` double(10,1) NOT NULL COMMENT 'valeur entre 0 et 5',
   PRIMARY KEY (`idAvis`),
   KEY `idRdv` (`idRdv`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `avis`
@@ -459,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
   PRIMARY KEY (`idCli`),
   UNIQUE KEY `mail` (`mail`) USING BTREE,
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cli`
@@ -467,9 +467,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
 
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`, `idRegion`) VALUES
 (2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr', 0),
-(3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0),
-(6, 'testcli', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testcli', 'testcli', 'testcli', 'testcli', 3),
-(8, 'TanguyAlexandre', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'Rue du Pont Labigniat n°1', 'tanguyxp2@live.fr', 2);
+(3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -485,7 +483,7 @@ CREATE TABLE IF NOT EXISTS `convers` (
   PRIMARY KEY (`idConvers`),
   UNIQUE KEY `clientPro` (`idClient`,`idPro`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `convers`
@@ -547,7 +545,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
   `statut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = non lu, 1 = lu',
   PRIMARY KEY (`idMsg`),
   UNIQUE KEY `idConvers` (`idConvers`,`idMsg`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Déchargement des données de la table `msg`
@@ -626,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   PRIMARY KEY (`idRdv`),
   KEY `idCli` (`idCli`),
   KEY `idPro` (`idPro`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `rdv`
@@ -691,7 +689,7 @@ INSERT INTO `sect` (`idSecteur`, `nom`) VALUES
 -- Contraintes pour la table `avis`
 --
 ALTER TABLE `avis`
-  ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idRdv`) REFERENCES `rdv` (`idRdv`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idRdv`) REFERENCES `rdv` (`idRdv`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `cli`

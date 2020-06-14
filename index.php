@@ -1,9 +1,9 @@
 
 <?php
 session_start();
-include 'phpController/getNbPros.php';
-include 'phpController/countRdvFini.php';
-include 'phpController/getClientSatisfait.php';
+include_once 'phpController/getNbPros.php';
+include_once 'phpController/countRdvFini.php';
+include_once 'phpController/getClientSatisfait.php';
 
 ?>
 <script>
