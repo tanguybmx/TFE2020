@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  Dim 14 juin 2020 à 15:10
+-- Généré le :  Dim 14 juin 2020 à 15:28
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -35,7 +35,7 @@ WHERE mail = email;
 END$$
 
 DROP PROCEDURE IF EXISTS `checkEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkEnt` (IN `tva` INT(255))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `checkEnt` (IN `tva` VARCHAR(25))  BEGIN
 
 SELECT nom FROM ent
 WHERE nTva = tva;
