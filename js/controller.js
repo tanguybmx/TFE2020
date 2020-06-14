@@ -234,12 +234,12 @@ function creationEnt(){
         gestionErreur = 0;
     }
 
-    /*if (checkTva()==false) {
+    if (checkTva()==false) {
         alert('Le numéro de TVA entré n\'est pas valide');
         $('#nTvaEnt').val("");
         $('#nTvaEnt').attr('placeholder', 'Numéro de TVA invalide');
         gestionErreur = 0;
-    }*/
+    }
 
     if ($('#secteurEnt').val() == 'default') {
         alert("Il faut sélectionner un secteur différent de default");
@@ -271,7 +271,7 @@ function creationEnt(){
             success: function (response) {
                 if (response === '"Entreprise existante sur la plateforme"') {
                     console.log("Entreprise existante sur la plateforme");
-                    $('#titreCreaEnt').load('<h2>Le numéro de TVA spécifié existe déjà sur la plateforme</h2>');
+                    $('#titreCreaEnt').html('<h2>Le numéro de TVA spécifié existe déjà sur la plateforme</h2>');
                 }
                 else {
                     console.log('connexion OK');
@@ -942,7 +942,7 @@ function checkTva(){
     let resp = "";
     $.ajax({
         async:false,
-        url: "http://www.apilayer.net/api/validate?access_key=d06a0f519d600b9a0b70f687dd93ba2c&vat_number="+tva+"&format=1",
+        url: "https://www.apilayer.net/api/validate?access_key=d06a0f519d600b9a0b70f687dd93ba2c&vat_number="+tva+"&format=1",
         type: "GET",
         success: function (response) {    
             resp = response;                     

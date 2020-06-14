@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mar. 09 juin 2020 à 10:13
+-- Généré le :  Dim 14 juin 2020 à 15:01
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -122,7 +122,7 @@ INSERT INTO avis (avis.idRdv, avis.cote) VALUES (rdvId,  avisCote);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationClient`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(254), IN `pwd` VARCHAR(254), IN `name` VARCHAR(254), IN `firstname` VARCHAR(254), IN `adress` VARCHAR(254), IN `email` VARCHAR(254), IN `region` INT(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationClient` (IN `username` VARCHAR(254), IN `pwd` VARCHAR(256), IN `name` VARCHAR(254), IN `firstname` VARCHAR(254), IN `adress` VARCHAR(254), IN `email` VARCHAR(254), IN `region` INT(10))  BEGIN
 
 INSERT INTO cli(pseudo, mdp, nom, prenom, adresse, mail,cli.idRegion) VALUES(username, pwd, name, firstname, adress, email, region);
 
@@ -150,7 +150,7 @@ INSERT INTO msg( msg.idExp, msg.idDest, msg.idConvers, msg.contenu) VALUES(exp, 
 END$$
 
 DROP PROCEDURE IF EXISTS `creationProfessionnel`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationProfessionnel` (IN `username` VARCHAR(254), IN `password` VARCHAR(254), IN `name` VARCHAR(254), IN `firstname` VARCHAR(254), IN `email` VARCHAR(254), IN `adress` VARCHAR(254))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationProfessionnel` (IN `username` VARCHAR(254), IN `password` VARCHAR(256), IN `name` VARCHAR(254), IN `firstname` VARCHAR(254), IN `email` VARCHAR(254), IN `adress` VARCHAR(254))  BEGIN
 
 INSERT INTO pro(pseudo, mdp, nom, prenom, mail, adresse) VALUES(username, password, name, firstname, adress, email);
 
@@ -293,6 +293,16 @@ FROM ent
 
 INNER JOIN sect ON ent.idSect = sect.idSecteur
 WHERE ent.idRegion = 0 || ent.idRegion = regionCli;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `getEntAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEntAll` ()  BEGIN
+
+SELECT ent.idEnt, ent.nom, ent.adresse, ent.description, ent.services, ent.nTva, sect.nom as nomSect, ent.idAdmin
+FROM ent
+
+INNER JOIN sect ON ent.idSect = sect.idSecteur;
 
 END$$
 
@@ -449,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
   PRIMARY KEY (`idCli`),
   UNIQUE KEY `mail` (`mail`) USING BTREE,
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cli`
@@ -458,7 +468,8 @@ CREATE TABLE IF NOT EXISTS `cli` (
 INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`, `idRegion`) VALUES
 (2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr', 0),
 (3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0),
-(6, 'testcli', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testcli', 'testcli', 'testcli', 'testcli', 3);
+(6, 'testcli', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testcli', 'testcli', 'testcli', 'testcli', 3),
+(7, 'TanguyAlexandre', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'Rue du Pont Labigniat n°1', 'tanguyxp2@live.fr', 2);
 
 -- --------------------------------------------------------
 
@@ -507,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`),
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
@@ -517,7 +528,7 @@ INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`,
 (21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', '1', 2, 'service@itrescue.be', 0),
 (22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', '2', 2, 'dimitri@logicaltic.com', 0),
 (24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', '4', 2, 'paul.kaisin@micropole.com', 0),
-(30, 'ADVENSYS', 'Avenue Einstein 16, 1300 Wavre', 'Créer et apporter de la sérénité est devenu au fil de nos 25 années d’expérience, notre priorité et notre mission auprès de nos clients. En perpétuelle évolution, l’informatique doit être transparente et fiable pour son utilisateur.\nNotre mission est de conférer à nos clients une infrastructure performante, des outils fiables et un niveau de service continu et performant.\n', 'Sécurité,Audit et conseil', 'BE0869703879', 2, 'Jean-Charles@advensys.be', 0);
+(30, 'ADVENSYS', 'Avenue Einstein 16, 1300 Wavre', 'Créer et apporter de la sérénité est devenu au fil de nos 25 années d’expérience, notre priorité et notre mission auprès de nos clients. En perpétuelle évolution, l’informatique doit être transparente et fiable pour son utilisateur.\nNotre mission est de ', 'Sécurité,Audit et conseil', 'BE0869703879', 2, 'Jean-Charles@advensys.be', 0);
 
 -- --------------------------------------------------------
 
@@ -585,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `pro` (
   PRIMARY KEY (`idPro`),
   UNIQUE KEY `mail` (`mail`),
   KEY `idEntreprise` (`idEntreprise`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `pro`
@@ -596,7 +607,8 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 (5, 'DU', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Usai', 'Dimitri', 'dimitri@logicaltic.com', '2', 0, 'rue aux loups'),
 (6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
 (8, 'Advensys', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'NA', 'Jean-Charles', 'Jean-Charles@advensys.be', 'BE0869703879', 0, 'Rue à Wavre'),
-(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', '4', 0, 'Rue de micropole 12, 1000 Bruxelles');
+(9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', '4', 0, 'Rue de micropole 12, 1000 Bruxelles'),
+(10, 'godetgraphic', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Ameels', 'Sylvie', 'godet.graphic@skynet.be', NULL, 0, 'Chaussée de Nivelles 77 Manage');
 
 -- --------------------------------------------------------
 

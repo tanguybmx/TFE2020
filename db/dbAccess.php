@@ -26,6 +26,7 @@ class dbAccess
                     case 'getClientSatisfait':
                     case 'getRegionCli':
                     case 'getRegionPro':
+                    case 'getEntAll':
                     
                         array_push($params);
         

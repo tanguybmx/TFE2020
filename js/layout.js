@@ -173,10 +173,10 @@ function affichageListeAnnonces(tabAnnonce){
         affichageAnnonces +="<div class='col-md-9'>";
         affichageAnnonces +="<div class='card-body'></div>";
         affichageAnnonces +="<div class='h5'>Annonce</div><br>";
-        affichageAnnonces +="<p class='category'>"+ tabAnnonce[i]['services'] +"</p>";
-        affichageAnnonces +=" <p>"+ tabAnnonce[i]['description'] +"</p>";
+        affichageAnnonces +="<p class='category'>Services: <br>"+ tabAnnonce[i]['services'] +"</p>";
+        affichageAnnonces +=" <p>Description: <br>"+ tabAnnonce[i]['description'] +"</p>";
         if(cotePro===null){
-            affichageAnnonces += '<p>Le professionnel est nouveau sur la plateforme</p>';
+            affichageAnnonces += '<p>Le professionnel est nouveau sur la plateforme et n\'a pas encore obtenu d\'évaluation</p>';
         }
         if(cotePro!==null){
             let nbEtoileFull = cotePro.substr(0,1);
