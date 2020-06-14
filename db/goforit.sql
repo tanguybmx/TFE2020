@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  Dim 14 juin 2020 à 15:01
+-- Généré le :  Dim 14 juin 2020 à 15:10
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -136,7 +136,7 @@ INSERT INTO convers(convers.idClient, convers.idPro) VALUES(cli, pro);
 END$$
 
 DROP PROCEDURE IF EXISTS `creationEntreprise`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(254), IN `adress` VARCHAR(254), IN `tva` VARCHAR(25), IN `idSector` INT(11), IN `admin` VARCHAR(254), IN `descri` VARCHAR(3000), IN `serv` VARCHAR(254), IN `regi` INT(10))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creationEntreprise` (IN `name` VARCHAR(254), IN `adress` VARCHAR(254), IN `tva` VARCHAR(25), IN `idSector` INT(11), IN `admin` VARCHAR(254), IN `descri` TEXT, IN `serv` VARCHAR(254), IN `regi` INT(10))  BEGIN
 
 INSERT INTO ent(nom, adresse, description, services, nTva, idSect, idAdmin, ent.idRegion) VALUES(name, adress, descri, serv, tva, idSector, admin, regi);
 
@@ -459,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `cli` (
   PRIMARY KEY (`idCli`),
   UNIQUE KEY `mail` (`mail`) USING BTREE,
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cli`
@@ -469,7 +469,7 @@ INSERT INTO `cli` (`idCli`, `pseudo`, `mdp`, `nom`, `prenom`, `adresse`, `mail`,
 (2, 'SkylineEz', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'rue Du Pont Labigniat 1, 1470 Genappe', 'tanguyxp@live.fr', 0),
 (3, 'JL65', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Depepe', 'Jean-Luc', 'Chaussée de Nivelles 60 Manage', 'Jean-Luc@gmail.com', 0),
 (6, 'testcli', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'testcli', 'testcli', 'testcli', 'testcli', 3),
-(7, 'TanguyAlexandre', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'Rue du Pont Labigniat n°1', 'tanguyxp2@live.fr', 2);
+(8, 'TanguyAlexandre', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'Rue du Pont Labigniat n°1', 'tanguyxp2@live.fr', 2);
 
 -- --------------------------------------------------------
 
@@ -507,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   `idEnt` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(254) NOT NULL,
   `adresse` varchar(60) NOT NULL,
-  `description` varchar(254) NOT NULL COMMENT 'description de l''entreprise',
+  `description` text NOT NULL COMMENT 'description de l''entreprise',
   `services` varchar(254) NOT NULL COMMENT 'liste de services séparé de virgule',
   `nTva` varchar(25) NOT NULL,
   `idSect` int(11) NOT NULL,
@@ -518,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`),
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
