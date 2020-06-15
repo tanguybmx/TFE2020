@@ -3,15 +3,15 @@ session_start();
 $_SESSION['pageActuelle']="preinscription.php";
 ?>
 
-    <div class="center-block" id="choixTypeUser">
+    <div class="container" id="choixTypeUser">
         <div class="row">
-        <div class="col-md-6" id="client" align="center">
+        <div class="col-lg-6" id="client">
             Vous êtes à la recherche de services ? <br>
             Vous souhaitez vous inscrire en temps <br> 
             que <b>client</b> alors cliqué <br>
             <a href="#" onclick="inscritptionClient()"> ICI </a>
         </div>
-        <div class="col-md-6" id="professionnel" align="center">
+        <div class="col-lg-6" id="professionnel">
             Vous êtes fournisseurs de services ? <br>
             Vous souhaitez vous inscrire en <br>
             temps que <b>professionnel</b> alors cliqué <br>
