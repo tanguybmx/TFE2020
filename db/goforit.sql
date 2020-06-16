@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  Dim 14 juin 2020 à 16:04
+-- Généré le :  mar. 16 juin 2020 à 10:47
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.4.0
 
@@ -307,7 +307,7 @@ INNER JOIN sect ON ent.idSect = sect.idSecteur;
 END$$
 
 DROP PROCEDURE IF EXISTS `getHisEnt`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `tva` INT(255))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHisEnt` (IN `tva` VARCHAR(25))  BEGIN
 
 SELECT ent.nom, ent.adresse, ent.nTva, ent.idAdmin, sect.nom as nomSect, ent.description, ent.services, ent.idRegion FROM ent
 INNER JOIN sect ON ent.idSect = sect.idSecteur
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `ent` (
   KEY `idAdmin` (`idAdmin`),
   KEY `idSect` (`idSect`),
   KEY `idregion` (`idRegion`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ent`
@@ -526,7 +526,8 @@ INSERT INTO `ent` (`idEnt`, `nom`, `adresse`, `description`, `services`, `nTva`,
 (21, 'Itrescue', 'rue Chant des Oiseaux 4b', 'service informatique pour tous', 'dépannage à domicile', '1', 2, 'service@itrescue.be', 0),
 (22, 'LogicalTIC', 'Rue aux loups 4a Plancenoit', 'B2B', 'Cloud Computing,Gestion parc informatique', '2', 2, 'dimitri@logicaltic.com', 0),
 (24, 'Micropole', 'Excelsiorlaan 28, 1930 Zaventem', 'Nous proposons de concevoir l\'architecture Cloud dont votre entreprise a besoin.', 'Infrastructure Cloud Computing', '4', 2, 'paul.kaisin@micropole.com', 0),
-(30, 'ADVENSYS', 'Avenue Einstein 16, 1300 Wavre', 'Créer et apporter de la sérénité est devenu au fil de nos 25 années d’expérience, notre priorité et notre mission auprès de nos clients. En perpétuelle évolution, l’informatique doit être transparente et fiable pour son utilisateur.\nNotre mission est de ', 'Sécurité,Audit et conseil', 'BE0869703879', 2, 'Jean-Charles@advensys.be', 0);
+(30, 'ADVENSYS', 'Avenue Einstein 16, 1300 Wavre', 'Créer et apporter de la sérénité est devenu au fil de nos 25 années d’expérience, notre priorité et notre mission auprès de nos clients. En perpétuelle évolution, l’informatique doit être transparente et fiable pour son utilisateur.\nNotre mission est de ', 'Sécurité,Audit et conseil', 'BE0869703879', 2, 'Jean-Charles@advensys.be', 0),
+(34, 'Godet Graphic', '77 Chaussée de Nivelles, Manage', 'Notre entreprise vous propose ses services de design de cartes de visites, de création de logo et tout ce qui se rapporte à l\'image de votre entreprise.', 'création de cartes de visites,lettrage véhicule', 'BE0421481034', 1, 'godet.graphic@skynet.be', 2);
 
 -- --------------------------------------------------------
 
@@ -606,7 +607,7 @@ INSERT INTO `pro` (`idPro`, `pseudo`, `mdp`, `nom`, `prenom`, `mail`, `idEntrepr
 (6, 'sky', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Alexandre', 'Tanguy', 'contact@itsky.be', NULL, 0, 'rue Du Pont Labigniat 1'),
 (8, 'Advensys', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'NA', 'Jean-Charles', 'Jean-Charles@advensys.be', 'BE0869703879', 0, 'Rue à Wavre'),
 (9, 'Paul.k', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Kaisin', 'Paul', 'paul.kaisin@micropole.com', '4', 0, 'Rue de micropole 12, 1000 Bruxelles'),
-(10, 'godetgraphic', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Ameels', 'Sylvie', 'godet.graphic@skynet.be', NULL, 0, 'Chaussée de Nivelles 77 Manage');
+(10, 'godetgraphic', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Ameels', 'Sylvie', 'godet.graphic@skynet.be', 'BE0421481034', 0, 'Chaussée de Nivelles 77 Manage');
 
 -- --------------------------------------------------------
 
